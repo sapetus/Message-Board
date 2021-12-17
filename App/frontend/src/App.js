@@ -1,9 +1,19 @@
-function App() {
+import React, { useState } from 'react'
+
+import NavBar from './NavBar/NavBar';
+import LandingPage from './LandingPage/LandingPage';
+
+const App = () => {
+  const [page, setPage] = useState()
+
   return (
-    <div>
-      <h1>Message Board</h1>
+    <div id="main">
+      <NavBar setPage={setPage} />
+      <LandingPage
+        show={page === 'landingPage'}
+      />
     </div>
-  );
+  )
 }
 
 export default App;
