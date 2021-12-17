@@ -1,0 +1,6 @@
+App will be made with a React frontend and a Node.js backend using GraphQl and MongoDB.
+
+App will have discussion, with each discussion containing user made posts which can be commented upon by other users 
+and these comments, in turn, can be commented by other users. Each post and comment can be liked or disliked.
+Users can join or leave discussions as they wish, each discussion keeps tally of members. Each user has total likes and dislikes,
+which increment as their posts or comments get liked or disliked.
