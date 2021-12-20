@@ -1,17 +1,34 @@
-import React, { useState } from 'react'
+import React from 'react'
+import {
+  Routes,
+  Route,
+  Link
+} from 'react-router-dom'
 
-import NavBar from './NavBar/NavBar';
 import LandingPage from './LandingPage/LandingPage';
+import DiscussionPage from './DiscussionPage/DiscussionPage';
 
 const App = () => {
-  const [page, setPage] = useState()
 
   return (
     <div id="main">
-      <NavBar setPage={setPage} />
-      <LandingPage
-        show={page === 'landingPage'}
-      />
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path={`/discussion/:name`} element={<DiscussionPage />} />
+        <Route path="*" element={
+          <div>
+            <p>Are you lost?</p>
+          </div>
+        }/>
+      </Routes>
     </div>
   )
 }
