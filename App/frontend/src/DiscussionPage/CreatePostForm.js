@@ -13,7 +13,7 @@ const CreatePostForm = ({ discussionName, updateDiscussion }) => {
     }
   })
 
-  const submit = async (event) => {
+  const submit = (event) => {
     event.preventDefault()
 
     createPost({ variables: { title, text, discussionName: discussionName } })
@@ -24,6 +24,7 @@ const CreatePostForm = ({ discussionName, updateDiscussion }) => {
 
   return (
     <div className="form">
+      <h3>Create your own post</h3>
       <form onSubmit={submit}>
         <div className="formField">
           Title

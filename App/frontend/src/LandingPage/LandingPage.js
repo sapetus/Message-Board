@@ -6,6 +6,8 @@ import {
 
 import { ALL_DISCUSSIONS } from '../queries'
 
+import CreateDiscussionForm from './CreateDiscussionForm';
+
 const LandingPage = (props) => {
   const [getAllDiscussions, { loading, data }] = useLazyQuery(ALL_DISCUSSIONS)
   const [discussions, setDiscussion] = useState(null)
@@ -40,6 +42,9 @@ const LandingPage = (props) => {
           </tbody>
         </table>
       }
+      <CreateDiscussionForm
+        updateDiscussions={getAllDiscussions}
+      />
     </div>
   )
 }

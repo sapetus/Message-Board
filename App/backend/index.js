@@ -90,6 +90,7 @@ const typeDefs = gql`
   type Query {
     allDiscussions: [Discussion!]!
     findDiscussion(name: String!): Discussion
+    findPost(id: ID!): Post
   }
 
   type Mutation {
@@ -101,13 +102,20 @@ const typeDefs = gql`
       text: String!
       discussionName: String!
     ): Post
+    likePost (
+      id: ID!
+    ): Post
+    dislikePost (
+      id: ID!
+    ): Post
   }
 `
 
 const resolvers = {
   Query: {
     allDiscussions: () => discussions,
-    findDiscussion: (root, args) => discussions.find(discussion => discussion.name === args.name)
+    findDiscussion: (root, args) => discussions.find(discussion => discussion.name === args.name),
+    findPost: (root, args) => posts.find(post => post.id === args.id)
   },
   Mutation: {
     createDiscussion: (root, args) => {
@@ -127,10 +135,30 @@ const resolvers = {
       if (!discussionNames.includes(args.discussionName)) {
         throw new UserInputError('Discussion name must exist')
       }
-      
+
       const newPost = { ...args, likes: 0, dislikes: 0, id: uuid() }
       posts = posts.concat(newPost)
       return newPost
+    },
+    likePost: (root, args) => {
+      const postToUpdate = posts.find(post => post.id === args.id)
+
+      if (!postToUpdate) {
+        throw new UserInputError('Post does not exist')
+      }
+      
+      postToUpdate.likes++
+      return postToUpdate
+    },
+    dislikePost: (root, args) => {
+      const postToUpdate = posts.find(post => post.id === args.id)
+
+      if (!postToUpdate) {
+        throw new UserInputError('Post does not exist')
+      }
+
+      postToUpdate.dislikes++
+      return postToUpdate
     }
   },
   Discussion: {
