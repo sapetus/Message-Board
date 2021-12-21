@@ -12,7 +12,7 @@ const CreateDiscussionForm = ({ updateDiscussions }) => {
     }
   })
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault()
 
     createDiscussion({ variables: { name } })

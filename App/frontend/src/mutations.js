@@ -7,12 +7,15 @@ export const CREATE_POST = gql`
       text: $text,
       discussionName: $discussionName
     ) {
+      id,
       title,
       text,
       likes,
       dislikes,
-      discussionName,
-      id 
+      discussion {
+        id,
+        name
+      }
     }
   }
 `
@@ -22,6 +25,7 @@ export const CREATE_DISCUSSION = gql`
     createDiscussion(
       name: $name
     ) {
+      id,
       name,
       members
     }

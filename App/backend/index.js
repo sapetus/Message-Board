@@ -1,75 +1,21 @@
+require('dotenv').config()
+
 const { ApolloServer, gql, UserInputError } = require('apollo-server')
-const { v1: uuid } = require('uuid')
+const mongoose = require('mongoose')
 
-let posts = [
-  {
-    id: "9ifd9fasj90gj09",
-    title: "Nothing grows",
-    text: "I recently started gardening, but it seems that everything I plant dies shortly after. What to do?",
-    likes: 15,
-    dislikes: 3,
-    discussionName: "Gardening"
-  },
-  {
-    id: "55151g1tg1g",
-    title: "Just got a new puppy!",
-    text: "I have wanted my own dog for as long as I can remember, and now it finally happened! Just picked her up and she's an angel <3",
-    likes: 55,
-    dislikes: 10,
-    discussionName: "Pets"
-  },
-  {
-    id: "jijjigjigaag",
-    title: "Mario is nightmare fuel",
-    text: "His unblinking eyes stare right through me. The image of his moustache has burned in to the depths of my mind, and i can't get rid of it.",
-    likes: 1515,
-    dislikes: 161,
-    discussionName: "Games"
-  },
-  {
-    id: "90i9j9gjg",
-    title: "Saab help",
-    text: "My Saab 95 from -61 is missing it's bumber, where can I buy a new one?",
-    likes: 15,
-    dislikes: 0,
-    discussionName: "Cars"
-  },
-  {
-    id: "99g9gsg",
-    title: "Sekiro is bullshit!",
-    text: "Goddammit! I'm so tired of this bs! I keep losing to this big nosed dude on a horse! I almost broke my controller in rage!",
-    likes: 4,
-    dislikes: 45,
-    discussionName: "Games"
-  },
-  {
-    id: "97878afgafa",
-    title: "My parrot learned to speak!",
-    text: "I have been teaching her for the past 3 months and finally she managed to say 'hello'! I'm so happy I could cry...",
-    likes: 55,
-    dislikes: 1,
-    discussionName: "Pets"
-  }
-]
+const Discussion = require('./models/Discussion')
+const Post = require('./models/Post')
 
-let discussions = [
-  {
-    name: "Gardening",
-    members: 642
-  },
-  {
-    name: "Games",
-    members: 5515
-  },
-  {
-    name: "Cars",
-    members: 915
-  },
-  {
-    name: "Pets",
-    members: 1514
-  }
-]
+const URI = process.env.MONGODB_URI
+
+console.log('connecting to MongoDB...')
+mongoose.connect(URI)
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connecting to MongoDB: ', error.message)
+  })
 
 const typeDefs = gql`
   type Post {
@@ -77,11 +23,12 @@ const typeDefs = gql`
     title: String!
     text: String!
     likes: Int!
-    dislikes: Int!,
-    discussionName: String!
+    dislikes: Int!
+    discussion: Discussion!
   }
 
   type Discussion {
+    id: ID!
     name: String!
     members: Int!
     posts: [Post!]!
@@ -90,6 +37,7 @@ const typeDefs = gql`
   type Query {
     allDiscussions: [Discussion!]!
     findDiscussion(name: String!): Discussion
+    allPosts: [Post!]!
     findPost(id: ID!): Post
   }
 
@@ -113,63 +61,91 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    allDiscussions: () => discussions,
-    findDiscussion: (root, args) => discussions.find(discussion => discussion.name === args.name),
-    findPost: (root, args) => posts.find(post => post.id === args.id)
+    allDiscussions: async () => {
+      const discussions = await Discussion.find({})
+      const posts = await Post.find({}).populate('discussion')
+
+      discussions.map(discussion =>
+        discussion.posts = posts.filter(post =>
+          post.discussion.name === discussion.name
+        )
+      )
+
+      return discussions
+    },
+    findDiscussion: async (root, args) => {
+      const discussion = await Discussion.findOne({ name: args.name })
+      const posts = await Post.find({}).populate('discussion')
+
+      discussion.posts = posts.filter(post =>
+        post.discussion.name === args.name
+      )
+
+      return discussion
+    },
+    allPosts: async () => {
+      const posts = await Post.find({}).populate('discussion')
+      return posts
+    },
+    findPost: async (root, args) => {
+      const post = await Post.findOne({ id: args.id }).populate('discussion')
+      return post
+    }
   },
   Mutation: {
-    createDiscussion: (root, args) => {
-      const discussionNames = discussions.map(discussion => discussion.name)
-      if (discussionNames.includes(args.name)) {
+    createDiscussion: async (root, args) => {
+      if (await Discussion.findOne({ name: args.name })) {
         throw new UserInputError('Name of the discussion must be unique', {
           invalidArgs: args.name
         })
       }
 
-      const newDiscussion = { ...args, members: 0, posts: [] }
-      discussions = discussions.concat(newDiscussion)
+      const newDiscussion = new Discussion({ ...args, members: 0, posts: [] })
+
+      try {
+        await newDiscussion.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args
+        })
+      }
+
       return newDiscussion
     },
-    createPost: (root, args) => {
-      const discussionNames = discussions.map(discussion => discussion.name)
-      if (!discussionNames.includes(args.discussionName)) {
-        throw new UserInputError('Discussion name must exist')
+    createPost: async (root, args) => {
+      const discussion = await Discussion.findOne({ name: args.discussionName })
+
+      if (!discussion) {
+        throw new UserInputError('Discussion must exists to be able to post', {
+          invalidArgs: args.discussionName
+        })
       }
 
-      const newPost = { ...args, likes: 0, dislikes: 0, id: uuid() }
-      posts = posts.concat(newPost)
+      const newPost = new Post({
+        title: args.title,
+        text: args.text,
+        likes: 0,
+        dislikes: 0,
+        discussion: discussion
+      })
+
+      try {
+        await newPost.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args
+        })
+      }
+
       return newPost
     },
-    likePost: (root, args) => {
-      const postToUpdate = posts.find(post => post.id === args.id)
-
-      if (!postToUpdate) {
-        throw new UserInputError('Post does not exist')
-      }
-      
-      postToUpdate.likes++
-      return postToUpdate
+    likePost: async (root, args) => {
+      const updatedPost = await Post.findOneAndUpdate({ _id: args.id }, { $inc: { likes: 1 } }, { new: true })
+      return updatedPost
     },
-    dislikePost: (root, args) => {
-      const postToUpdate = posts.find(post => post.id === args.id)
-
-      if (!postToUpdate) {
-        throw new UserInputError('Post does not exist')
-      }
-
-      postToUpdate.dislikes++
-      return postToUpdate
-    }
-  },
-  Discussion: {
-    posts: (root) => {
-      const filter = (post) => {
-        if (post.discussionName === root.name) return post
-      }
-
-      const postsInDiscussion = posts.filter(filter)
-
-      return postsInDiscussion
+    dislikePost: async (root, args) => {
+      const updatedPost = await Post.findOneAndUpdate({ _id: args.id }, { $inc: { dislikes: 1 } }, { new: true })
+      return updatedPost
     }
   }
 }
