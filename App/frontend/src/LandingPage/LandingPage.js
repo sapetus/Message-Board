@@ -9,8 +9,11 @@ import { ALL_DISCUSSIONS } from '../queries'
 import CreateDiscussionForm from './CreateDiscussionForm';
 
 const LandingPage = (props) => {
-  const [getAllDiscussions, { loading, data }] = useLazyQuery(ALL_DISCUSSIONS)
   const [discussions, setDiscussion] = useState(null)
+
+  const [getAllDiscussions, { data }] = useLazyQuery(ALL_DISCUSSIONS, {
+    fetchPolicy: 'cache-and-network'
+  })
 
   useEffect(() => {
     getAllDiscussions()
@@ -25,23 +28,20 @@ const LandingPage = (props) => {
   return (
     <div id="landingPage">
       <h1>Landing Page</h1>
-      {loading
-        ? <div>Loading...</div>
-        : <table id="discussions">
-          <tbody>
-            <tr>
-              <th>Discussion</th>
-              <th>Members</th>
+      <table id="discussions">
+        <tbody>
+          <tr>
+            <th>Discussion</th>
+            <th>Members</th>
+          </tr>
+          {discussions?.map(discussion =>
+            <tr key={discussion.name}>
+              <td><Link to={`/discussion/${discussion.name}`}>{discussion.name}</Link></td>
+              <td>{discussion.members}</td>
             </tr>
-            {discussions?.map(discussion =>
-              <tr key={discussion.name}>
-                <td><Link to={`/discussion/${discussion.name}`}>{discussion.name}</Link></td>
-                <td>{discussion.members}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      }
+          )}
+        </tbody>
+      </table>
       <CreateDiscussionForm
         updateDiscussions={getAllDiscussions}
       />

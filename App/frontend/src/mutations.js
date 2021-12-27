@@ -32,6 +32,20 @@ export const CREATE_DISCUSSION = gql`
   }
 `
 
+export const CREATE_COMMENT = gql`
+  mutation createComment($text: String!, $postId: ID!) {
+    createComment(
+      text: $text,
+      postId: $postId
+    ) {
+      id,
+      text,
+      likes,
+      dislikes
+    }
+  }
+`
+
 export const LIKE_POST = gql`
   mutation likePost($id: ID!) {
     likePost(
@@ -52,6 +66,32 @@ export const DISLIKE_POST = gql`
     ) {
       id,
       title,
+      likes,
+      dislikes
+    }
+  }
+`
+
+export const LIKE_COMMENT = gql`
+  mutation likeComment($id: ID!) {
+    likeComment(
+      id: $id
+    ) {
+      id,
+      text,
+      likes,
+      dislikes
+    }
+  }
+`
+
+export const DISLIKE_COMMENT = gql`
+  mutation dislikeComment($id: ID!) {
+    dislikeComment(
+      id: $id
+    ) {
+      id,
+      text,
       likes,
       dislikes
     }

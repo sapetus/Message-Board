@@ -2,22 +2,23 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
 import { CREATE_POST } from '../mutations'
+import { FIND_DISCUSSION } from '../queries'
 
-const CreatePostForm = ({ discussionName, updateDiscussion }) => {
+const CreatePostForm = ({ discussionName }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
 
   const [createPost] = useMutation(CREATE_POST, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
-    }
+    },
+    refetchQueries: [{ query: FIND_DISCUSSION, variables: { name: discussionName } }]
   })
 
   const submit = async (event) => {
     event.preventDefault()
 
     createPost({ variables: { title, text, discussionName: discussionName } })
-    updateDiscussion()
     setTitle('')
     setText('')
   }

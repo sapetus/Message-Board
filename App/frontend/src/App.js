@@ -7,6 +7,7 @@ import {
 
 import LandingPage from './LandingPage/LandingPage';
 import DiscussionPage from './DiscussionPage/DiscussionPage';
+import PostPage from './PostPage/PostPage';
 
 const App = () => {
 
@@ -23,11 +24,12 @@ const App = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path={`/discussion/:name`} element={<DiscussionPage />} />
+        <Route path={`/post/:id`} element={<PostPage />} />
         <Route path="*" element={
           <div>
             <p>Are you lost?</p>
           </div>
-        }/>
+        } />
       </Routes>
     </div>
   )

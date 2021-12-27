@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
 import { CREATE_DISCUSSION } from '../mutations'
+import { ALL_DISCUSSIONS } from '../queries'
 
 const CreateDiscussionForm = ({ updateDiscussions }) => {
   const [name, setName] = useState('')
@@ -9,7 +10,8 @@ const CreateDiscussionForm = ({ updateDiscussions }) => {
   const [createDiscussion] = useMutation(CREATE_DISCUSSION, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
-    }
+    },
+    refetchQueries: [{ query: ALL_DISCUSSIONS }]
   })
 
   const submit = async (event) => {

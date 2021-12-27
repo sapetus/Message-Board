@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 
 const Discussion = require('./models/Discussion')
 const Post = require('./models/Post')
+const Comment = require('./models/Comment')
 
 const URI = process.env.MONGODB_URI
 
@@ -25,6 +26,7 @@ const typeDefs = gql`
     likes: Int!
     dislikes: Int!
     discussion: Discussion!
+    comments: [Comment!]!
   }
 
   type Discussion {
@@ -32,6 +34,14 @@ const typeDefs = gql`
     name: String!
     members: Int!
     posts: [Post!]!
+  }
+
+  type Comment {
+    id: ID!
+    text: String!
+    likes: Int!
+    dislikes: Int!
+    post: Post!
   }
 
   type Query {
@@ -50,45 +60,45 @@ const typeDefs = gql`
       text: String!
       discussionName: String!
     ): Post
+    createComment (
+      text: String!
+      postId: ID!
+    ): Comment
     likePost (
       id: ID!
     ): Post
     dislikePost (
       id: ID!
     ): Post
+    likeComment (
+      id: ID!
+    ): Comment
+    dislikeComment (
+      id: ID!
+    ): Comment
   }
 `
 
 const resolvers = {
   Query: {
+    //no need to populate posts, as they are not needed in this query
     allDiscussions: async () => {
       const discussions = await Discussion.find({})
-      const posts = await Post.find({}).populate('discussion')
-
-      discussions.map(discussion =>
-        discussion.posts = posts.filter(post =>
-          post.discussion.name === discussion.name
-        )
-      )
 
       return discussions
     },
     findDiscussion: async (root, args) => {
-      const discussion = await Discussion.findOne({ name: args.name })
-      const posts = await Post.find({}).populate('discussion')
-
-      discussion.posts = posts.filter(post =>
-        post.discussion.name === args.name
-      )
+      const discussion = await Discussion.findOne({ name: args.name }).populate({ path: 'posts', model: 'Post' })
 
       return discussion
     },
+    //no need to populate comments, as they are not needed in this query
     allPosts: async () => {
       const posts = await Post.find({}).populate('discussion')
       return posts
     },
     findPost: async (root, args) => {
-      const post = await Post.findOne({ id: args.id }).populate('discussion')
+      const post = await Post.findOne({ _id: args.id }).populate('discussion').populate({ path: 'comments', model: 'Comment' })
       return post
     }
   },
@@ -137,7 +147,43 @@ const resolvers = {
         })
       }
 
+      //update the specified discussion's list of posts
+      let posts = discussion.posts ? discussion.posts : []
+      posts.push(newPost.id)
+      await Discussion.findOneAndUpdate({ name: args.discussionName }, { posts: posts }, { new: true })
+
       return newPost
+    },
+    createComment: async (root, args) => {
+      const post = await Post.findOne({ _id: args.postId })
+
+      if (!post) {
+        throw new UserInputError('Post must exists to be able to comment', {
+          invalidArgs: args.postId
+        })
+      }
+
+      const newComment = new Comment({
+        text: args.text,
+        likes: 0,
+        dislikes: 0,
+        post: post
+      })
+
+      try {
+        await newComment.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args
+        })
+      }
+
+      //update the specified post's list of comments
+      let comments = post.comments ? post.comments : []
+      comments.push(newComment.id)
+      await Post.findOneAndUpdate({ _id: args.postId }, { comments: comments }, { new: true })
+
+      return newComment
     },
     likePost: async (root, args) => {
       const updatedPost = await Post.findOneAndUpdate({ _id: args.id }, { $inc: { likes: 1 } }, { new: true })
@@ -146,6 +192,14 @@ const resolvers = {
     dislikePost: async (root, args) => {
       const updatedPost = await Post.findOneAndUpdate({ _id: args.id }, { $inc: { dislikes: 1 } }, { new: true })
       return updatedPost
+    },
+    likeComment: async (root, args) => {
+      const updatedComment = await Comment.findOneAndUpdate({ _id: args.id }, { $inc: { likes: 1 } }, { new: true })
+      return updatedComment
+    },
+    dislikeComment: async (root, args) => {
+      const updatedComment = await Comment.findOneAndUpdate({ _id: args.id }, { $inc: { dislikes: 1 } }, { new: true })
+      return updatedComment
     }
   }
 }

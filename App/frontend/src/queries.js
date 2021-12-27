@@ -5,13 +5,7 @@ export const ALL_DISCUSSIONS = gql`
     allDiscussions {
       id,
       name,
-      members,
-      posts {
-        title,
-        text,
-        likes,
-        dislikes
-      }
+      members
     }
   }
 `
@@ -28,6 +22,27 @@ export const FIND_DISCUSSION = gql`
         text,
         likes,
         dislikes
+      }
+    }
+  }
+`
+
+export const FIND_POST = gql`
+  query findPost($id: ID!) {
+    findPost(id: $id) {
+      id,
+      title,
+      text,
+      likes,
+      dislikes,
+      comments {
+        id,
+        text,
+        likes,
+        dislikes
+      },
+      discussion {
+        name
       }
     }
   }

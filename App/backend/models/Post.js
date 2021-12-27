@@ -22,7 +22,11 @@ const schema = new mongoose.Schema({
   discussion: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Discussion'
-  }
+  },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment'
+  }]
 })
 
 module.exports = mongoose.model('Post', schema)

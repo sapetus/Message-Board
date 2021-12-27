@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 
 import { FIND_DISCUSSION } from '../queries'
 import { LIKE_POST, DISLIKE_POST } from '../mutations'
@@ -8,7 +8,7 @@ import { LIKE_POST, DISLIKE_POST } from '../mutations'
 import CreatePostForm from './CreatePostForm'
 
 const DiscussionPage = (props) => {
-  let params = useParams();
+  let params = useParams()
   const [discussion, setDiscussion] = useState(null)
 
   const [getDiscussion, { data }] = useLazyQuery(FIND_DISCUSSION, {
@@ -63,7 +63,7 @@ const DiscussionPage = (props) => {
             </tr>
             {discussion?.posts.map(post =>
               <tr key={post.id}>
-                <td>{post.title} |</td>
+                <td><Link to={`/post/${post.id}`}>{post.title}</Link> |</td>
                 <td>{post.text} |</td>
                 <td>{post.likes} |</td>
                 <td>{post.dislikes}</td>
@@ -75,7 +75,6 @@ const DiscussionPage = (props) => {
         </table>
         <CreatePostForm
           discussionName={params.name}
-          updateDiscussion={getDiscussion}
         />
       </div>
     </div>
