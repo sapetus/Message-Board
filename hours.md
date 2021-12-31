@@ -7,4 +7,5 @@
 |            | 3    | converted backend to use MongoDB, frontend works with backend, frontend refreshes when post is liked/disliked |
 | 27.12.2021 | 3    | created a comment model and associated queries and mutations, posts can now we commented, comments can be liked/disliked |
 | 29.12.2021 | 1    | separated typeDefs and resolvers from index.js in backend, started to write tests, none currently work |
-| total      | 16   | |
+| 31.12.2021 | 2    | Got tests working using easygraphql-tester, created basic tests | 
+| total      | 18   | |

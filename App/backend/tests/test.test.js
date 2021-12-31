@@ -1,40 +1,71 @@
 const EasyGraphQLTester = require('easygraphql-tester')
 
-const schema = `
-  type Test {
-    id: ID!
-    isTest: Boolean!
-  }
+const typeDefs = require('../GraphQL/typeDefs')
+const resolvers = require('../GraphQL/resolvers')
 
-  type Query {
-    getTestByIsTest(isTest: Boolean!): Test
-  }
- `
+describe("Test queries and mutations", () => {
+  let tester
+  beforeAll(() => {
+    tester = new EasyGraphQLTester(typeDefs, resolvers)
+  })
 
-const query = `
-  query TEST($isTest: Boolean!) {
-    getTestByIsTest(isTest: $isTest) {
-      id
-      isTest
-    }
-  }
- `
+  describe("Queries", () => {
+    test("Invalid query returns false", () => {
+      const invalidQuery = `
+        {
+          invalidQuery {
+            id
+            invalidField
+          }
+        }
+      `
 
-function getTestByIsTest(__, args, ctx) {
-  return {
-    id: 1,
-    isTest: args.isTest
-  }
-}
+      tester.test(false, invalidQuery)
+    })
+    test("Valid query returns true", () => {
+      const validQuery = `
+        {
+          allDiscussions {
+            id
+            name
+            members
+          }
+        }
+      `
 
-const resolvers = {
-  Query: {
-    getTestByIsTest
-  }
-}
+      tester.test(true, validQuery)
+    })
+  })
 
-const tester = new EasyGraphQLTester(schema, resolvers)
+  describe("Mutations", () => {
+    test("Invalid mutation returns false", () => {
+      const invalidMutation = `
+        mutation InvalidMutation($invalid: String!) {
+          invalidMutation(invalid: $invalid) {
+            id
+            invalidField
+          }
+        }
+      `
 
-tester.graphql(query, undefined, undefined, { isTest: false })
-  .then(result => console.log(result))
-  .catch(error => console.log(error))
+      tester.test(false, invalidMutation, {
+        invalid: "Invalid"
+      })
+    })
+    test("Valid mutation returns true", () => {
+      const validMutation = `
+        mutation CreateDiscussion($name: String!) {
+          createDiscussion(name: $name) {
+            id
+            name
+            members
+          }
+        }
+      `
+
+      tester.test(true, validMutation, {
+        name: "Discussion"
+      })
+    })
+  })
+})

@@ -1,8 +1,8 @@
 const { UserInputError } = require('apollo-server')
 
-const Discussion = require('./models/Discussion')
-const Post = require('./models/Post')
-const Comment = require('./models/Comment')
+const Discussion = require('../models/Discussion')
+const Post = require('../models/Post')
+const Comment = require('../models/Comment')
 
 const resolvers = {
   Query: {
