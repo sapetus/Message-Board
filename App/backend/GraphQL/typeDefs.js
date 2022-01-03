@@ -1,6 +1,18 @@
 const { gql } = require('apollo-server')
 
 const typeDefs = gql`
+  type Token {
+    value: String!
+  }
+
+  type User {
+    id: ID!
+    username: String!
+    passwordHash: String!
+    posts: [Post!]!
+    comments: [Comment!]!
+  }
+
   type Post {
     id: ID!
     title: String!
@@ -31,9 +43,14 @@ const typeDefs = gql`
     findDiscussion(name: String!): Discussion
     allPosts: [Post!]!
     findPost(id: ID!): Post
+    getUser: User
   }
 
   type Mutation {
+    createUser (
+      username: String!
+      password: String!
+    ): User
     createDiscussion (
       name: String!
     ): Discussion
@@ -58,6 +75,10 @@ const typeDefs = gql`
     dislikeComment (
       id: ID!
     ): Comment
+    login (
+      username: String!
+      password: String!
+    ): Token
   }
 `
 

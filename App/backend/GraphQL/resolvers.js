@@ -1,8 +1,16 @@
+require('dotenv').config()
+
 const { UserInputError } = require('apollo-server')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 const Discussion = require('../models/Discussion')
 const Post = require('../models/Post')
 const Comment = require('../models/Comment')
+const User = require('../models/User')
+
+const JWT_SECRET = process.env.JWT_SECRET
+const saltRounds = 10
 
 const resolvers = {
   Query: {
@@ -25,9 +33,43 @@ const resolvers = {
     findPost: async (root, args) => {
       const post = await Post.findOne({ _id: args.id }).populate('discussion').populate({ path: 'comments', model: 'Comment' })
       return post
+    },
+    getUser: (root, args, context) => {
+      return context.currentUser
     }
   },
   Mutation: {
+    createUser: async (root, args) => {
+      const username = args.username
+      const passwordHash = bcrypt.hashSync(args.password, saltRounds)
+
+      const newUser = new User({ username, passwordHash, posts: [], comments: [] })
+
+      try {
+        await newUser.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args
+        })
+      }
+
+      //might want to get rid of the hash before returning
+      return newUser
+    },
+    login: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+
+      if (!user || !bcrypt.compareSync(args.password, user.passwordHash)) {
+        throw new UserInputError('Wrong Credentials')
+      }
+
+      const userForToken = {
+        username: user.username,
+        id: user._id
+      }
+
+      return { value: jwt.sign(userForToken, JWT_SECRET) }
+    },
     createDiscussion: async (root, args) => {
       if (await Discussion.findOne({ name: args.name })) {
         throw new UserInputError('Name of the discussion must be unique', {

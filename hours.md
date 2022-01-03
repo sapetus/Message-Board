@@ -8,4 +8,5 @@
 | 27.12.2021 | 3    | created a comment model and associated queries and mutations, posts can now we commented, comments can be liked/disliked |
 | 29.12.2021 | 1    | separated typeDefs and resolvers from index.js in backend, started to write tests, none currently work |
 | 31.12.2021 | 2    | Got tests working using easygraphql-tester, created basic tests | 
-| total      | 18   | |
+| 3.1.2022   | 1    | Backend supports user creation and logging in |
+| total      | 19   | |
