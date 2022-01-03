@@ -8,7 +8,7 @@ import { ALL_DISCUSSIONS } from '../queries'
 
 import CreateDiscussionForm from './CreateDiscussionForm';
 
-const LandingPage = (props) => {
+const LandingPage = ({ token }) => {
   const [discussions, setDiscussion] = useState(null)
 
   const [getAllDiscussions, { data }] = useLazyQuery(ALL_DISCUSSIONS, {
@@ -42,9 +42,9 @@ const LandingPage = (props) => {
           )}
         </tbody>
       </table>
-      <CreateDiscussionForm
+      {token && <CreateDiscussionForm
         updateDiscussions={getAllDiscussions}
-      />
+      />}
     </div>
   )
 }

@@ -7,7 +7,7 @@ import { LIKE_POST, DISLIKE_POST, LIKE_COMMENT, DISLIKE_COMMENT } from '../mutat
 
 import CreateCommentForm from './CreateCommentForm'
 
-const PostPage = (props) => {
+const PostPage = ({ token }) => {
   let params = useParams()
   const [post, setPost] = useState(null)
 
@@ -81,20 +81,23 @@ const PostPage = (props) => {
         <h3>Likes & Dislikes</h3>
         <p>
           {post?.likes} | {post?.dislikes} |
-          <button onClick={() => postLike(post.id)}>Like</button>
-          <button onClick={() => postDislike(post.id)}>Dislike</button>
+          {token && <button onClick={() => postLike(post.id)}>Like</button>}
+          {token && <button onClick={() => postDislike(post.id)}>Dislike</button>}
         </p>
         <h3>Comments</h3>
         <ul>
           {post?.comments.map(comment =>
             <li key={comment.id}>
               {comment.text} | Likes: {comment.likes} | Dislikes: {comment.dislikes} |
-              <button onClick={() => commentLike(comment.id)}>Like</button>
-              <button onClick={() => commentDislike(comment.id)}>Dislike</button>
+              {token && <button onClick={() => commentLike(comment.id)}>Like</button>}
+              {token && <button onClick={() => commentDislike(comment.id)}>Dislike</button>}
             </li>
           )}
         </ul>
-        <CreateCommentForm postId={params.id} />
+        {token &&
+          <CreateCommentForm
+            postId={params.id}
+          />}
       </div>
     </div>
   )

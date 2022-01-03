@@ -37,27 +37,23 @@ const App = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
-          {token
-            ? null
-            : <li>
+          {!token &&
+            <li>
               <Link to="log-in">Log In</Link>
             </li>}
-          {token
-            ? null
-            : <li>
+          {!token &&
+            <li>
               <Link to="register">Register</Link>
             </li>}
-          {token
-            ? <button onClick={logout}>Log Out</button>
-            : null}
+          {token && <button onClick={logout}>Log Out</button>}
         </ul>
       </nav>
 
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path={`/discussion/:name`} element={<DiscussionPage />} />
+        <Route path="/" element={<LandingPage token={token} />} />
+        <Route path={`/discussion/:name`} element={<DiscussionPage token={token} />} />
         <Route path={`/log-in`} element={<LogInPage setToken={setToken} />} />
-        <Route path={`/post/:id`} element={<PostPage />} />
+        <Route path={`/post/:id`} element={<PostPage token={token} />} />
         <Route path={`/register`} element={<RegisterPage />} />
         <Route path="*" element={
           <div>

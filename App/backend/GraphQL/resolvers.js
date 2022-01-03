@@ -121,15 +121,15 @@ const resolvers = {
 
       try {
         await newPost.save()
-
-        //add post to current users list of created posts
-        currentUser.posts = currentUser.posts.concat(newPost)
-        await currentUser.save()
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args
         })
       }
+
+      //update list of created posts for the user
+      const usersPosts = currentUser.posts.concat(newPost)
+      await User.findOneAndUpdate({ _id: currentUser.id }, { posts: usersPosts }, { new: true })
 
       //update the specified discussion's list of posts
       let posts = discussion.posts ? discussion.posts : []
@@ -158,15 +158,15 @@ const resolvers = {
 
       try {
         await newComment.save()
-
-        //add comment to current users list of created comments
-        currentUser.comments = currentUser.comments.concat(newComment)
-        await currentUser.save()
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args
         })
       }
+
+      //update list of created comments for the user
+      const usersComments = currentUser.comments.concat(newComment)
+      await User.findOneAndUpdate({ _id: currentUser.id }, { comments: usersComments }, { new: true })
 
       //update the specified post's list of comments
       let comments = post.comments ? post.comments : []

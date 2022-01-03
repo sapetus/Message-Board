@@ -7,7 +7,7 @@ import { LIKE_POST, DISLIKE_POST } from '../mutations'
 
 import CreatePostForm from './CreatePostForm'
 
-const DiscussionPage = (props) => {
+const DiscussionPage = ({ token }) => {
   let params = useParams()
   const [discussion, setDiscussion] = useState(null)
 
@@ -67,15 +67,16 @@ const DiscussionPage = (props) => {
                 <td>{post.text} |</td>
                 <td>{post.likes} |</td>
                 <td>{post.dislikes}</td>
-                <td><button onClick={() => like(post.id)}>Like</button></td>
-                <td><button onClick={() => dislike(post.id)}>Dislike</button></td>
+                {token && <td><button onClick={() => like(post.id)}>Like</button></td>}
+                {token && <td><button onClick={() => dislike(post.id)}>Dislike</button></td>}
               </tr>
             )}
           </tbody>
         </table>
-        <CreatePostForm
-          discussionName={params.name}
-        />
+        {token &&
+          <CreatePostForm
+            discussionName={params.name}
+          />}
       </div>
     </div>
   )
