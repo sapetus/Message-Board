@@ -9,4 +9,5 @@
 | 29.12.2021 | 1    | separated typeDefs and resolvers from index.js in backend, started to write tests, none currently work |
 | 31.12.2021 | 2    | Got tests working using easygraphql-tester, created basic tests | 
 | 3.1.2022   | 1    | Backend supports user creation and logging in |
-| total      | 19   | |
+|            | 2    | Frontend now supports logging in, only logged in users can create discussions, posts, comments, and likes |
+| total      | 21   | |

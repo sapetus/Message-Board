@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const { UserInputError } = require('apollo-server')
+const { UserInputError, AuthenticationError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
@@ -11,6 +11,16 @@ const User = require('../models/User')
 
 const JWT_SECRET = process.env.JWT_SECRET
 const saltRounds = 10
+
+const checkUser = (context) => {
+  const currentUser = context.currentUser
+
+  if (!currentUser) {
+    throw new AuthenticationError("No Authentication")
+  }
+
+  return currentUser
+}
 
 const resolvers = {
   Query: {
@@ -53,7 +63,6 @@ const resolvers = {
         })
       }
 
-      //might want to get rid of the hash before returning
       return newUser
     },
     login: async (root, args) => {
@@ -70,7 +79,9 @@ const resolvers = {
 
       return { value: jwt.sign(userForToken, JWT_SECRET) }
     },
-    createDiscussion: async (root, args) => {
+    createDiscussion: async (root, args, context) => {
+      checkUser(context)
+
       if (await Discussion.findOne({ name: args.name })) {
         throw new UserInputError('Name of the discussion must be unique', {
           invalidArgs: args.name
@@ -89,7 +100,9 @@ const resolvers = {
 
       return newDiscussion
     },
-    createPost: async (root, args) => {
+    createPost: async (root, args, context) => {
+      const currentUser = checkUser(context)
+
       const discussion = await Discussion.findOne({ name: args.discussionName })
 
       if (!discussion) {
@@ -108,6 +121,10 @@ const resolvers = {
 
       try {
         await newPost.save()
+
+        //add post to current users list of created posts
+        currentUser.posts = currentUser.posts.concat(newPost)
+        await currentUser.save()
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args
@@ -121,7 +138,9 @@ const resolvers = {
 
       return newPost
     },
-    createComment: async (root, args) => {
+    createComment: async (root, args, context) => {
+      const currentUser = checkUser(context)
+
       const post = await Post.findOne({ _id: args.postId })
 
       if (!post) {
@@ -139,6 +158,10 @@ const resolvers = {
 
       try {
         await newComment.save()
+
+        //add comment to current users list of created comments
+        currentUser.comments = currentUser.comments.concat(newComment)
+        await currentUser.save()
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args
@@ -152,19 +175,23 @@ const resolvers = {
 
       return newComment
     },
-    likePost: async (root, args) => {
+    likePost: async (root, args, context) => {
+      checkUser(context)
       const updatedPost = await Post.findOneAndUpdate({ _id: args.id }, { $inc: { likes: 1 } }, { new: true })
       return updatedPost
     },
-    dislikePost: async (root, args) => {
+    dislikePost: async (root, args, context) => {
+      checkUser(context)
       const updatedPost = await Post.findOneAndUpdate({ _id: args.id }, { $inc: { dislikes: 1 } }, { new: true })
       return updatedPost
     },
-    likeComment: async (root, args) => {
+    likeComment: async (root, args, context) => {
+      checkUser(context)
       const updatedComment = await Comment.findOneAndUpdate({ _id: args.id }, { $inc: { likes: 1 } }, { new: true })
       return updatedComment
     },
-    dislikeComment: async (root, args) => {
+    dislikeComment: async (root, args, context) => {
+      checkUser(context)
       const updatedComment = await Comment.findOneAndUpdate({ _id: args.id }, { $inc: { dislikes: 1 } }, { new: true })
       return updatedComment
     }
