@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLazyQuery } from '@apollo/client';
-import {
-  Link
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { ALL_DISCUSSIONS } from '../queries'
 

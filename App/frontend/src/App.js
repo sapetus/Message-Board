@@ -5,15 +5,19 @@ import {
   Link
 } from 'react-router-dom'
 import { useApolloClient } from '@apollo/client';
+import { useNavigate } from 'react-router-dom'
 
 import LandingPage from './LandingPage/LandingPage';
 import DiscussionPage from './DiscussionPage/DiscussionPage';
 import PostPage from './PostPage/PostPage';
 import RegisterPage from './RegisterPage/RegisterPage';
 import LogInPage from './LogInPage/LogInPage';
+import UserPage from './UserPage/UserPage'
 
 const App = () => {
   const [token, setToken] = useState(null)
+
+  const navigate = useNavigate()
 
   //check if the token is still in localstorage after last session
   useEffect(() => {
@@ -28,6 +32,7 @@ const App = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
+    navigate('/')
   }
 
   return (
@@ -37,6 +42,10 @@ const App = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
+          {token &&
+            <li>
+              <Link to='user'>User</Link>
+            </li>}
           {!token &&
             <li>
               <Link to="log-in">Log In</Link>
@@ -55,6 +64,7 @@ const App = () => {
         <Route path={`/log-in`} element={<LogInPage setToken={setToken} />} />
         <Route path={`/post/:id`} element={<PostPage token={token} />} />
         <Route path={`/register`} element={<RegisterPage />} />
+        <Route path={`/user`} element={<UserPage />} />
         <Route path="*" element={
           <div>
             <p>Are you lost?</p>

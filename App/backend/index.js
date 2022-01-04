@@ -31,9 +31,27 @@ const server = new ApolloServer({
       const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET)
       const currentUser = await User
         .findById(decodedToken.id)
-        .populate({ path: 'posts', model: 'Post' })
-        .populate({ path: 'comments', model: 'Comment' })
-        .populate({ path: 'memberOf', model: 'Discussion'})
+        .populate({
+          path: 'posts',
+          model: 'Post',
+          populate: {
+            path: 'discussion'
+          }
+        })
+        .populate({
+          path: 'comments',
+          model: 'Comment',
+          populate: {
+            path: 'post',
+            populate: {
+              path: 'discussion'
+            }
+          }
+        })
+        .populate({
+          path: 'memberOf',
+          model: 'Discussion'
+        })
       return { currentUser }
     }
   }

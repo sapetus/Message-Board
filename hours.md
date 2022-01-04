@@ -12,4 +12,5 @@
 |            | 2    | Frontend now supports logging in, only logged in users can create discussions, posts, comments, and likes |
 |            | 1    | users can now register through frontend, only show forms to logged in users | 
 | 4.1.2022   | 1    | Posts and comments save the user who created them, users can now subscribe to discussions (only backend) |
-| total      | 23   | |
+|            | 1    | Created a page for user to view their own account |
+| total      | 24   | |
