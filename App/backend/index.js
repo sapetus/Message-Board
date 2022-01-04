@@ -33,6 +33,7 @@ const server = new ApolloServer({
         .findById(decodedToken.id)
         .populate({ path: 'posts', model: 'Post' })
         .populate({ path: 'comments', model: 'Comment' })
+        .populate({ path: 'memberOf', model: 'Discussion'})
       return { currentUser }
     }
   }

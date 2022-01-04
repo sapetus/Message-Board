@@ -31,17 +31,16 @@ const resolvers = {
       return discussions
     },
     findDiscussion: async (root, args) => {
-      const discussion = await Discussion.findOne({ name: args.name }).populate({ path: 'posts', model: 'Post' })
+      const discussion = await Discussion.findOne({ name: args.name })
+        .populate({ path: 'posts', model: 'Post' })
 
       return discussion
     },
-    //no need to populate comments, as they are not needed in this query
-    allPosts: async () => {
-      const posts = await Post.find({}).populate('discussion')
-      return posts
-    },
     findPost: async (root, args) => {
-      const post = await Post.findOne({ _id: args.id }).populate('discussion').populate({ path: 'comments', model: 'Comment' })
+      const post = await Post.findOne({ _id: args.id })
+        .populate('discussion')
+        .populate('user', '-passwordHash')
+        .populate({ path: 'comments', model: 'Comment' })
       return post
     },
     getUser: (root, args, context) => {
@@ -53,7 +52,7 @@ const resolvers = {
       const username = args.username
       const passwordHash = bcrypt.hashSync(args.password, saltRounds)
 
-      const newUser = new User({ username, passwordHash, posts: [], comments: [] })
+      const newUser = new User({ username, passwordHash, posts: [], comments: [], memberOf: [] })
 
       try {
         await newUser.save()
@@ -66,7 +65,7 @@ const resolvers = {
       return newUser
     },
     login: async (root, args) => {
-      const user = await User.findOne({ username: args.username })
+      const user = await User.findOne({ username: args.username }).select('+passwordHash')
 
       if (!user || !bcrypt.compareSync(args.password, user.passwordHash)) {
         throw new UserInputError('Wrong Credentials')
@@ -116,7 +115,8 @@ const resolvers = {
         text: args.text,
         likes: 0,
         dislikes: 0,
-        discussion: discussion
+        discussion: discussion,
+        user: currentUser
       })
 
       try {
@@ -153,7 +153,8 @@ const resolvers = {
         text: args.text,
         likes: 0,
         dislikes: 0,
-        post: post
+        post: post,
+        user: currentUser
       })
 
       try {
@@ -194,6 +195,25 @@ const resolvers = {
       checkUser(context)
       const updatedComment = await Comment.findOneAndUpdate({ _id: args.id }, { $inc: { dislikes: 1 } }, { new: true })
       return updatedComment
+    },
+    subscribeToDiscussion: async (root, args, context) => {
+      const currentUser = checkUser(context)
+      const discussion = await Discussion.findOne({ name: args.discussionName })
+
+      if (!discussion) {
+        throw new UserInputError('Discussion must exist to be able to subscribe', {
+          invalidArgs: args
+        })
+      }
+
+      //add discussion to users list of subscriptions
+      const usersSubscriptions = currentUser.memberOf.concat(discussion)
+      await User.findOneAndUpdate({ _id: currentUser.id }, { memberOf: usersSubscriptions }, { new: true })
+
+      //increment discussions member value
+      const updatedDiscussion = await Discussion.findOneAndUpdate({ name: args.discussionName }, { $inc: { members: 1 } }, { new: true })
+
+      return updatedDiscussion
     }
   }
 }

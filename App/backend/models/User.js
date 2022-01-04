@@ -10,7 +10,8 @@ const schema = new mongoose.Schema({
   },
   passwordHash: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   posts: [
     {
@@ -22,6 +23,12 @@ const schema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Comment'
+    }
+  ],
+  memberOf: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Discussion'
     }
   ]
 })

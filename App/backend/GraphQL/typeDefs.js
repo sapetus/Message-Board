@@ -11,6 +11,7 @@ const typeDefs = gql`
     passwordHash: String!
     posts: [Post!]!
     comments: [Comment!]!
+    memberOf: [Discussion!]!
   }
 
   type Post {
@@ -21,6 +22,7 @@ const typeDefs = gql`
     dislikes: Int!
     discussion: Discussion!
     comments: [Comment!]!
+    user: User!
   }
 
   type Discussion {
@@ -36,12 +38,12 @@ const typeDefs = gql`
     likes: Int!
     dislikes: Int!
     post: Post!
+    user: User!
   }
 
   type Query {
     allDiscussions: [Discussion!]!
     findDiscussion(name: String!): Discussion
-    allPosts: [Post!]!
     findPost(id: ID!): Post
     getUser: User
   }
@@ -79,6 +81,9 @@ const typeDefs = gql`
       username: String!
       password: String!
     ): Token
+    subscribeToDiscussion (
+      discussionName: String!
+    ): Discussion
   }
 `
 
