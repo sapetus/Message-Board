@@ -8,8 +8,9 @@ import { LIKE_POST, DISLIKE_POST } from '../mutations'
 import CreatePostForm from './CreatePostForm'
 
 const DiscussionPage = ({ token }) => {
-  let params = useParams()
   const [discussion, setDiscussion] = useState(null)
+
+  let params = useParams()
 
   const [getDiscussion, { data }] = useLazyQuery(FIND_DISCUSSION, {
     fetchPolicy: 'cache-and-network'

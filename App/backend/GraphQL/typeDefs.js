@@ -45,7 +45,8 @@ const typeDefs = gql`
     allDiscussions: [Discussion!]!
     findDiscussion(name: String!): Discussion
     findPost(id: ID!): Post
-    getUser: User
+    getCurrentUser: User
+    getUserByName(username: String!): User
   }
 
   type Mutation {

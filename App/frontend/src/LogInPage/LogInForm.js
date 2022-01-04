@@ -20,7 +20,7 @@ const LogInForm = ({ setToken }) => {
     if (result.data) {
       const token = result.data.login.value
       setToken(token)
-      localStorage.setItem('user_token', token)
+      localStorage.setItem('message_board_user_token', token)
       navigate('/')
     }
   }, [result.data]) //eslint-disable-line
@@ -29,6 +29,10 @@ const LogInForm = ({ setToken }) => {
     event.preventDefault()
 
     await login({ variables: { username, password } })
+
+    //this is used to access users own page from app.js
+    //theres probably a better way to do this, but for now this works
+    localStorage.setItem("username", username)
 
     setUsername('')
     setPassword('')

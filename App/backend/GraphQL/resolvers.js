@@ -43,8 +43,40 @@ const resolvers = {
         .populate({ path: 'comments', model: 'Comment' })
       return post
     },
-    getUser: (root, args, context) => {
+    getCurrentUser: (root, args, context) => {
       return context.currentUser
+    },
+    getUserByName: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+        .populate({
+          path: 'posts',
+          model: 'Post',
+          populate: {
+            path: 'discussion'
+          }
+        })
+        .populate({
+          path: 'comments',
+          model: 'Comment',
+          populate: {
+            path: 'post',
+            populate: {
+              path: 'discussion'
+            }
+          }
+        })
+        .populate({
+          path: 'memberOf',
+          model: 'Discussion'
+        })
+
+      if (!user) {
+        throw new UserInputError("No user with given name", {
+          invalidArgs: args
+        })
+      }
+
+      return user
     }
   },
   Mutation: {

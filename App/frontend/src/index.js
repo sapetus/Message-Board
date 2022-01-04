@@ -12,7 +12,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
 const authenticationLink = setContext((__, { headers }) => {
-  const token = localStorage.getItem('user_token')
+  const token = localStorage.getItem('message_board_user_token')
   return {
     headers: {
       ...headers,

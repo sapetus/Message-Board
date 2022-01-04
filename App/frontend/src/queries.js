@@ -48,41 +48,41 @@ export const FIND_POST = gql`
   }
 `
 
-export const GET_USER = gql`
-query getUser {
-  getUser {
-    id
-    username
-    posts {
+export const GET_USER_BY_NAME = gql`
+  query getUserByName($username: String!) {
+    getUserByName(username: $username) {
       id
-      title
-      text
-      likes
-      dislikes
-      discussion {
-        id
-        name
-      }
-    }
-    comments {
-      id
-      text
-      likes
-      dislikes
-      post {
+      username
+      posts {
         id
         title
+        text
+        likes
+        dislikes
         discussion {
           id
           name
         }
       }
-    }
-    memberOf {
-      id
-      name
-      members
+      comments {
+        id
+        text
+        likes
+        dislikes
+        post {
+          id
+          title
+          discussion {
+            id
+            name
+          }
+        }
+      }
+      memberOf {
+        id
+        name
+        members
+      }
     }
   }
-}
 `

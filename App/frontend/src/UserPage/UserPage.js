@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
+import { useParams, Link } from 'react-router-dom'
 
-import { GET_USER } from '../queries'
+import { GET_USER_BY_NAME } from '../queries'
 
 const UserPage = (props) => {
   const [username, setUsername] = useState('')
@@ -9,20 +10,22 @@ const UserPage = (props) => {
   const [comments, setComments] = useState(null)
   const [memberOf, setMemberOf] = useState(null)
 
-  const [getUser, { data }] = useLazyQuery(GET_USER, {
+  let params = useParams()
+
+  const [getUser, { data }] = useLazyQuery(GET_USER_BY_NAME, {
     fetchPolicy: 'cache-and-network'
   })
 
   useEffect(() => {
-    getUser()
-  }, []) //eslint-disable-line
+    getUser({ variables: { username: params.username } })
+  }, [params.username]) //eslint-disable-line
 
   useEffect(() => {
-    if (data?.getUser) {
-      setUsername(data.getUser.username)
-      setPosts(data.getUser.posts)
-      setComments(data.getUser.comments)
-      setMemberOf(data.getUser.memberOf)
+    if (data?.getUserByName) {
+      setUsername(data.getUserByName.username)
+      setPosts(data.getUserByName.posts)
+      setComments(data.getUserByName.comments)
+      setMemberOf(data.getUserByName.memberOf)
     }
   }, [data])
 
@@ -42,8 +45,8 @@ const UserPage = (props) => {
             </tr>
             {posts?.map(post =>
               <tr key={post.id}>
-                <td>{post.discussion.name}</td>
-                <td>{post.title}</td>
+                <td><Link to={`/discussion/${post.discussion.name}`}>{post.discussion.name}</Link></td>
+                <td><Link to={`/post/${post.id}`}>{post.title}</Link></td>
                 <td>{post.likes}</td>
                 <td>{post.dislikes}</td>
               </tr>
@@ -64,7 +67,7 @@ const UserPage = (props) => {
             </tr>
             {comments?.map(comment =>
               <tr key={comment.id}>
-                <td>{comment.post.title}</td>
+                <td><Link to={`/post/${comment.post.id}`}>{comment.post.title}</Link></td>
                 <td>{comment.text}</td>
                 <td>{comment.likes}</td>
                 <td>{comment.dislikes}</td>
@@ -84,7 +87,7 @@ const UserPage = (props) => {
             </tr>
             {memberOf?.map(discussion =>
               <tr key={discussion.id}>
-                <td>{discussion.name}</td>
+                <td><Link to={`/discussion/${discussion.name}`}>{discussion.name}</Link></td>
                 <td>{discussion.members}</td>
               </tr>
             )}
