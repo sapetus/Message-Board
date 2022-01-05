@@ -33,6 +33,7 @@ const resolvers = {
     findDiscussion: async (root, args) => {
       const discussion = await Discussion.findOne({ name: args.name })
         .populate({ path: 'posts', model: 'Post' })
+        .populate({ path: 'listOfMembers', model: 'User' })
 
       return discussion
     },
@@ -40,7 +41,14 @@ const resolvers = {
       const post = await Post.findOne({ _id: args.id })
         .populate('discussion')
         .populate('user', '-passwordHash')
-        .populate({ path: 'comments', model: 'Comment' })
+        .populate({
+          path: 'comments',
+          model: 'Comment',
+          populate: {
+            path: 'user',
+            model: 'User'
+          }
+        })
       return post
     },
     getCurrentUser: (root, args, context) => {
@@ -238,12 +246,57 @@ const resolvers = {
         })
       }
 
+      //Check if the user is already subscribed to this discussion
+      const subscriptionNames = currentUser.memberOf.map(discussion => discussion.name)
+      if (subscriptionNames.includes(args.discussionName)) {
+        throw new UserInputError('User has already subscribed to this discussion', {
+          invalidArgs: args
+        })
+      }
+
       //add discussion to users list of subscriptions
       const usersSubscriptions = currentUser.memberOf.concat(discussion)
       await User.findOneAndUpdate({ _id: currentUser.id }, { memberOf: usersSubscriptions }, { new: true })
 
-      //increment discussions member value
-      const updatedDiscussion = await Discussion.findOneAndUpdate({ name: args.discussionName }, { $inc: { members: 1 } }, { new: true })
+      //update discussion
+      const updatedMemberList = discussion.listOfMembers.concat(currentUser)
+      const updatedDiscussion = await Discussion.findOneAndUpdate(
+        { name: args.discussionName },
+        { listOfMembers: updatedMemberList, $inc: { members: 1 } },
+        { new: true }
+      )
+
+      return updatedDiscussion
+    },
+    unsubscribeFromDiscussion: async (root, args, context) => {
+      const currentUser = checkUser(context)
+      const discussion = await Discussion.findOne({ name: args.discussionName })
+
+      if (!discussion) {
+        throw new UserInputError('Discussion must exist to be able to unsubscribe', {
+          invalidArgs: args
+        })
+      }
+
+      //Check if the user is subscribed to this discussion
+      const subscriptionNames = currentUser.memberOf.map(discussion => discussion.name)
+      if (!subscriptionNames.includes(args.discussionName)) {
+        throw new UserInputError('User is not subscribed to this discussion, cannot unsubscribe', {
+          invalidArgs: args
+        })
+      }
+
+      //remove discussion from users list of subscriptions
+      const usersSubscriptions = currentUser.memberOf.filter(discussion => discussion.name !== args.discussionName)
+      await User.findOneAndUpdate({ _id: currentUser.id }, { memberOf: usersSubscriptions }, { new: true })
+
+      //update discussion
+      const updatedMemberList = discussion.listOfMembers.filter(user => user.name !== currentUser.name)
+      const updatedDiscussion = await Discussion.findOneAndUpdate(
+        { name: args.discussionName },
+        { listOfMembers: updatedMemberList, $inc: { members: -1 } },
+        { new: true }
+      )
 
       return updatedDiscussion
     }

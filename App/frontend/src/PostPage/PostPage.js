@@ -3,7 +3,12 @@ import { useParams, Link } from 'react-router-dom'
 import { useLazyQuery, useMutation } from '@apollo/client'
 
 import { FIND_POST } from '../queries'
-import { LIKE_POST, DISLIKE_POST, LIKE_COMMENT, DISLIKE_COMMENT } from '../mutations'
+import {
+  LIKE_POST,
+  DISLIKE_POST,
+  LIKE_COMMENT,
+  DISLIKE_COMMENT
+} from '../mutations'
 
 import CreateCommentForm from './CreateCommentForm'
 
@@ -76,6 +81,7 @@ const PostPage = ({ token }) => {
         </h2>
         <h3>Title</h3>
         <p>{post?.title}</p>
+        <p>Posted by <Link to={`/user/${post?.user.username}`}>{post?.user.username}</Link></p>
         <h3>Text</h3>
         <p>{post?.text}</p>
         <h3>Likes & Dislikes</h3>
@@ -91,6 +97,7 @@ const PostPage = ({ token }) => {
               {comment.text} | Likes: {comment.likes} | Dislikes: {comment.dislikes} |
               {token && <button onClick={() => commentLike(comment.id)}>Like</button>}
               {token && <button onClick={() => commentDislike(comment.id)}>Dislike</button>}
+              <p>Comment by {comment.user.username}</p>
             </li>
           )}
         </ul>

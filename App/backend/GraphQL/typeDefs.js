@@ -29,6 +29,7 @@ const typeDefs = gql`
     id: ID!
     name: String!
     members: Int!
+    listOfMembers: [User!]!
     posts: [Post!]!
   }
 
@@ -83,6 +84,9 @@ const typeDefs = gql`
       password: String!
     ): Token
     subscribeToDiscussion (
+      discussionName: String!
+    ): Discussion
+    unsubscribeFromDiscussion (
       discussionName: String!
     ): Discussion
   }

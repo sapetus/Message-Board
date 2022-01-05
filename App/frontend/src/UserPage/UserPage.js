@@ -71,7 +71,7 @@ const UserPage = (props) => {
                 <td>{comment.text}</td>
                 <td>{comment.likes}</td>
                 <td>{comment.dislikes}</td>
-                <td>{comment.post.discussion.name}</td>
+                <td><Link to={`/discussion/${comment.post.discussion.name}`}>{comment.post.discussion.name}</Link></td>
               </tr>
             )}
           </tbody>

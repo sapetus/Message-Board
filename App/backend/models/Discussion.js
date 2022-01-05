@@ -14,6 +14,10 @@ const schema = new mongoose.Schema({
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
+  }],
+  listOfMembers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }]
 })
 

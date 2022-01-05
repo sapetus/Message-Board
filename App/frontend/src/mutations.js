@@ -120,3 +120,19 @@ export const CREATE_USER = gql`
     }
   }
 `
+
+export const SUBSCRIBE_TO_DISCUSSION = gql`
+  mutation subscribeToDiscussion($discussionName: String!) {
+    subscribeToDiscussion(discussionName: $discussionName) {
+      id
+    }
+  }
+`
+
+export const UNSUBSCRIBE_FROM_DISCUSSION = gql`
+  mutation unsubscribeFromDiscussion($discussionName: String!) {
+    unsubscribeFromDiscussion(discussionName: $discussionName) {
+      id
+    }
+  }
+`

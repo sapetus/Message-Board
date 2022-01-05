@@ -23,6 +23,9 @@ export const FIND_DISCUSSION = gql`
         likes,
         dislikes
       }
+      listOfMembers {
+        username
+      }
     }
   }
 `
@@ -39,10 +42,18 @@ export const FIND_POST = gql`
         id,
         text,
         likes,
-        dislikes
+        dislikes,
+        user {
+          id
+          username
+        }
       },
       discussion {
         name
+      },
+      user {
+        id
+        username
       }
     }
   }
