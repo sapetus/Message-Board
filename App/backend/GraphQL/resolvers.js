@@ -49,6 +49,7 @@ const resolvers = {
             model: 'User'
           }
         })
+
       return post
     },
     getCurrentUser: (root, args, context) => {
@@ -76,6 +77,14 @@ const resolvers = {
         .populate({
           path: 'memberOf',
           model: 'Discussion'
+        })
+        .populate({
+          path: 'postLikes',
+          model: 'Post'
+        })
+        .populate({
+          path: 'postDislikes',
+          model: 'Post'
         })
 
       if (!user) {
@@ -207,33 +216,161 @@ const resolvers = {
 
       //update list of created comments for the user
       const usersComments = currentUser.comments.concat(newComment)
-      await User.findOneAndUpdate({ _id: currentUser.id }, { comments: usersComments }, { new: true })
+      await User.findOneAndUpdate(
+        { _id: currentUser.id },
+        { comments: usersComments },
+        { new: true }
+      )
 
       //update the specified post's list of comments
       let comments = post.comments ? post.comments : []
       comments.push(newComment.id)
-      await Post.findOneAndUpdate({ _id: args.postId }, { comments: comments }, { new: true })
+      await Post.findOneAndUpdate(
+        { _id: args.postId },
+        { comments: comments },
+        { new: true }
+      )
 
       return newComment
     },
     likePost: async (root, args, context) => {
-      checkUser(context)
-      const updatedPost = await Post.findOneAndUpdate({ _id: args.id }, { $inc: { likes: 1 } }, { new: true })
-      return updatedPost
+      const currentUser = checkUser(context)
+      const post = await Post.findOne({ _id: args.id })
+
+      if (!post) {
+        throw new UserInputError('Post must exist to be able to like it', {
+          invalidArgs: args
+        })
+      }
+
+      //check if user has already liked the post
+      const usersPostLikes = currentUser.postLikes.map(post => post.id)
+      const hasLiked = usersPostLikes.includes(args.id)
+
+      if (hasLiked) {
+        throw new UserInputError('User has already liked this post', {
+          invalidArgs: args
+        })
+      }
+
+      //check if the user has disliked the post
+      const usersPostDislikes = currentUser.postDislikes.map(post => post.id)
+      const hasDisliked = usersPostDislikes.includes(args.id)
+
+      if (hasDisliked) {
+        // if user has already disliked the post, remove it from users list of disliked posts and add it to list of liked posts
+        const updatedPost = await Post.findOneAndUpdate(
+          { _id: args.id },
+          { $inc: { dislikes: -1 }, $inc: { likes: 1 } },
+          { new: true }
+        )
+
+        const updatedPostDislikes = currentUser.post.filter(post => post.id !== args.id)
+        const updatedPostLikes = currentUser.postLikes.concat(updatedPost)
+
+        await User.findOneAndUpdate(
+          { _id: currentUser.id },
+          { postLikes: updatedPostLikes, postDislikes: updatedPostDislikes },
+          { new: true }
+        )
+
+        return updatedPost
+      } else {
+        // if user has not disliked the post, add it to users list of liked posts
+        const updatedPost = await Post.findOneAndUpdate(
+          { _id: args.id },
+          { $inc: { likes: 1 } },
+          { new: true }
+        )
+
+        const updatedPostLikes = currentUser.postLikes.concat(updatedPost)
+
+        await User.findOneAndUpdate(
+          { _id: currentUser.id },
+          { postLikes: updatedPostLikes },
+          { new: true }
+        )
+
+        return updatedPost
+      }
     },
     dislikePost: async (root, args, context) => {
-      checkUser(context)
-      const updatedPost = await Post.findOneAndUpdate({ _id: args.id }, { $inc: { dislikes: 1 } }, { new: true })
-      return updatedPost
+      const currentUser = checkUser(context)
+      const post = await Post.findOne({ _id: args.id })
+
+      if (!post) {
+        throw new UserInputError('Post must exist to be able to dislike it', {
+          invalidArgs: args
+        })
+      }
+
+      //check if user has already disliked the post
+      const usersPostDislikes = currentUser.postDislikes.map(post => post.id)
+      const hasDisliked = usersPostDislikes.includes(args.id)
+
+      if (hasDisliked) {
+        throw new UserInputError('User has already disliked this post', {
+          invalidArgs: args
+        })
+      }
+
+      //check if the user has liked the post
+      const usersPostLikes = currentUser.postLikes.map(post => post.id)
+      const hasLiked = usersPostLikes.includes(args.id)
+
+      if (hasLiked) {
+        // if user has already liked the post, remove the post from users list of liked post and add it to list of disliked posts
+        const updatedPost = await Post.findOneAndUpdate(
+          { _id: args.id },
+          { $inc: { likes: -1 }, $inc: { dislikes: 1 } },
+          { new: true }
+        )
+
+        const updatedPostLikes = currentUser.postLikes.filter(post => post.id !== args.id)
+        const updatedPostDislikes = currentUser.postDislikes.concat(updatedPost)
+
+        await User.findOneAndUpdate(
+          { _id: currentUser.id },
+          { postLikes: updatedPostLikes, postDislikes: updatedPostDislikes },
+          { new: true }
+        )
+
+        return updatedPost
+      } else {
+        // if user has not liked the post, add it to the users list of disliked posts
+        const updatedPost = await Post.findOneAndUpdate(
+          { _id: args.id },
+          { $inc: { dislikes: 1 } },
+          { new: true }
+        )
+
+        const updatedPostDislikes = currentUser.postDislikes.concat(updatedPost)
+
+        await User.findOneAndUpdate(
+          { _id: currentUser.id },
+          { postDislikes: updatedPostDislikes },
+          { new: true }
+        )
+
+        return updatedPost
+      }
     },
     likeComment: async (root, args, context) => {
       checkUser(context)
-      const updatedComment = await Comment.findOneAndUpdate({ _id: args.id }, { $inc: { likes: 1 } }, { new: true })
+      const updatedComment = await Comment.findOneAndUpdate(
+        { _id: args.id },
+        { $inc: { likes: 1 } },
+        { new: true }
+      )
       return updatedComment
     },
     dislikeComment: async (root, args, context) => {
       checkUser(context)
-      const updatedComment = await Comment.findOneAndUpdate({ _id: args.id }, { $inc: { dislikes: 1 } }, { new: true })
+      const updatedComment = await Comment.findOneAndUpdate(
+        { _id: args.id },
+        { $inc: { dislikes: 1 } },
+        { new: true }
+      )
       return updatedComment
     },
     subscribeToDiscussion: async (root, args, context) => {

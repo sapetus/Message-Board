@@ -15,4 +15,5 @@
 |            | 1    | Created a page for user to view their own account |
 |            | 1    | Users can now view other users pages, user page now contains links to users posts and comments etc. |
 | 5.1.2022   | 2.5  | subscribe and unsubscribe now possible from frontend, show button depending on subscription status, changed backend to allow these changes |
-| total      | 27.5   | |
+|            | 1    | backend now keeps track what posts user has liked or disliked |
+| total      | 28.5   | |

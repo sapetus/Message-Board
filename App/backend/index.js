@@ -34,6 +34,14 @@ const server = new ApolloServer({
           path: 'memberOf',
           model: 'Discussion'
         })
+        .populate({
+          path: 'postLikes',
+          model: 'Post'
+        })
+        .populate({
+          path: 'postDislikes',
+          model: 'Post'
+        })
 
       return { currentUser }
     }

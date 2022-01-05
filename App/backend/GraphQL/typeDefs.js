@@ -12,6 +12,8 @@ const typeDefs = gql`
     posts: [Post!]!
     comments: [Comment!]!
     memberOf: [Discussion!]!
+    postLikes: [Post!]!
+    postDislikes: [Post!]!
   }
 
   type Post {
