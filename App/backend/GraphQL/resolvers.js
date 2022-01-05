@@ -49,6 +49,14 @@ const resolvers = {
             model: 'User'
           }
         })
+        .populate({
+          path: 'listOfLikeUsers',
+          model: 'User'
+        })
+        .populate({
+          path: 'listOfDislikeUsers',
+          model: 'User'
+        })
 
       return post
     },
@@ -232,10 +240,18 @@ const resolvers = {
       )
 
       return newComment
-    },
+    }, // these are getting awfully long (slow? no idea, such a tiny dataset)
     likePost: async (root, args, context) => {
       const currentUser = checkUser(context)
       const post = await Post.findOne({ _id: args.id })
+        .populate({
+          path: 'listOfLikeUsers',
+          model: 'User'
+        })
+        .populate({
+          path: 'listOfDislikeUsers',
+          model: 'User'
+        })
 
       if (!post) {
         throw new UserInputError('Post must exist to be able to like it', {
@@ -259,13 +275,21 @@ const resolvers = {
 
       if (hasDisliked) {
         // if user has already disliked the post, remove it from users list of disliked posts and add it to list of liked posts
+        // also remove user from posts list of dislike users and add user to list of like users
+        const updatedListOfDislikeUsers = post.listOfDislikeUsers.filter(user => user.id !== currentUser.id)
+        const updatedListOfLikeUsers = post.listOfLikeUsers.concat(currentUser)
+
         const updatedPost = await Post.findOneAndUpdate(
           { _id: args.id },
-          { $inc: { dislikes: -1 }, $inc: { likes: 1 } },
+          {
+            listOfLikeUsers: updatedListOfLikeUsers,
+            listOfDislikeUsers: updatedListOfDislikeUsers,
+            $inc: { dislikes: -1, likes: 1 }
+          },
           { new: true }
         )
 
-        const updatedPostDislikes = currentUser.post.filter(post => post.id !== args.id)
+        const updatedPostDislikes = currentUser.postDislikes.filter(post => post.id !== args.id)
         const updatedPostLikes = currentUser.postLikes.concat(updatedPost)
 
         await User.findOneAndUpdate(
@@ -277,9 +301,12 @@ const resolvers = {
         return updatedPost
       } else {
         // if user has not disliked the post, add it to users list of liked posts
+        // add user to posts list of like users
+        const updatedListOfLikeUsers = post.listOfLikeUsers.concat(currentUser)
+
         const updatedPost = await Post.findOneAndUpdate(
           { _id: args.id },
-          { $inc: { likes: 1 } },
+          { listOfLikeUsers: updatedListOfLikeUsers, $inc: { likes: 1 } },
           { new: true }
         )
 
@@ -297,6 +324,14 @@ const resolvers = {
     dislikePost: async (root, args, context) => {
       const currentUser = checkUser(context)
       const post = await Post.findOne({ _id: args.id })
+        .populate({
+          path: 'listOfLikeUsers',
+          model: 'User'
+        })
+        .populate({
+          path: 'listOfDislikeUsers',
+          model: 'User'
+        })
 
       if (!post) {
         throw new UserInputError('Post must exist to be able to dislike it', {
@@ -320,9 +355,17 @@ const resolvers = {
 
       if (hasLiked) {
         // if user has already liked the post, remove the post from users list of liked post and add it to list of disliked posts
+        // also remove user from posts list of like users and add user to list of dislike users
+        const updatedListOfLikeUsers = post.listOfLikeUsers.filter(user => user.id !== currentUser.id)
+        const updatedListOfDislikeUsers = post.listOfDislikeUsers.concat(currentUser)
+
         const updatedPost = await Post.findOneAndUpdate(
           { _id: args.id },
-          { $inc: { likes: -1 }, $inc: { dislikes: 1 } },
+          {
+            listOfLikeUsers: updatedListOfLikeUsers,
+            listOfDislikeUsers: updatedListOfDislikeUsers,
+            $inc: { likes: -1, dislikes: 1 }
+          },
           { new: true }
         )
 
@@ -338,9 +381,12 @@ const resolvers = {
         return updatedPost
       } else {
         // if user has not liked the post, add it to the users list of disliked posts
+        // also add user to posts list of dislike users
+        const updatedListOfDislikeUsers = post.listOfDislikeUsers.concat(currentUser)
+
         const updatedPost = await Post.findOneAndUpdate(
           { _id: args.id },
-          { $inc: { dislikes: 1 } },
+          { listOfDislikeUsers: updatedListOfDislikeUsers, $inc: { dislikes: 1 } },
           { new: true }
         )
 

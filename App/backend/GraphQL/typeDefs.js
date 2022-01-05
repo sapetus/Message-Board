@@ -25,6 +25,8 @@ const typeDefs = gql`
     discussion: Discussion!
     comments: [Comment!]!
     user: User!
+    listOfLikeUsers: [User!]!
+    listOfDislikeUsers: [User!]!
   }
 
   type Discussion {
