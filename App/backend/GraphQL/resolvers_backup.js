@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const { UserInputError, AuthenticationError } = require('apollo-server')
+const { UserInputError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
@@ -9,18 +9,10 @@ const Post = require('../models/Post')
 const Comment = require('../models/Comment')
 const User = require('../models/User')
 
+const { checkUser } = require('./utils')
+
 const JWT_SECRET = process.env.JWT_SECRET
 const saltRounds = 10
-
-const checkUser = (context) => {
-  const currentUser = context.currentUser
-
-  if (!currentUser) {
-    throw new AuthenticationError("No Authentication")
-  }
-
-  return currentUser
-}
 
 const resolvers = {
   Query: {

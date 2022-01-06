@@ -4,8 +4,8 @@ const { ApolloServer } = require('apollo-server')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 
-const typeDefs = require('./GraphQL/typeDefs')
-const resolvers = require('./GraphQL/resolvers')
+const typeDefs = require('./GraphQL/typeDefs/mergedTypeDefs')
+const resolvers = require('./GraphQL/resolvers/mergedResolvers')
 const User = require('./models/User')
 
 const JWT_SECRET = process.env.JWT_SECRET

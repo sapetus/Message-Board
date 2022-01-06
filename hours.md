@@ -16,5 +16,6 @@
 |            | 1    | Users can now view other users pages, user page now contains links to users posts and comments etc. |
 | 5.1.2022   | 2.5  | subscribe and unsubscribe now possible from frontend, show button depending on subscription status, changed backend to allow these changes |
 |            | 1    | backend now keeps track what posts user has liked or disliked |
-|            | 0.5  | backend now keeps track what users have liked or disliked a specific post (each user can only like or dislike once per post)|
-| total      | 29   | |
+|            | 0.5  | backend now keeps track what users have liked or disliked a specific post (each user can only like or dislike once per post) |
+| 6.1.2022   | 1    | splitted resolvers and type definitions to separate files in backend |
+| total      | 30   | |
