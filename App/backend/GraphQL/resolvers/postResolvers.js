@@ -231,6 +231,90 @@ const postResolvers = {
 
         return updatedPost
       }
+    },
+    unlikePost: async (root, args, context) => {
+      const currentUser = checkUser(context)
+      const post = await Post.findOne({ _id: args.id })
+        .populate({ path: 'listOfLikeUsers', model: 'User' })
+
+      if (!post) {
+        throw new UserInputError('Post must exist to be able to unlike', {
+          invalidArgs: args
+        })
+      }
+
+      //check if user previously has liked the post
+      const usersPostLikes = currentUser.postLikes.map(post => post.id)
+      const hasLiked = usersPostLikes.includes(args.id)
+
+      if (!hasLiked) {
+        throw new UserInputError('Cannot unlike post that has not been liked previously', {
+          invalidArgs: args
+        })
+      }
+
+      //remove post from users list of liked posts and update
+      const updatedListOfLikedPosts = currentUser.postLikes.filter(post => post.id !== args.id)
+      await User.findOneAndUpdate(
+        { _id: currentUser.id },
+        { postLikes: updatedListOfLikedPosts },
+        { new: true }
+      )
+
+      //remove user from posts list of users who have liked it and update
+      const updatedListOfLikeUsers = post.listOfLikeUsers.filter(user => user.id !== currentUser.id)
+      const updatedPost = await Post.findOneAndUpdate(
+        { _id: args.id },
+        {
+          listOfLikeUsers: updatedListOfLikeUsers,
+          $inc: { likes: -1 }
+        },
+        { new: true }
+      )
+
+      return updatedPost
+    },
+    undislikePost: async (root, args, context) => {
+      const currentUser = checkUser(context)
+      const post = await Post.findOne({ _id: args.id })
+        .populate({ path: 'listOfDislikeUsers', model: 'User' })
+
+      if (!post) {
+        throw new UserInputError('Post must exist to be able to undislike', {
+          invalidArgs: args
+        })
+      }
+
+      //check if user has previosly disliked this post
+      const usersPostDislikes = currentUser.postDislikes.map(post => post.id)
+      const hasDisliked = usersPostDislikes.includes(args.id)
+
+      if (!hasDisliked) {
+        throw new UserInputError('Cannot undislike a post users has not disliked', {
+          invalidArgs: args
+        })
+      }
+
+      //remove post from users list of disliked posts and update
+      const updatedListOfDislikedPosts = currentUser.postDislikes.filter(post => post.id !== args.id)
+      await User.findOneAndUpdate(
+        { _id: currentUser.id },
+        { postDislikes: updatedListOfDislikedPosts },
+        { new: true }
+      )
+
+      //remove user from posts list of users who have disliked it and update
+      const updatedListOfDislikeUsers = post.listOfDislikeUsers.filter(user => user.id !== currentUser.id)
+      const updatedPost = await Post.findOneAndUpdate(
+        { _id: args.id },
+        {
+          listOfDislikeUsers: updatedListOfDislikeUsers,
+          $inc: { dislikes: -1 }
+        },
+        { new: true }
+      )
+
+      return updatedPost
     }
   }
 }

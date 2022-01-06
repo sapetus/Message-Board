@@ -79,6 +79,7 @@ const DiscussionPage = ({ token }) => {
   const like = (id) => {
     likePost({ variables: { id } })
   }
+  
   const dislike = (id) => {
     dislikePost({ variables: { id } })
   }
@@ -125,8 +126,6 @@ const DiscussionPage = ({ token }) => {
                 <td>{post.text} |</td>
                 <td>{post.likes} |</td>
                 <td>{post.dislikes}</td>
-                {token && <td><button onClick={() => like(post.id)}>Like</button></td>}
-                {token && <td><button onClick={() => dislike(post.id)}>Dislike</button></td>}
               </tr>
             )}
           </tbody>

@@ -30,6 +30,12 @@ const postTypeDefs = gql`
     dislikePost (
       id: ID!
     ): Post
+    unlikePost (
+      id: ID!
+    ): Post
+    undislikePost (
+      id: ID!
+    ): Post
   }
 `
 

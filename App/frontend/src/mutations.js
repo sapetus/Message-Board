@@ -72,6 +72,32 @@ export const DISLIKE_POST = gql`
   }
 `
 
+export const UNLIKE_POST = gql`
+  mutation unlikePost($id: ID!) {
+    unlikePost(
+      id: $id
+    ) {
+      id,
+      title,
+      likes,
+      dislikes
+    }
+  }
+`
+
+export const UNDISLIKE_POST = gql`
+  mutation undislikePost($id: ID!) {
+    undislikePost(
+      id: $id
+    ) {
+      id,
+      title,
+      likes,
+      dislikes
+    }
+  }
+`
+
 export const LIKE_COMMENT = gql`
   mutation likeComment($id: ID!) {
     likeComment(

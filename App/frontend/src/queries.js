@@ -52,7 +52,15 @@ export const FIND_POST = gql`
         name
       },
       user {
-        id
+        id,
+        username
+      },
+      listOfLikeUsers {
+        id,
+        username
+      },
+      listOfDislikeUsers {
+        id,
         username
       }
     }

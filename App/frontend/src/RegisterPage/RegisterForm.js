@@ -3,30 +3,48 @@ import { useMutation } from '@apollo/client'
 
 import { CREATE_USER } from '../mutations'
 
-const RegisterForm = (props) => {
+const RegisterForm = ({ setMessage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [timeoutId, setTimeoutId] = useState(null)
 
   const [createUser] = useMutation(CREATE_USER, {
     onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
+      setTimeoutId(timeOutMessage(error.graphQLErrors[0].message, 5000))
+    },
+    onCompleted: () => {
+      setTimeoutId(timeOutMessage('Registration successful', 5000))
     }
   })
+
+  const timeOutMessage = (message, messageTime) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+    }
+
+    setMessage(message)
+
+    const timeOutId = setTimeout(() => {
+      setMessage(null)
+    }, messageTime)
+
+    return timeOutId
+  }
 
   const submit = (event) => {
     event.preventDefault()
 
     if (password !== confirmPassword) {
-      console.log('Password and Confirm Password need to match!')
+      setMessage('Password and Confirm Password need to match')
+      setPassword('')
+      setConfirmPassword('')
     } else {
       createUser({ variables: { username, password } })
 
       setUsername('')
       setPassword('')
       setConfirmPassword('')
-
-      console.log("Registration successful")
     }
   }
 

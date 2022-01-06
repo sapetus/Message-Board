@@ -6,6 +6,8 @@ import { FIND_POST } from '../queries'
 import {
   LIKE_POST,
   DISLIKE_POST,
+  UNLIKE_POST,
+  UNDISLIKE_POST,
   LIKE_COMMENT,
   DISLIKE_COMMENT
 } from '../mutations'
@@ -21,6 +23,10 @@ const PostPage = ({ token }) => {
   const [postTitle, setPostTitle] = useState('')
   const [postUser, setPostUser] = useState('')
   const [postId, setPostId] = useState('')
+  const [listOfLikeUsers, setListOfLikeUsers] = useState(null)
+  const [listOfDislikeUsers, setListOfDislikeUsers] = useState(null)
+  const [userHasLikedPost, setUserHasLikedPost] = useState(false)
+  const [userHasDislikedPost, setUserHasDislikedPost] = useState(false)
 
   let params = useParams()
 
@@ -36,6 +42,20 @@ const PostPage = ({ token }) => {
   })
 
   const [dislikePost] = useMutation(DISLIKE_POST, {
+    onError: (error) => {
+      console.log(error.graphQLErrors[0].message)
+    },
+    refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
+  })
+
+  const [unlikePost] = useMutation(UNLIKE_POST, {
+    onError: (error) => {
+      console.log(error.graphQLErrors[0].message)
+    },
+    refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
+  })
+
+  const [undislikePost] = useMutation(UNDISLIKE_POST, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
     },
@@ -72,8 +92,22 @@ const PostPage = ({ token }) => {
       setPostTitle(findPostData.title)
       setPostUser(findPostData.user)
       setPostId(findPostData.id)
+      setListOfLikeUsers(findPostData.listOfLikeUsers)
+      setListOfDislikeUsers(findPostData.listOfDislikeUsers)
     }
   }, [data?.findPost])
+
+  //set values for conditional rendering of like and dislike buttons
+  useEffect(() => {
+    if (listOfLikeUsers && token) {
+      const likeUserNames = listOfLikeUsers.map(user => user.username)
+      setUserHasLikedPost(likeUserNames.includes(localStorage.getItem('username')))
+    }
+    if (listOfDislikeUsers && token) {
+      const dislikeUserNames = listOfDislikeUsers.map(user => user.username)
+      setUserHasDislikedPost(dislikeUserNames.includes(localStorage.getItem('username')))
+    }
+  }, [listOfLikeUsers, listOfDislikeUsers, token])
 
   const postLike = (id) => {
     likePost({ variables: { id } })
@@ -81,6 +115,14 @@ const PostPage = ({ token }) => {
 
   const postDislike = (id) => {
     dislikePost({ variables: { id } })
+  }
+
+  const postUnlike = (id) => {
+    unlikePost({ variables: { id } })
+  }
+
+  const postUndislike = (id) => {
+    undislikePost({ variables: { id } })
   }
 
   const commentLike = (id) => {
@@ -109,9 +151,17 @@ const PostPage = ({ token }) => {
       <div id='likes_dislikes'>
         <h3>Likes & Dislikes</h3>
         <p>
-          {postLikes} | {postDislikes} |
-          {token && <button onClick={() => postLike(postId)}>Like</button>}
-          {token && <button onClick={() => postDislike(postId)}>Dislike</button>}
+          {postLikes} | {postDislikes}
+          {token &&
+            (userHasLikedPost
+              ? <button style={{ backgroundColor: "orange" }} onClick={() => postUnlike(postId)}>Unlike</button>
+              : <button onClick={() => postLike(postId)}>Like</button>)
+          }
+          {token &&
+            (userHasDislikedPost
+              ? <button style={{ backgroundColor: "orange" }} onClick={() => postUndislike(postId)}>Undislike</button>
+              : <button onClick={() => postDislike(postId)}>Dislike</button>)
+          }
         </p>
       </div>
       <div id='comments'>
