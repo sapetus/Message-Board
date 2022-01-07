@@ -12,7 +12,7 @@ import {
 
 import CreateCommentForm from './CreateCommentForm'
 import Comment from './Comment'
-import VoteButton from './VoteButton'
+import VoteButtons from './VoteButtons'
 
 const PostPage = ({ token }) => {
   const [comments, setComments] = useState(null)
@@ -95,22 +95,6 @@ const PostPage = ({ token }) => {
     }
   }, [listOfLikeUsers, listOfDislikeUsers, token])
 
-  const postLike = (id) => {
-    likePost({ variables: { id } })
-  }
-
-  const postDislike = (id) => {
-    dislikePost({ variables: { id } })
-  }
-
-  const postUnlike = (id) => {
-    unlikePost({ variables: { id } })
-  }
-
-  const postUndislike = (id) => {
-    undislikePost({ variables: { id } })
-  }
-
   return (
     <div>
       <h1>Post Page</h1>
@@ -130,23 +114,11 @@ const PostPage = ({ token }) => {
         <h3>Likes & Dislikes</h3>
         {postLikes} | {postDislikes}
         <div id="post_vote_buttons">
-          <VoteButton
-            id={postId}
-            token={token}
-            voteText={"Like"}
-            unvoteText={"Unlike"}
-            status={userHasLikedPost}
-            voteFunction={postLike}
-            unvoteFunction={postUnlike}
-          />
-          <VoteButton
-            id={postId}
-            token={token}
-            voteText={"Dislike"}
-            unvoteText={"Undislike"}
-            status={userHasDislikedPost}
-            voteFunction={postDislike}
-            unvoteFunction={postUndislike}
+          <VoteButtons
+            id={postId} token={token}
+            hasLiked={userHasLikedPost} hasDisliked={userHasDislikedPost}
+            likeFunction={likePost} unlikeFunction={unlikePost}
+            dislikeFunction={dislikePost} undislikeFunction={undislikePost}
           />
         </div>
       </div>

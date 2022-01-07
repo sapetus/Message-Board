@@ -160,7 +160,7 @@ const commentResolvers = {
       const hasDisliked = usersCommentDislikes.includes(args.id)
 
       if (hasDisliked) {
-        throw new UserInputError('User has already disliked this post', {
+        throw new UserInputError('User has already disliked this comment', {
           invalidArgs: args
         })
       }
