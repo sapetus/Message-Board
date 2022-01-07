@@ -14,6 +14,8 @@ const userTypeDefs = gql`
     memberOf: [Discussion!]!
     postLikes: [Post!]!
     postDislikes: [Post!]!
+    commentLikes: [Comment!]!
+    commentDislikes: [Comment!]!
   }
 
   type Query {

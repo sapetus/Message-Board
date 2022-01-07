@@ -20,4 +20,5 @@
 | 6.1.2022   | 1    | splitted resolvers and type definitions to separate files in backend |
 |            | 2    | user can now unlike and undislike posts, registration form gives appropriate message when creating a new user |
 | 7.1.2022   | 0.5  | refactored postPage, separated comments and vote buttons to their own separate components | 
-| total      | 32.5 | |
+|            | 1    | user now keeps track what comments it has liked/disliked, comment now keeps track of users who have liked, disliked it |
+| total      | 33.5 | |

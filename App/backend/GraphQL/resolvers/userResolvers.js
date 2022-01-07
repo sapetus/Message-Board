@@ -45,6 +45,14 @@ const userResolvers = {
           path: 'postDislikes',
           model: 'Post'
         })
+        .populate({
+          path: 'commentLikes',
+          model: 'Comment'
+        })
+        .populate({
+          path: 'commentDislikes',
+          model: 'Comment'
+        })
 
       if (!user) {
         throw new UserInputError("No user with given name", {

@@ -8,6 +8,12 @@ const commentTypeDefs = gql`
     dislikes: Int!
     post: Post!
     user: User!
+    listOfLikeUsers: [User!]!
+    listOfDislikeUsers: [User!]!
+  }
+
+  type Query {
+    findComment(id: ID!): Comment
   }
 
   type Mutation {
