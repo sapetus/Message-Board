@@ -19,4 +19,5 @@
 |            | 0.5  | backend now keeps track what users have liked or disliked a specific post (each user can only like or dislike once per post) |
 | 6.1.2022   | 1    | splitted resolvers and type definitions to separate files in backend |
 |            | 2    | user can now unlike and undislike posts, registration form gives appropriate message when creating a new user |
-| total      | 32   | |
+| 7.1.2022   | 0.5  | refactored postPage, separated comments and vote buttons to their own separate components | 
+| total      | 32.5 | |

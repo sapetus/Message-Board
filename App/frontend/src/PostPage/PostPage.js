@@ -8,11 +8,11 @@ import {
   DISLIKE_POST,
   UNLIKE_POST,
   UNDISLIKE_POST,
-  LIKE_COMMENT,
-  DISLIKE_COMMENT
 } from '../mutations'
 
 import CreateCommentForm from './CreateCommentForm'
+import Comment from './Comment'
+import VoteButton from './VoteButton'
 
 const PostPage = ({ token }) => {
   const [comments, setComments] = useState(null)
@@ -56,20 +56,6 @@ const PostPage = ({ token }) => {
   })
 
   const [undislikePost] = useMutation(UNDISLIKE_POST, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
-  })
-
-  const [likeComment] = useMutation(LIKE_COMMENT, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
-  })
-
-  const [dislikeComment] = useMutation(DISLIKE_COMMENT, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
     },
@@ -125,14 +111,6 @@ const PostPage = ({ token }) => {
     undislikePost({ variables: { id } })
   }
 
-  const commentLike = (id) => {
-    likeComment({ variables: { id } })
-  }
-
-  const commentDislike = (id) => {
-    dislikeComment({ variables: { id } })
-  }
-
   return (
     <div>
       <h1>Post Page</h1>
@@ -150,37 +128,41 @@ const PostPage = ({ token }) => {
       </div>
       <div id='likes_dislikes'>
         <h3>Likes & Dislikes</h3>
-        <p>
-          {postLikes} | {postDislikes}
-          {token &&
-            (userHasLikedPost
-              ? <button style={{ backgroundColor: "orange" }} onClick={() => postUnlike(postId)}>Unlike</button>
-              : <button onClick={() => postLike(postId)}>Like</button>)
-          }
-          {token &&
-            (userHasDislikedPost
-              ? <button style={{ backgroundColor: "orange" }} onClick={() => postUndislike(postId)}>Undislike</button>
-              : <button onClick={() => postDislike(postId)}>Dislike</button>)
-          }
-        </p>
+        {postLikes} | {postDislikes}
+        <div id="post_vote_buttons">
+          <VoteButton
+            id={postId}
+            token={token}
+            voteText={"Like"}
+            unvoteText={"Unlike"}
+            status={userHasLikedPost}
+            voteFunction={postLike}
+            unvoteFunction={postUnlike}
+          />
+          <VoteButton
+            id={postId}
+            token={token}
+            voteText={"Dislike"}
+            unvoteText={"Undislike"}
+            status={userHasDislikedPost}
+            voteFunction={postDislike}
+            unvoteFunction={postUndislike}
+          />
+        </div>
       </div>
       <div id='comments'>
         <h3>Comments</h3>
         <ul>
           {comments?.map(comment =>
-            <li key={comment.id}>
-              {comment.text} | Likes: {comment.likes} | Dislikes: {comment.dislikes} |
-              {token && <button onClick={() => commentLike(comment.id)}>Like</button>}
-              {token && <button onClick={() => commentDislike(comment.id)}>Dislike</button>}
-              <p>Comment by {comment.user.username}</p>
-            </li>
+            <Comment
+              key={comment.id} comment={comment}
+              token={token} postId={params.id}
+            />
           )}
         </ul>
       </div>
       {token &&
-        <CreateCommentForm
-          postId={params.id}
-        />}
+        <CreateCommentForm postId={params.id} />}
     </div>
   )
 }
