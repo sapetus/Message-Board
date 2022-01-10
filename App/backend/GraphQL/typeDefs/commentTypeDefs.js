@@ -27,6 +27,12 @@ const commentTypeDefs = gql`
     dislikeComment (
       id: ID!
     ): Comment
+    unlikeComment (
+      id: ID!
+    ): Comment
+    undislikeComment (
+      id: ID!
+    ): Comment
   }
 `
 

@@ -67,6 +67,28 @@ export const FIND_POST = gql`
   }
 `
 
+export const FIND_COMMENT = gql`
+  query findComment($id: ID!) {
+    findComment(id: $id) {
+      id,
+      text,
+      likes,
+      dislikes,
+      user {
+        username
+      },
+      listOfLikeUsers {
+        id,
+        username
+      },
+      listOfDislikeUsers {
+        id,
+        username
+      }
+    }
+  }
+`
+
 export const GET_USER_BY_NAME = gql`
   query getUserByName($username: String!) {
     getUserByName(username: $username) {

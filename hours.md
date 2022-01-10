@@ -23,4 +23,5 @@
 |            | 1    | user now keeps track what comments it has liked/disliked, comment now keeps track of users who have liked, disliked it |
 |            | 0.5  | changed VoteButtons component to disable button for a while while voting |
 | 10.1.2022  | 1    | Fix: backend didn't save comment likes/dislikes correctly |
-| total      | 35   | |
+|            | 0.5  | Created unlike and undislike mutations for comments | 
+| total      | 35.5 | |

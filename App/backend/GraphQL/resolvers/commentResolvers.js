@@ -224,6 +224,84 @@ const commentResolvers = {
 
         return updatedComment
       }
+    },
+    unlikeComment: async (root, args, context) => {
+      const currentUser = checkUser(context)
+      const comment = Comment.findOne({ _id: args.id })
+        .populate({ path: 'listOfLikeUsers', model: 'User' })
+
+      if (!comment) {
+        throw new UserInputError('Comment must exist to be able to unlike', {
+          invalidArgs: args
+        })
+      }
+
+      //check if the user has liked the comment
+      const usersCommentLikes = currentUser.commentLikes.map(comment => comment.id)
+      const hasLiked = usersCommentLikes.includes(args.id)
+
+      if (!hasLiked) {
+        throw new UserInputError('User has to have liked the comment to be able to unlike', {
+          invalidArgs: args
+        })
+      }
+
+      //remove comment from users list of liked comments
+      const updatedListOfLikedComments = currentUser.commentLikes.filter(comment => comment.id !== args.id)
+      await User.findOneAndUpdate(
+        { _id: currentUser.id },
+        { commentLikes: updatedListOfLikedComments },
+        { new: true }
+      )
+
+      //remove user from comments list of users who have liked it
+      const updatedListOfLikeUsers = comment.listOfLikeUsers.filter(user => user.id !== currentUser.id)
+      const updatedComment = Comment.findOneAndUpdate(
+        { _id: args.id },
+        { listOfLikeUsers: updatedListOfLikeUsers },
+        { new: true }
+      )
+
+      return updatedComment
+    },
+    undislikeComment: async (root, args, context) => {
+      const currentUser = checkUser(context)
+      const comment = Comment.findOne({ _id: args.id })
+        .populate({ path: 'listOfDislikeUsers', model: 'User' })
+
+      if (!comment) {
+        throw new UserInputError('Comment must exist to be able to undislike', {
+          invalidArgs: args
+        })
+      }
+
+      //check if the user has disliked the comment
+      const usersCommentDislikes = currentUser.commentDislikes.map(comment => comment.id)
+      const hasDisliked = usersCommentDislikes.includes(args.id)
+
+      if (!hasDisliked) {
+        throw new UserInputError('User has to have disliked the comment to be able to undislike', {
+          invalidArgs: args
+        })
+      }
+
+      //remove comment from users list of disliked comments
+      const updatedListOfDislikedComments = currentUser.commentDislikes.filter(comment => comment.id !== args.id)
+      await User.findOneAndUpdate(
+        { _id: currentUser.id },
+        { commentDislikes: updatedListOfDislikedComments },
+        { new: true }
+      )
+
+      //remove user from comments list of users who have disliked it
+      const updatedListOfDislikeUsers = comment.listOfDislikeUsers.filter(user => user.id !== currentUser.id)
+      const updatedComment = await Comment.findOneAndUpdate(
+        { _id: args.id },
+        { listOfDislikeUsers: updatedListOfDislikeUsers },
+        { new: true }
+      )
+
+      return updatedComment
     }
   }
 }

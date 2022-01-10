@@ -48,9 +48,7 @@ export const CREATE_COMMENT = gql`
 
 export const LIKE_POST = gql`
   mutation likePost($id: ID!) {
-    likePost(
-      id: $id
-    ) {
+    likePost(id: $id) {
       id,
       title,
       likes,
@@ -61,9 +59,7 @@ export const LIKE_POST = gql`
 
 export const DISLIKE_POST = gql`
   mutation dislikePost($id: ID!) {
-    dislikePost(
-      id: $id
-    ) {
+    dislikePost(id: $id) {
       id,
       title,
       likes,
@@ -74,9 +70,7 @@ export const DISLIKE_POST = gql`
 
 export const UNLIKE_POST = gql`
   mutation unlikePost($id: ID!) {
-    unlikePost(
-      id: $id
-    ) {
+    unlikePost(id: $id) {
       id,
       title,
       likes,
@@ -87,9 +81,7 @@ export const UNLIKE_POST = gql`
 
 export const UNDISLIKE_POST = gql`
   mutation undislikePost($id: ID!) {
-    undislikePost(
-      id: $id
-    ) {
+    undislikePost(id: $id) {
       id,
       title,
       likes,
@@ -100,9 +92,7 @@ export const UNDISLIKE_POST = gql`
 
 export const LIKE_COMMENT = gql`
   mutation likeComment($id: ID!) {
-    likeComment(
-      id: $id
-    ) {
+    likeComment(id: $id) {
       id,
       text,
       likes,
@@ -113,9 +103,29 @@ export const LIKE_COMMENT = gql`
 
 export const DISLIKE_COMMENT = gql`
   mutation dislikeComment($id: ID!) {
-    dislikeComment(
-      id: $id
-    ) {
+    dislikeComment(id: $id) {
+      id,
+      text,
+      likes,
+      dislikes
+    }
+  }
+`
+
+export const UNLIKE_COMMENT = gql`
+  mutation unlikeComment($id: ID!) {
+    unlikeComment(id: $id) {
+      id,
+      text,
+      likes,
+      dislikes
+    }
+  }
+`
+
+export const UNDISLIKE_COMMENT = gql`
+  mutation undislikeComment($id: ID!) {
+    undislikeComment(id: $id) {
       id,
       text,
       likes,
