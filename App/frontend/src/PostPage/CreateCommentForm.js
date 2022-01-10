@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
-import { CREATE_COMMENT } from '../mutations'
-import { FIND_POST } from '../queries'
+import { CREATE_COMMENT } from '../GraphQL/mutations'
+import { FIND_COMMENTS_BY_POST, FIND_POST } from '../GraphQL/queries'
 
 const CreateCommentForm = ({ postId }) => {
   const [text, setText] = useState('')
@@ -11,7 +11,10 @@ const CreateCommentForm = ({ postId }) => {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
     },
-    refetchQueries: [{ query: FIND_POST, variables: { id: postId } }]
+    refetchQueries: [
+      { query: FIND_POST, variables: { id: postId } },
+      { query: FIND_COMMENTS_BY_POST, variables: { id: postId } }
+    ]
   })
 
   const submit = async (event) => {

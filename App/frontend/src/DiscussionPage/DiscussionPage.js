@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useParams, Link } from 'react-router-dom'
 
-import { FIND_DISCUSSION } from '../queries'
+import { FIND_DISCUSSION } from '../GraphQL/queries'
 import {
   LIKE_POST,
   DISLIKE_POST,
   SUBSCRIBE_TO_DISCUSSION,
   UNSUBSCRIBE_FROM_DISCUSSION
-} from '../mutations'
+} from '../GraphQL/mutations'
 
 import CreatePostForm from './CreatePostForm'
 

@@ -16,6 +16,31 @@ const commentResolvers = {
         .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
       return comment
+    },
+    findCommentsByPost: async (root, args) => {
+      const post = await Post.findOne({ _id: args.id })
+        .populate({
+          path: 'comments',
+          model: 'Comment',
+          populate: [
+            {
+              path: 'user',
+              model: 'User'
+            },
+            {
+              path: 'listOfLikeUsers',
+              model: 'User'
+            },
+            {
+              path: 'listOfDislikeUsers',
+              model: 'User'
+            }
+          ]
+        })
+
+      const comments = post.comments
+
+      return comments
     }
   },
   Mutation: {
@@ -227,7 +252,7 @@ const commentResolvers = {
     },
     unlikeComment: async (root, args, context) => {
       const currentUser = checkUser(context)
-      const comment = Comment.findOne({ _id: args.id })
+      const comment = await Comment.findOne({ _id: args.id })
         .populate({ path: 'listOfLikeUsers', model: 'User' })
 
       if (!comment) {
@@ -256,9 +281,9 @@ const commentResolvers = {
 
       //remove user from comments list of users who have liked it
       const updatedListOfLikeUsers = comment.listOfLikeUsers.filter(user => user.id !== currentUser.id)
-      const updatedComment = Comment.findOneAndUpdate(
+      const updatedComment = await Comment.findOneAndUpdate(
         { _id: args.id },
-        { listOfLikeUsers: updatedListOfLikeUsers },
+        { listOfLikeUsers: updatedListOfLikeUsers, $inc: { likes: -1 } },
         { new: true }
       )
 
@@ -266,7 +291,7 @@ const commentResolvers = {
     },
     undislikeComment: async (root, args, context) => {
       const currentUser = checkUser(context)
-      const comment = Comment.findOne({ _id: args.id })
+      const comment = await Comment.findOne({ _id: args.id })
         .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
       if (!comment) {
@@ -297,7 +322,7 @@ const commentResolvers = {
       const updatedListOfDislikeUsers = comment.listOfDislikeUsers.filter(user => user.id !== currentUser.id)
       const updatedComment = await Comment.findOneAndUpdate(
         { _id: args.id },
-        { listOfDislikeUsers: updatedListOfDislikeUsers },
+        { listOfDislikeUsers: updatedListOfDislikeUsers, $inc: { dislikes: -1 } },
         { new: true }
       )
 

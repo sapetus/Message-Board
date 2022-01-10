@@ -14,6 +14,7 @@ const commentTypeDefs = gql`
 
   type Query {
     findComment(id: ID!): Comment
+    findCommentsByPost(id: ID!): [Comment]
   }
 
   type Mutation {

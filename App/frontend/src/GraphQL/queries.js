@@ -38,16 +38,6 @@ export const FIND_POST = gql`
       text,
       likes,
       dislikes,
-      comments {
-        id,
-        text,
-        likes,
-        dislikes,
-        user {
-          id
-          username
-        }
-      },
       discussion {
         name
       },
@@ -75,6 +65,29 @@ export const FIND_COMMENT = gql`
       likes,
       dislikes,
       user {
+        username
+      },
+      listOfLikeUsers {
+        id,
+        username
+      },
+      listOfDislikeUsers {
+        id,
+        username
+      }
+    }
+  }
+`
+
+export const FIND_COMMENTS_BY_POST = gql`
+  query findCommentsByPost($id: ID!) {
+    findCommentsByPost(id: $id) {
+      id,
+      text,
+      likes,
+      dislikes,
+      user {
+        id,
         username
       },
       listOfLikeUsers {

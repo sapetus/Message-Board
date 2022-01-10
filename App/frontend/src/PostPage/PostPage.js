@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useLazyQuery, useMutation } from '@apollo/client'
 
-import { FIND_POST } from '../queries'
+import { FIND_POST, FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 import {
   LIKE_POST,
   DISLIKE_POST,
   UNLIKE_POST,
   UNDISLIKE_POST,
-} from '../mutations'
+} from '../GraphQL/mutations'
 
 import CreateCommentForm from './CreateCommentForm'
 import Comment from './Comment'
@@ -30,7 +30,14 @@ const PostPage = ({ token }) => {
 
   let params = useParams()
 
-  const [getPost, { data }] = useLazyQuery(FIND_POST, {
+  const [getPost, { data: getPostData }] = useLazyQuery(FIND_POST, {
+    fetchPolicy: 'cache-and-network'
+  })
+
+  /* when liking/disliking a comment, console alerts 'cache data may be lost when replacing the...'
+  this stops after liking/disliking the comment, don't know how to fix
+  (doesn't seem to have any effect on actual functionality) */
+  const [getComments, { data: getCommentsData }] = useLazyQuery(FIND_COMMENTS_BY_POST, {
     fetchPolicy: 'cache-and-network'
   })
 
@@ -64,13 +71,13 @@ const PostPage = ({ token }) => {
 
   useEffect(() => {
     getPost({ variables: { id: params.id } })
+    getComments({ variables: { id: params.id } })
   }, [params.id]) //eslint-disable-line
 
-  //parse data to be easily accessible
+  //parse post data to be easily accessible
   useEffect(() => {
-    if (data?.findPost) {
-      const findPostData = data.findPost
-      setComments(findPostData.comments)
+    if (getPostData?.findPost) {
+      const findPostData = getPostData.findPost
       setDiscussion(findPostData.discussion)
       setPostLikes(findPostData.likes)
       setPostDislikes(findPostData.dislikes)
@@ -81,17 +88,24 @@ const PostPage = ({ token }) => {
       setListOfLikeUsers(findPostData.listOfLikeUsers)
       setListOfDislikeUsers(findPostData.listOfDislikeUsers)
     }
-  }, [data?.findPost])
+  }, [getPostData?.findPost])
+
+  //parse post's comment data 
+  useEffect(() => {
+    if (getCommentsData?.findCommentsByPost) {
+      setComments(getCommentsData.findCommentsByPost)
+    }
+  }, [getCommentsData?.findCommentsByPost])
 
   //set values for conditional rendering of like and dislike buttons
   useEffect(() => {
     if (listOfLikeUsers && token) {
-      const likeUserNames = listOfLikeUsers.map(user => user.username)
-      setUserHasLikedPost(likeUserNames.includes(localStorage.getItem('username')))
+      const likeUsernames = listOfLikeUsers.map(user => user.username)
+      setUserHasLikedPost(likeUsernames.includes(localStorage.getItem('username')))
     }
     if (listOfDislikeUsers && token) {
-      const dislikeUserNames = listOfDislikeUsers.map(user => user.username)
-      setUserHasDislikedPost(dislikeUserNames.includes(localStorage.getItem('username')))
+      const dislikeUsernames = listOfDislikeUsers.map(user => user.username)
+      setUserHasDislikedPost(dislikeUsernames.includes(localStorage.getItem('username')))
     }
   }, [listOfLikeUsers, listOfDislikeUsers, token])
 

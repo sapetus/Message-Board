@@ -24,4 +24,5 @@
 |            | 0.5  | changed VoteButtons component to disable button for a while while voting |
 | 10.1.2022  | 1    | Fix: backend didn't save comment likes/dislikes correctly |
 |            | 0.5  | Created unlike and undislike mutations for comments | 
-| total      | 35.5 | |
+|            | 2    | frontend now supports liking/disliking/unliking/undisliking of comments, made appropriate changes to backend |
+| total      | 37.5 | |

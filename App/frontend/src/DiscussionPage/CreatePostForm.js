@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
-import { CREATE_POST } from '../mutations'
-import { FIND_DISCUSSION } from '../queries'
+import { CREATE_POST } from '../GraphQL/mutations'
+import { FIND_DISCUSSION } from '../GraphQL/queries'
 
 const CreatePostForm = ({ discussionName }) => {
   const [title, setTitle] = useState('')

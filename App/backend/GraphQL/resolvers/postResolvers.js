@@ -13,14 +13,6 @@ const postResolvers = {
         .populate('discussion')
         .populate('user', '-passwordHash')
         .populate({
-          path: 'comments',
-          model: 'Comment',
-          populate: {
-            path: 'user',
-            model: 'User'
-          }
-        })
-        .populate({
           path: 'listOfLikeUsers',
           model: 'User'
         })

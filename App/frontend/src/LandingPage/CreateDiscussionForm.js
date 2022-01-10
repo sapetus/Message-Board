@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
-import { CREATE_DISCUSSION } from '../mutations'
-import { ALL_DISCUSSIONS } from '../queries'
+import { CREATE_DISCUSSION } from '../GraphQL/mutations'
+import { ALL_DISCUSSIONS } from '../GraphQL/queries'
 
 const CreateDiscussionForm = ({ updateDiscussions }) => {
   const [name, setName] = useState('')

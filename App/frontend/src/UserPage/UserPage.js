@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { useParams, Link } from 'react-router-dom'
 
-import { GET_USER_BY_NAME } from '../queries'
+import { GET_USER_BY_NAME } from '../GraphQL/queries'
 
 const UserPage = (props) => {
   const [username, setUsername] = useState('')

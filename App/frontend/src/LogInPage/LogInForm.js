@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 
-import { LOG_IN } from '../mutations'
+import { LOG_IN } from '../GraphQL/mutations'
 
 const LogInForm = ({ setToken }) => {
   const [username, setUsername] = useState('')
