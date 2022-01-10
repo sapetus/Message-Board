@@ -1,6 +1,8 @@
 import React from 'react'
 import { useMutation } from '@apollo/client'
 
+import VoteButtons from '../Universal/VoteButtons'
+
 import { FIND_POST } from '../queries'
 import {
   LIKE_COMMENT,

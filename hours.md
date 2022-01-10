@@ -22,4 +22,5 @@
 | 7.1.2022   | 0.5  | refactored postPage, separated comments and vote buttons to their own separate components | 
 |            | 1    | user now keeps track what comments it has liked/disliked, comment now keeps track of users who have liked, disliked it |
 |            | 0.5  | changed VoteButtons component to disable button for a while while voting |
-| total      | 34   | |
+| 10.1.2022  | 1    | Fix: backend didn't save comment likes/dislikes correctly |
+| total      | 35   | |

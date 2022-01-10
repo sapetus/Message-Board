@@ -148,6 +148,8 @@ const commentResolvers = {
     dislikeComment: async (root, args, context) => {
       const currentUser = checkUser(context)
       const comment = await Comment.findOne({ _id: args.id })
+        .populate({ path: 'listOfLikeUsers', model: 'User' })
+        .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
       if (!comment) {
         throw new UserInputError('Comment needs to exist to be able to dislike', {
