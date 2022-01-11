@@ -25,4 +25,5 @@
 | 10.1.2022  | 1    | Fix: backend didn't save comment likes/dislikes correctly |
 |            | 0.5  | Created unlike and undislike mutations for comments | 
 |            | 2    | frontend now supports liking/disliking/unliking/undisliking of comments, made appropriate changes to backend |
-| total      | 37.5 | |
+| 11.1.2022  | 1    | moved reusable code to a helper function in backend (backend/GraphQL/utils/checkUserAction) |
+| total      | 38.5 | |

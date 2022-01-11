@@ -4,7 +4,10 @@ const Comment = require('../../models/Comment')
 const Post = require('../../models/Post')
 const User = require('../../models/User')
 
-const { checkUser } = require('../utils')
+const {
+  checkUser,
+  checkUserAction
+} = require('../utils')
 
 const commentResolvers = {
   Query: {
@@ -104,13 +107,7 @@ const commentResolvers = {
 
       //check if the user has already liked the comment
       const usersCommentLikes = currentUser.commentLikes.map(comment => comment.id)
-      const hasLiked = usersCommentLikes.includes(args.id)
-
-      if (hasLiked) {
-        throw new UserInputError('User has already liked this comment', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(usersCommentLikes, args, 'vote')
 
       //check if the use has disliked the comment
       const usersCommentDislikes = currentUser.commentDislikes.map(comment => comment.id)
@@ -184,13 +181,7 @@ const commentResolvers = {
 
       //check if the user has already disliked the comment
       const usersCommentDislikes = currentUser.commentDislikes.map(comment => comment.id)
-      const hasDisliked = usersCommentDislikes.includes(args.id)
-
-      if (hasDisliked) {
-        throw new UserInputError('User has already disliked this comment', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(usersCommentDislikes, args, 'vote')
 
       // check if the user has liked the comment
       const usersCommentLikes = currentUser.commentLikes.map(comment => comment.id)
@@ -263,13 +254,7 @@ const commentResolvers = {
 
       //check if the user has liked the comment
       const usersCommentLikes = currentUser.commentLikes.map(comment => comment.id)
-      const hasLiked = usersCommentLikes.includes(args.id)
-
-      if (!hasLiked) {
-        throw new UserInputError('User has to have liked the comment to be able to unlike', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(usersCommentLikes, args, 'unvote')
 
       //remove comment from users list of liked comments
       const updatedListOfLikedComments = currentUser.commentLikes.filter(comment => comment.id !== args.id)
@@ -302,13 +287,7 @@ const commentResolvers = {
 
       //check if the user has disliked the comment
       const usersCommentDislikes = currentUser.commentDislikes.map(comment => comment.id)
-      const hasDisliked = usersCommentDislikes.includes(args.id)
-
-      if (!hasDisliked) {
-        throw new UserInputError('User has to have disliked the comment to be able to undislike', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(usersCommentDislikes, args, 'unvote')
 
       //remove comment from users list of disliked comments
       const updatedListOfDislikedComments = currentUser.commentDislikes.filter(comment => comment.id !== args.id)

@@ -3,7 +3,10 @@ const { UserInputError } = require('apollo-server')
 const Discussion = require('../../models/Discussion')
 const User = require('../../models/User')
 
-const { checkUser } = require('../utils')
+const {
+  checkUser,
+  checkUserAction
+} = require('../utils')
 
 const discussionResolvers = {
   Query: {
@@ -55,11 +58,7 @@ const discussionResolvers = {
 
       //Check if the user is already subscribed to this discussion
       const subscriptionNames = currentUser.memberOf.map(discussion => discussion.name)
-      if (subscriptionNames.includes(args.discussionName)) {
-        throw new UserInputError('User has already subscribed to this discussion', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(subscriptionNames, args, 'subscribe')
 
       //add discussion to users list of subscriptions
       const usersSubscriptions = currentUser.memberOf.concat(discussion)
@@ -87,11 +86,7 @@ const discussionResolvers = {
 
       //Check if the user is subscribed to this discussion
       const subscriptionNames = currentUser.memberOf.map(discussion => discussion.name)
-      if (!subscriptionNames.includes(args.discussionName)) {
-        throw new UserInputError('User is not subscribed to this discussion, cannot unsubscribe', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(subscriptionNames, args, 'unsubscribe')
 
       //remove discussion from users list of subscriptions
       const usersSubscriptions = currentUser.memberOf.filter(discussion => discussion.name !== args.discussionName)

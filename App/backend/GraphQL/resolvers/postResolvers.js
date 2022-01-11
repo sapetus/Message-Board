@@ -4,7 +4,10 @@ const Post = require('../../models/Post')
 const Discussion = require('../../models/Discussion')
 const User = require('../../models/User')
 
-const { checkUser } = require('../utils')
+const {
+  checkUser,
+  checkUserAction
+} = require('../utils')
 
 const postResolvers = {
   Query: {
@@ -84,13 +87,7 @@ const postResolvers = {
 
       //check if user has already liked the post
       const usersPostLikes = currentUser.postLikes.map(post => post.id)
-      const hasLiked = usersPostLikes.includes(args.id)
-
-      if (hasLiked) {
-        throw new UserInputError('User has already liked this post', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(usersPostLikes, args, 'vote')
 
       //check if the user has disliked the post
       const usersPostDislikes = currentUser.postDislikes.map(post => post.id)
@@ -164,13 +161,7 @@ const postResolvers = {
 
       //check if user has already disliked the post
       const usersPostDislikes = currentUser.postDislikes.map(post => post.id)
-      const hasDisliked = usersPostDislikes.includes(args.id)
-
-      if (hasDisliked) {
-        throw new UserInputError('User has already disliked this post', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(usersPostDislikes, args, 'vote')
 
       //check if the user has liked the post
       const usersPostLikes = currentUser.postLikes.map(post => post.id)
@@ -237,13 +228,7 @@ const postResolvers = {
 
       //check if user previously has liked the post
       const usersPostLikes = currentUser.postLikes.map(post => post.id)
-      const hasLiked = usersPostLikes.includes(args.id)
-
-      if (!hasLiked) {
-        throw new UserInputError('Cannot unlike post that has not been liked previously', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(usersPostLikes, args, 'unvote')
 
       //remove post from users list of liked posts and update
       const updatedListOfLikedPosts = currentUser.postLikes.filter(post => post.id !== args.id)
@@ -279,13 +264,7 @@ const postResolvers = {
 
       //check if user has previosly disliked this post
       const usersPostDislikes = currentUser.postDislikes.map(post => post.id)
-      const hasDisliked = usersPostDislikes.includes(args.id)
-
-      if (!hasDisliked) {
-        throw new UserInputError('Cannot undislike a post users has not disliked', {
-          invalidArgs: args
-        })
-      }
+      checkUserAction(usersPostDislikes, args, 'unvote')
 
       //remove post from users list of disliked posts and update
       const updatedListOfDislikedPosts = currentUser.postDislikes.filter(post => post.id !== args.id)
