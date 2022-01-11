@@ -96,6 +96,7 @@ const commentResolvers = {
     likeComment: async (root, args, context) => {
       const currentUser = checkUser(context)
       const comment = await Comment.findOne({ _id: args.id })
+        .populate({ path: 'user', model: 'User' })
         .populate({ path: 'listOfLikeUsers', model: 'User' })
         .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
@@ -115,7 +116,14 @@ const commentResolvers = {
 
       if (hasDisliked) {
         //if user has already disliked the comment, remove comment from users list of disliked comments and add it to list of liked comments
-        //also remove user from comments list of users who have disliked it and add user to list of users who have liked it 
+        //also remove user from comments list of users who have disliked it and add user to list of users who have liked it
+        //increment and decrement comment's creator's total likes/dislikes
+        await User.findOneAndUpdate(
+          { _id: comment.user._id },
+          { $inc: { totalLikes: 1, totalDislikes: -1 } },
+          { new: true }
+        )
+
         const updatedListOfDislikeUsers = comment.listOfDislikeUsers.filter(user => user.id !== currentUser.id)
         const updatedListOfLikeUsers = comment.listOfLikeUsers.concat(currentUser)
 
@@ -145,6 +153,13 @@ const commentResolvers = {
       } else {
         //if user has not disliked the comment, add comment to users list of liked comments
         //also add user to comments list of users who have liked it
+        //increment comment's creator's total likes
+        await User.findOneAndUpdate(
+          { _id: comment.user._id },
+          { $inc: { totalLikes: 1 } },
+          { new: true }
+        )
+
         const updatedListOfLikeUsers = comment.listOfLikeUsers.concat(currentUser)
 
         const updatedComment = await Comment.findOneAndUpdate(
@@ -170,6 +185,7 @@ const commentResolvers = {
     dislikeComment: async (root, args, context) => {
       const currentUser = checkUser(context)
       const comment = await Comment.findOne({ _id: args.id })
+        .populate({ path: 'user', model: 'User' })
         .populate({ path: 'listOfLikeUsers', model: 'User' })
         .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
@@ -190,6 +206,13 @@ const commentResolvers = {
       if (hasLiked) {
         //if the user has previously liked the comment, remove comment from users list of liked comments and add it to list of disliked comments
         //also remove user from comments list of users who have liked it and add user to list of users who have disliked it
+        //increment/decrement comment's creator's total likes/dislikes
+        await User.findOneAndUpdate(
+          { _id: comment.user._id },
+          { $inc: { totalLikes: -1, totalDislikes: 1 } },
+          { new: true }
+        )
+
         const updatedListOfLikeUsers = comment.listOfLikeUsers.filter(user => user.id !== currentUser.id)
         const updatedListOfDislikeUsers = comment.listOfDislikeUsers.concat(currentUser)
 
@@ -219,6 +242,13 @@ const commentResolvers = {
       } else {
         //if user has not previously liked the comment, add comment to users list of disliked comments
         //also add user to comments list of users who have liked it
+        //increment comment's creator's total dislikes
+        await User.findOneAndUpdate(
+          { _id: comment.user._id },
+          { $inc: { totalDislikes: 1 } },
+          { new: true }
+        )
+
         const updatedListOfDislikeUsers = comment.listOfDislikeUsers.concat(currentUser)
 
         const updatedComment = await Comment.findOneAndUpdate(
@@ -244,6 +274,7 @@ const commentResolvers = {
     unlikeComment: async (root, args, context) => {
       const currentUser = checkUser(context)
       const comment = await Comment.findOne({ _id: args.id })
+        .populate({ path: 'user', model: 'User' })
         .populate({ path: 'listOfLikeUsers', model: 'User' })
 
       if (!comment) {
@@ -255,6 +286,13 @@ const commentResolvers = {
       //check if the user has liked the comment
       const usersCommentLikes = currentUser.commentLikes.map(comment => comment.id)
       checkUserAction(usersCommentLikes, args, 'unvote')
+
+      //decrement comment's creators total likes
+      await User.findOneAndUpdate(
+        { _id: comment.user._id },
+        { $inc: { totalLikes: -1 } },
+        { new: true }
+      )
 
       //remove comment from users list of liked comments
       const updatedListOfLikedComments = currentUser.commentLikes.filter(comment => comment.id !== args.id)
@@ -277,6 +315,7 @@ const commentResolvers = {
     undislikeComment: async (root, args, context) => {
       const currentUser = checkUser(context)
       const comment = await Comment.findOne({ _id: args.id })
+        .populate({ path: 'user', model: 'User' })
         .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
       if (!comment) {
@@ -288,6 +327,13 @@ const commentResolvers = {
       //check if the user has disliked the comment
       const usersCommentDislikes = currentUser.commentDislikes.map(comment => comment.id)
       checkUserAction(usersCommentDislikes, args, 'unvote')
+
+      //decrement comment's creator's total dislikes
+      await User.findOneAndUpdate(
+        { _id: comment.user._id },
+        { $inc: { totalDislikes: -1 } },
+        { new: true }
+      )
 
       //remove comment from users list of disliked comments
       const updatedListOfDislikedComments = currentUser.commentDislikes.filter(comment => comment.id !== args.id)

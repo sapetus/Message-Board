@@ -28,4 +28,5 @@
 | 11.1.2022  | 1    | moved reusable code to a helper function in backend (backend/GraphQL/utils/checkUserAction) |
 |            | 0.5  | backend now uses express and httpServer |
 |            | 0.5  | created todo.md with list of tasks to do |
-| total      | 39.5   | |
+|            | 1    | each user now has total likes/dislikes, which increase/decrease when someone likes/dislikes that user's created comments/posts |
+| total      | 40.5 | |

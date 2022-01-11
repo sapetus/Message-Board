@@ -12,7 +12,7 @@ import {
 
 import CreateCommentForm from './CreateCommentForm'
 import Comment from './Comment'
-import VoteButtons from '../Universal/VoteButtons'
+import VoteButtons from '../Components/VoteButtons'
 
 const PostPage = ({ token }) => {
   const [comments, setComments] = useState(null)

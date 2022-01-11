@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
 
-import VoteButtons from '../Universal/VoteButtons'
+import VoteButtons from '../Components/VoteButtons'
 
 import { FIND_POST, FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 import {

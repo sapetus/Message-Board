@@ -6,9 +6,10 @@
 - Comment more!
 - pagination? (probably a must)
 - better solution for keeping track of likes/dislikes per user, post, and discussion?
-- users total likes/dislikes across all posts and comments
+- ~~users total likes/dislikes across all posts and comments~~ (DONE)
 - possible to breakdown long functions in to reusable helper functions?
 - admin status for the creator of a discussion?
+- comments for comments?
 - **tests!**
 
 ## frontend:

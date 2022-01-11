@@ -4,8 +4,6 @@ import { useParams, Link } from 'react-router-dom'
 
 import { FIND_DISCUSSION } from '../GraphQL/queries'
 import {
-  LIKE_POST,
-  DISLIKE_POST,
   SUBSCRIBE_TO_DISCUSSION,
   UNSUBSCRIBE_FROM_DISCUSSION
 } from '../GraphQL/mutations'
@@ -23,20 +21,6 @@ const DiscussionPage = ({ token }) => {
 
   const [getDiscussion, { data }] = useLazyQuery(FIND_DISCUSSION, {
     fetchPolicy: 'cache-and-network'
-  })
-
-  const [likePost] = useMutation(LIKE_POST, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_DISCUSSION, variables: { name: params.name } }]
-  })
-
-  const [dislikePost] = useMutation(DISLIKE_POST, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_DISCUSSION, variables: { name: params.name } }]
   })
 
   const [subscribeToDiscussion] = useMutation(SUBSCRIBE_TO_DISCUSSION, {
@@ -76,14 +60,6 @@ const DiscussionPage = ({ token }) => {
     }
   }, [listOfMembers, token])
 
-  const like = (id) => {
-    likePost({ variables: { id } })
-  }
-  
-  const dislike = (id) => {
-    dislikePost({ variables: { id } })
-  }
-
   const subscribe = (discussionName) => {
     subscribeToDiscussion({ variables: { discussionName } })
   }
@@ -102,7 +78,7 @@ const DiscussionPage = ({ token }) => {
           <div id="subscription_selection">
             {userIsSubscribed
               ? //if is subscribed, show unsubscribe
-              <button onClick={() => unsubscribe(discussionName)}>
+              <button onClick={() => unsubscribe(discussionName)} style={{ backgroundColor: 'orange' }}>
                 Unsubscribe
               </button>
               : //if isn't subscribed, show subscribe

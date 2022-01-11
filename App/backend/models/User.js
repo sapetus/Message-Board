@@ -13,6 +13,12 @@ const schema = new mongoose.Schema({
     required: true,
     select: false
   },
+  totalLikes: {
+    type: Number
+  },
+  totalDislikes: {
+    type: Number
+  },
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,

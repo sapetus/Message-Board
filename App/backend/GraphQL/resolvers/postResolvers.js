@@ -71,6 +71,10 @@ const postResolvers = {
       const currentUser = checkUser(context)
       const post = await Post.findOne({ _id: args.id })
         .populate({
+          path: 'user',
+          model: 'User'
+        })
+        .populate({
           path: 'listOfLikeUsers',
           model: 'User'
         })
@@ -96,6 +100,13 @@ const postResolvers = {
       if (hasDisliked) {
         // if user has already disliked the post, remove it from users list of disliked posts and add it to list of liked posts
         // also remove user from posts list of dislike users and add user to list of like users
+        // icrement and decrement the posts creators total likes/dislikes
+        await User.findOneAndUpdate(
+          { _id: post.user._id },
+          { $inc: { totalLikes: 1, totalDislikes: -1 } },
+          { new: true }
+        )
+
         const updatedListOfDislikeUsers = post.listOfDislikeUsers.filter(user => user.id !== currentUser.id)
         const updatedListOfLikeUsers = post.listOfLikeUsers.concat(currentUser)
 
@@ -122,6 +133,13 @@ const postResolvers = {
       } else {
         // if user has not disliked the post, add it to users list of liked posts
         // add user to posts list of like users
+        // increment post's creator's totalLikes
+        await User.findOneAndUpdate(
+          { _id: post.user._id },
+          { $inc: { totalLikes: 1 } },
+          { new: true }
+        )
+
         const updatedListOfLikeUsers = post.listOfLikeUsers.concat(currentUser)
 
         const updatedPost = await Post.findOneAndUpdate(
@@ -144,6 +162,10 @@ const postResolvers = {
     dislikePost: async (root, args, context) => {
       const currentUser = checkUser(context)
       const post = await Post.findOne({ _id: args.id })
+        .populate({
+          path: 'user',
+          model: 'User'
+        })
         .populate({
           path: 'listOfLikeUsers',
           model: 'User'
@@ -170,6 +192,13 @@ const postResolvers = {
       if (hasLiked) {
         // if user has already liked the post, remove the post from users list of liked post and add it to list of disliked posts
         // also remove user from posts list of like users and add user to list of dislike users
+        // increment and decrement post's creator's total likes and dislikes
+        await User.findOneAndUpdate(
+          { _id: post.user._id },
+          { $inc: { totalLikes: -1, totalDislikes: 1 } },
+          { new: true }
+        )
+
         const updatedListOfLikeUsers = post.listOfLikeUsers.filter(user => user.id !== currentUser.id)
         const updatedListOfDislikeUsers = post.listOfDislikeUsers.concat(currentUser)
 
@@ -196,6 +225,13 @@ const postResolvers = {
       } else {
         // if user has not liked the post, add it to the users list of disliked posts
         // also add user to posts list of dislike users
+        // increment post's creator's total dislikes
+        await User.findOneAndUpdate(
+          { _id: post.user._id },
+          { $inc: { totalDislikes: 1 } },
+          { new: true }
+        )
+
         const updatedListOfDislikeUsers = post.listOfDislikeUsers.concat(currentUser)
 
         const updatedPost = await Post.findOneAndUpdate(
@@ -218,6 +254,7 @@ const postResolvers = {
     unlikePost: async (root, args, context) => {
       const currentUser = checkUser(context)
       const post = await Post.findOne({ _id: args.id })
+        .populate({ path: 'user', model: 'User' })
         .populate({ path: 'listOfLikeUsers', model: 'User' })
 
       if (!post) {
@@ -229,6 +266,13 @@ const postResolvers = {
       //check if user previously has liked the post
       const usersPostLikes = currentUser.postLikes.map(post => post.id)
       checkUserAction(usersPostLikes, args, 'unvote')
+
+      // decrement post's creator's total likes
+      await User.findOneAndUpdate(
+        { _id: post.user._id },
+        { $inc: { totalLikes: -1 } },
+        { new: true }
+      )
 
       //remove post from users list of liked posts and update
       const updatedListOfLikedPosts = currentUser.postLikes.filter(post => post.id !== args.id)
@@ -254,6 +298,7 @@ const postResolvers = {
     undislikePost: async (root, args, context) => {
       const currentUser = checkUser(context)
       const post = await Post.findOne({ _id: args.id })
+        .populate({ path: 'user', model: 'User' })
         .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
       if (!post) {
@@ -265,6 +310,13 @@ const postResolvers = {
       //check if user has previosly disliked this post
       const usersPostDislikes = currentUser.postDislikes.map(post => post.id)
       checkUserAction(usersPostDislikes, args, 'unvote')
+
+      // decrement post's creator's total dislikes
+      await User.findOneAndUpdate(
+        { _id: post.user._id },
+        { $inc: { totalDislikes: -1 } },
+        { new: true }
+      )
 
       //remove post from users list of disliked posts and update
       const updatedListOfDislikedPosts = currentUser.postDislikes.filter(post => post.id !== args.id)

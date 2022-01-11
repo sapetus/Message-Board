@@ -68,7 +68,15 @@ const userResolvers = {
       const username = args.username
       const passwordHash = bcrypt.hashSync(args.password, saltRounds)
 
-      const newUser = new User({ username, passwordHash, posts: [], comments: [], memberOf: [] })
+      const newUser = new User({
+        username,
+        passwordHash,
+        posts: [],
+        comments: [],
+        memberOf: [],
+        totalLikes: 0,
+        totalDislikes: 0
+      })
 
       try {
         await newUser.save()

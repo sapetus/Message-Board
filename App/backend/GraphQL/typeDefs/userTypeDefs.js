@@ -9,6 +9,8 @@ const userTypeDefs = gql`
     id: ID!
     username: String!
     passwordHash: String!
+    totalLikes: Int!
+    totalDislikes: Int!
     posts: [Post!]!
     comments: [Comment!]!
     memberOf: [Discussion!]!
