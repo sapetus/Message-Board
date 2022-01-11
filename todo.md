@@ -1,8 +1,8 @@
 *This list is not exhaustive and is subject to change*
 
-#TODO
+# TODO
 
-##backend:
+## backend:
 - Comment more!
 - pagination? (probably a must)
 - better solution for keeping track of likes/dislikes per user, post, and discussion?
@@ -11,7 +11,7 @@
 - admin status for the creator of a discussion?
 - **tests!**
 
-##frontend:
+## frontend:
 - Comment more!
 - MAKE IT LOOK BETTER!
 - inline style?
@@ -24,7 +24,7 @@
 - Search/Filter bar for users?
 - **tests!**
 
-##app:
+## app:
 - start using branches!
 - CI/CD pipeline
 - push to heroku or somewhere similar
