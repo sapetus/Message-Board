@@ -44,6 +44,23 @@ const comment = {
       const comments = post.comments
 
       return comments
+    },
+    findCommentsByUser: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+        .populate({
+          path: 'comments',
+          model: 'Comment',
+          populate: {
+            path: 'post',
+            populate: {
+              path: 'discussion'
+            }
+          }
+        })
+      
+      const comments = user.comments
+      
+      return comments
     }
   },
   Mutation: {

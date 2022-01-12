@@ -15,6 +15,7 @@ const comment = gql`
   type Query {
     findComment(id: ID!): Comment
     findCommentsByPost(id: ID!): [Comment]
+    findCommentsByUser(username: String!): [Comment]
   }
 
   type Mutation {

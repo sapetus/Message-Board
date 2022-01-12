@@ -22,6 +22,17 @@ const discussion = {
         .populate({ path: 'listOfMembers', model: 'User' })
 
       return discussion
+    },
+    findDiscussionsUserHasSubscribedTo: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+        .populate({
+          path: 'memberOf',
+          model: 'Discussion'
+        })
+      
+      const discussions = user.memberOf
+
+      return discussions
     }
   },
   Mutation: {

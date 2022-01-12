@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { useParams, Link } from 'react-router-dom'
 
-import { GET_USER_BY_NAME } from '../GraphQL/queries'
+import {
+  GET_USER_BY_NAME,
+  GET_POSTS_BY_USER,
+  GET_COMMENTS_BY_USER,
+  GET_DISCUSSIONS_USER_SUBSCRIBED_TO
+} from '../GraphQL/queries'
 
 const UserPage = (props) => {
   const [username, setUsername] = useState('')
@@ -14,25 +19,55 @@ const UserPage = (props) => {
 
   let params = useParams()
 
-  const [getUser, { data }] = useLazyQuery(GET_USER_BY_NAME, {
+  const [getUser, { data: getUserData }] = useLazyQuery(GET_USER_BY_NAME, {
+    fetchPolicy: 'cache-and-network'
+  })
+
+  const [getPostsByUser, { data: getPostsByUserData }] = useLazyQuery(GET_POSTS_BY_USER, {
+    fetchPolicy: 'cache-and-network'
+  })
+
+  const [getCommentsByUser, { data: getCommentsByUserData }] = useLazyQuery(GET_COMMENTS_BY_USER, {
+    fetchPolicy: 'cache-and-network'
+  })
+
+  const [getMemberOf, { data: getMemberOfData }] = useLazyQuery(GET_DISCUSSIONS_USER_SUBSCRIBED_TO, {
     fetchPolicy: 'cache-and-network'
   })
 
   useEffect(() => {
     getUser({ variables: { username: params.username } })
+    getPostsByUser({ variables: { username: params.username } })
+    getCommentsByUser({ variables: { username: params.username } })
+    getMemberOf({ variables: { username: params.username } })
   }, [params.username]) //eslint-disable-line
 
   useEffect(() => {
-    if (data?.getUserByName) {
-      const userData = data.getUserByName
+    if (getUserData?.getUserByName) {
+      const userData = getUserData.getUserByName
       setUsername(userData.username)
-      setPosts(userData.posts)
-      setComments(userData.comments)
-      setMemberOf(userData.memberOf)
       setTotalLikes(userData.totalLikes)
       setTotalDislikes(userData.totalDislikes)
     }
-  }, [data])
+  }, [getUserData])
+
+  useEffect(() => {
+    if (getPostsByUserData?.findPostsByUser) {
+      setPosts(getPostsByUserData.findPostsByUser)
+    }
+  }, [getPostsByUserData])
+
+  useEffect(() => {
+    if (getCommentsByUserData?.findCommentsByUser) {
+      setComments(getCommentsByUserData.findCommentsByUser)
+    }
+  }, [getCommentsByUserData])
+
+  useEffect(() => {
+    if (getMemberOfData?.findDiscussionsUserHasSubscribedTo) {
+      setMemberOf(getMemberOfData.findDiscussionsUserHasSubscribedTo)
+    }
+  }, [getMemberOfData])
 
   return (
     <div>

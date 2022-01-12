@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useLazyQuery, useMutation } from '@apollo/client'
 
-import { FIND_POST, FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
+import {
+  FIND_POST,
+  FIND_COMMENTS_BY_POST
+} from '../GraphQL/queries'
 import {
   LIKE_POST,
   DISLIKE_POST,

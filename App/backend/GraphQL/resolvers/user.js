@@ -15,28 +15,9 @@ const user = {
       return context.currentUser
     },
     getUserByName: async (root, args) => {
+      //maybe it would be better idea to chop this up in to multiple queries for pagination 
+      //i.e. findPostsByUser, findCommentsByUser etc...
       const user = await User.findOne({ username: args.username })
-        .populate({
-          path: 'posts',
-          model: 'Post',
-          populate: {
-            path: 'discussion'
-          }
-        })
-        .populate({
-          path: 'comments',
-          model: 'Comment',
-          populate: {
-            path: 'post',
-            populate: {
-              path: 'discussion'
-            }
-          }
-        })
-        .populate({
-          path: 'memberOf',
-          model: 'Discussion'
-        })
         .populate({
           path: 'postLikes',
           model: 'Post'

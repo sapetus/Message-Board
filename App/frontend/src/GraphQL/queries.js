@@ -109,36 +109,56 @@ export const GET_USER_BY_NAME = gql`
       username
       totalLikes
       totalDislikes
-      posts {
-        id
-        title
-        text
-        likes
-        dislikes
-        discussion {
-          id
-          name
-        }
-      }
-      comments {
-        id
-        text
-        likes
-        dislikes
-        post {
-          id
-          title
-          discussion {
-            id
-            name
-          }
-        }
-      }
       memberOf {
         id
         name
         members
       }
+    }
+  }
+`
+
+export const GET_POSTS_BY_USER = gql`
+  query FindPostsByUser($username: String!) {
+    findPostsByUser(username: $username) {
+      id
+      title
+      text
+      likes
+      dislikes
+      discussion {
+        id
+        name
+      }
+    }
+  }
+`
+
+export const GET_COMMENTS_BY_USER = gql`
+  query FindCommentsByUser($username: String!) {
+    findCommentsByUser(username: $username) {
+      id
+      text
+      likes
+      dislikes
+      post {
+        id
+        title
+        discussion {
+          id
+          name
+        }
+      }
+    }
+  }
+`
+
+export const GET_DISCUSSIONS_USER_SUBSCRIBED_TO = gql`
+  query FindDiscussionsUserHasSubscribedTo($username: String!) {
+    findDiscussionsUserHasSubscribedTo(username: $username) {
+      id
+      name
+      members
     }
   }
 `

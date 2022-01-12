@@ -25,6 +25,20 @@ const post = {
         })
 
       return post
+    },
+    findPostsByUser: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+        .populate({
+          path: 'posts',
+          model: 'Post',
+          populate: {
+            path: 'discussion'
+          }
+        })
+
+      const posts = user.posts
+
+      return posts
     }
   },
   Mutation: {

@@ -12,6 +12,7 @@ const discussion = gql`
   type Query {
     allDiscussions: [Discussion!]!
     findDiscussion(name: String!): Discussion
+    findDiscussionsUserHasSubscribedTo(username: String!): [Discussion]
   }
 
   type Mutation {

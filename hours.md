@@ -31,4 +31,5 @@
 |            | 1    | each user now has total likes/dislikes, which increase/decrease when someone likes/dislikes that user's created comments/posts |
 | 12.1.2022  | 1    | read up on pagination, trying to figure out how to implement |
 |            | 0.5  | cleaned up backend |
-| total      | 42   | |
+|            | 1    | chopped up getUserByName query to many smaller queries (maybe easier to paginate?) |
+| total      | 43   | |
