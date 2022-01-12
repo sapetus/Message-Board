@@ -29,4 +29,5 @@
 |            | 0.5  | backend now uses express and httpServer |
 |            | 0.5  | created todo.md with list of tasks to do |
 |            | 1    | each user now has total likes/dislikes, which increase/decrease when someone likes/dislikes that user's created comments/posts |
-| total      | 40.5 | |
+| 12.1.2022  | 1    | read up on pagination, trying to figure out how to implement |
+| total      | 41.5 | |

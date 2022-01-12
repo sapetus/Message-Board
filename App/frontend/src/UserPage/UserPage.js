@@ -9,6 +9,8 @@ const UserPage = (props) => {
   const [posts, setPosts] = useState(null)
   const [comments, setComments] = useState(null)
   const [memberOf, setMemberOf] = useState(null)
+  const [totalLikes, setTotalLikes] = useState(0)
+  const [totalDislikes, setTotalDislikes] = useState(0)
 
   let params = useParams()
 
@@ -22,10 +24,13 @@ const UserPage = (props) => {
 
   useEffect(() => {
     if (data?.getUserByName) {
-      setUsername(data.getUserByName.username)
-      setPosts(data.getUserByName.posts)
-      setComments(data.getUserByName.comments)
-      setMemberOf(data.getUserByName.memberOf)
+      const userData = data.getUserByName
+      setUsername(userData.username)
+      setPosts(userData.posts)
+      setComments(userData.comments)
+      setMemberOf(userData.memberOf)
+      setTotalLikes(userData.totalLikes)
+      setTotalDislikes(userData.totalDislikes)
     }
   }, [data])
 
@@ -33,6 +38,7 @@ const UserPage = (props) => {
     <div>
       <h1>User Page</h1>
       <h3>User: {username}</h3>
+      <h4>Likes: {totalLikes} | Dislikes: {totalDislikes}</h4>
       <div id="user_posts">
         <h3>Posts</h3>
         <table>

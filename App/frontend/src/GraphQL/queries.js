@@ -107,6 +107,8 @@ export const GET_USER_BY_NAME = gql`
     getUserByName(username: $username) {
       id
       username
+      totalLikes
+      totalDislikes
       posts {
         id
         title
