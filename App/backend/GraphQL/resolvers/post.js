@@ -9,7 +9,7 @@ const {
   checkUserAction
 } = require('../utils')
 
-const postResolvers = {
+const post = {
   Query: {
     findPost: async (root, args) => {
       const post = await Post.findOne({ _id: args.id })
@@ -342,4 +342,4 @@ const postResolvers = {
   }
 }
 
-module.exports = postResolvers
+module.exports = post

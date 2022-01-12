@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server')
 
-const commentTypeDefs = gql`
+const comment = gql`
   type Comment {
     id: ID!
     text: String!
@@ -37,4 +37,4 @@ const commentTypeDefs = gql`
   }
 `
 
-module.exports = commentTypeDefs
+module.exports = comment

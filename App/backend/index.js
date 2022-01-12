@@ -7,7 +7,7 @@ const http = require('http')
 const express = require('express')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
 
-const typeDefs = require('./GraphQL/typeDefs/mergedTypeDefs')
+const typeDefs = require('./GraphQL/types/mergedTypes')
 const resolvers = require('./GraphQL/resolvers/mergedResolvers')
 const User = require('./models/User')
 

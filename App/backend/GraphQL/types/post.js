@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server')
 
-const postTypeDefs = gql`
+const post = gql`
   type Post {
     id: ID!
     title: String!
@@ -39,4 +39,4 @@ const postTypeDefs = gql`
   }
 `
 
-module.exports = postTypeDefs
+module.exports = post

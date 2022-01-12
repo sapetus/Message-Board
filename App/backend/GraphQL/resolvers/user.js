@@ -9,7 +9,7 @@ const User = require('../../models/User')
 const JWT_SECRET = process.env.JWT_SECRET
 const saltRounds = 10
 
-const userResolvers = {
+const user = {
   Query: {
     getCurrentUser: (root, args, context) => {
       return context.currentUser
@@ -105,4 +105,4 @@ const userResolvers = {
   }
 }
 
-module.exports = userResolvers
+module.exports = user

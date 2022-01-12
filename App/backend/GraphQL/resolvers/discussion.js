@@ -8,7 +8,7 @@ const {
   checkUserAction
 } = require('../utils')
 
-const discussionResolvers = {
+const discussion = {
   Query: {
     //no need to populate posts, as they are not needed in this query
     allDiscussions: async () => {
@@ -105,4 +105,4 @@ const discussionResolvers = {
   }
 }
 
-module.exports = discussionResolvers
+module.exports = discussion

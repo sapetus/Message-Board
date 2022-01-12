@@ -1,10 +1,10 @@
 const { mergeResolvers } = require('@graphql-tools/merge')
 
-const discussionResolvers = require('./discussionResolvers')
-const postResolvers = require('./postResolvers')
-const commentResolvers = require('./commentResolvers')
-const userResolvers = require('./userResolvers')
+const discussion = require('./discussion')
+const post = require('./post')
+const comment = require('./comment')
+const user = require('./user')
 
-const mergerdResolvers = [discussionResolvers, postResolvers, commentResolvers, userResolvers]
+const mergerdResolvers = [discussion, post, comment, user]
 
 module.exports = mergeResolvers(mergerdResolvers)

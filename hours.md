@@ -30,4 +30,5 @@
 |            | 0.5  | created todo.md with list of tasks to do |
 |            | 1    | each user now has total likes/dislikes, which increase/decrease when someone likes/dislikes that user's created comments/posts |
 | 12.1.2022  | 1    | read up on pagination, trying to figure out how to implement |
-| total      | 41.5 | |
+|            | 0.5  | cleaned up backend |
+| total      | 42   | |

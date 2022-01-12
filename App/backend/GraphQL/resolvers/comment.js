@@ -9,7 +9,7 @@ const {
   checkUserAction
 } = require('../utils')
 
-const commentResolvers = {
+const comment = {
   Query: {
     findComment: async (root, args) => {
       const comment = await Comment.findOne({ _id: args.id })
@@ -356,4 +356,4 @@ const commentResolvers = {
   }
 }
 
-module.exports = commentResolvers
+module.exports = comment

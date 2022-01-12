@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server')
 
-const userTypeDefs = gql`
+const user = gql`
   type Token {
     value: String!
   }
@@ -37,4 +37,4 @@ const userTypeDefs = gql`
   }
 `
 
-module.exports = userTypeDefs
+module.exports = user
