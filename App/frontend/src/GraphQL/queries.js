@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const ALL_DISCUSSIONS = gql`
-  query allDiscussions {
-    allDiscussions {
+  query allDiscussions($first: Int, $after: Int) {
+    allDiscussions(first: $first, after: $after) {
       id,
       name,
       members
@@ -80,8 +80,8 @@ export const FIND_COMMENT = gql`
 `
 
 export const FIND_COMMENTS_BY_POST = gql`
-  query findCommentsByPost($id: ID!) {
-    findCommentsByPost(id: $id) {
+  query findCommentsByPost($id: ID!, $first: Int, $after: Int) {
+    findCommentsByPost(id: $id, first: $first, after: $after) {
       id,
       text,
       likes,
@@ -114,8 +114,8 @@ export const GET_USER_BY_NAME = gql`
 `
 
 export const GET_POSTS_BY_USER = gql`
-  query FindPostsByUser($username: String!) {
-    findPostsByUser(username: $username) {
+  query FindPostsByUser($username: String!, $first: Int, $after: Int) {
+    findPostsByUser(username: $username, first: $first, after: $after) {
       id
       title
       text
@@ -130,8 +130,8 @@ export const GET_POSTS_BY_USER = gql`
 `
 
 export const GET_COMMENTS_BY_USER = gql`
-  query FindCommentsByUser($username: String!) {
-    findCommentsByUser(username: $username) {
+  query FindCommentsByUser($username: String!, $first: Int, $after: Int) {
+    findCommentsByUser(username: $username, first: $first, after: $after) {
       id
       text
       likes
@@ -149,8 +149,8 @@ export const GET_COMMENTS_BY_USER = gql`
 `
 
 export const GET_DISCUSSIONS_USER_SUBSCRIBED_TO = gql`
-  query FindDiscussionsUserHasSubscribedTo($username: String!) {
-    findDiscussionsUserHasSubscribedTo(username: $username) {
+  query FindDiscussionsUserHasSubscribedTo($username: String!, $first: Int, $after: Int) {
+    findDiscussionsUserHasSubscribedTo(username: $username, first: $first, after: $after) {
       id
       name
       members

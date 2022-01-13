@@ -10,7 +10,10 @@ const discussion = gql`
   }
 
   type Query {
-    allDiscussions: [Discussion!]!
+    allDiscussions(
+      first: Int
+      after: Int
+    ): [Discussion!]!
     findDiscussion(name: String!): Discussion
     findDiscussionsUserHasSubscribedTo(
       username: String!

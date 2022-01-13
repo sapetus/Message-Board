@@ -12,10 +12,12 @@ const {
 const discussion = {
   Query: {
     //no need to populate posts, as they are not needed in this query
-    allDiscussions: async () => {
+    allDiscussions: async (root, args) => {
       const discussions = await Discussion.find({})
 
-      return discussions
+      const paginatedDiscussions = paginate(discussions, args.first, args.after)
+
+      return paginatedDiscussions
     },
     findDiscussion: async (root, args) => {
       const discussion = await Discussion.findOne({ name: args.name })

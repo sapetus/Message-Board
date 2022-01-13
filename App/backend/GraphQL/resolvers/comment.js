@@ -44,7 +44,9 @@ const comment = {
 
       const comments = post.comments
 
-      return comments
+      const paginatedComments = paginate(comments, args.first, args.after)
+
+      return paginatedComments
     },
     findCommentsByUser: async (root, args) => {
       const user = await User.findOne({ username: args.username })

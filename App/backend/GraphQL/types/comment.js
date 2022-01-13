@@ -14,7 +14,11 @@ const comment = gql`
 
   type Query {
     findComment(id: ID!): Comment
-    findCommentsByPost(id: ID!): [Comment]
+    findCommentsByPost(
+      id: ID!
+      first: Int
+      after: Int
+    ): [Comment]
     findCommentsByUser(
       username: String!
       first: Int
