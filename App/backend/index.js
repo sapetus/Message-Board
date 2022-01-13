@@ -12,9 +12,21 @@ const resolvers = require('./GraphQL/resolvers/mergedResolvers')
 const User = require('./models/User')
 
 const JWT_SECRET = process.env.JWT_SECRET
-const URI = process.env.NODE_ENV === 'test'
-  ? process.env.TEST_MONGODB_URI
-  : process.env.MONGODB_URI
+let URI = ''
+const node_env = process.env.NODE_ENV
+switch (node_env) {
+  case 'test':
+    URI = process.env.TEST_MONGODB_URI
+    break
+  case 'development':
+    URI = process.env.DEV_MONGODB_URI
+    break
+  case 'production':
+    URI = process.env.MONGODB_URI
+    break
+  default:
+    break
+}
 
 console.log('connecting to MongoDB...')
 mongoose.connect(URI)

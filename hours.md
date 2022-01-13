@@ -32,4 +32,5 @@
 | 12.1.2022  | 1    | read up on pagination, trying to figure out how to implement |
 |            | 0.5  | cleaned up backend |
 |            | 1    | chopped up getUserByName query to many smaller queries (maybe easier to paginate?) |
-| total      | 43   | |
+| 13.1.2022  | 0.5  | created a new database to use during development, fixed UserPage not showing username or total likes/dislikes |
+| total      | 43.5 | |
