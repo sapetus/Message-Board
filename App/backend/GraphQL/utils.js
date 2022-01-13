@@ -47,7 +47,22 @@ const checkUserAction = (listToCheck, args, action) => {
   }
 }
 
+const paginate = (list, first, after) => {
+  let listCopy = list
+
+  if (first && after) {
+    listCopy = list.slice(after, after + first)
+  } else if (first) {
+    listCopy = list.slice(0, first)
+  } else if (after) {
+    listCopy = list.slice(after)
+  }
+
+  return listCopy
+}
+
 module.exports = {
   checkUser,
-  checkUserAction
+  checkUserAction,
+  paginate
 }

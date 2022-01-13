@@ -6,7 +6,8 @@ const User = require('../../models/User')
 
 const {
   checkUser,
-  checkUserAction
+  checkUserAction,
+  paginate
 } = require('../utils')
 
 const post = {
@@ -27,6 +28,7 @@ const post = {
       return post
     },
     findPostsByUser: async (root, args) => {
+      console.log(args)
       const user = await User.findOne({ username: args.username })
         .populate({
           path: 'posts',
@@ -35,10 +37,16 @@ const post = {
             path: 'discussion'
           }
         })
+      
+      let posts = user.posts
 
-      const posts = user.posts
+      const paginatedPosts = paginate(
+        posts,
+        args.first,
+        args.after
+      )
 
-      return posts
+      return paginatedPosts
     }
   },
   Mutation: {

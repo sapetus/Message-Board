@@ -5,7 +5,8 @@ const User = require('../../models/User')
 
 const {
   checkUser,
-  checkUserAction
+  checkUserAction,
+  paginate
 } = require('../utils')
 
 const discussion = {
@@ -32,7 +33,13 @@ const discussion = {
       
       const discussions = user.memberOf
 
-      return discussions
+      const paginatedDiscussions = paginate(
+        discussions,
+        args.first,
+        args.after
+      )
+
+      return paginatedDiscussions
     }
   },
   Mutation: {

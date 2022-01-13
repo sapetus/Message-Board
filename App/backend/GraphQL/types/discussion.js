@@ -12,7 +12,11 @@ const discussion = gql`
   type Query {
     allDiscussions: [Discussion!]!
     findDiscussion(name: String!): Discussion
-    findDiscussionsUserHasSubscribedTo(username: String!): [Discussion]
+    findDiscussionsUserHasSubscribedTo(
+      username: String!
+      first: Int
+      after: Int
+    ): [Discussion]
   }
 
   type Mutation {

@@ -6,7 +6,8 @@ const User = require('../../models/User')
 
 const {
   checkUser,
-  checkUserAction
+  checkUserAction,
+  paginate
 } = require('../utils')
 
 const comment = {
@@ -59,8 +60,10 @@ const comment = {
         })
       
       const comments = user.comments
+
+      const paginatedComments = paginate(comments, args.first, args.after)
       
-      return comments
+      return paginatedComments
     }
   },
   Mutation: {
