@@ -16,8 +16,12 @@ const UserPage = (props) => {
   const [memberOf, setMemberOf] = useState(null)
   const [totalLikes, setTotalLikes] = useState(0)
   const [totalDislikes, setTotalDislikes] = useState(0)
+  const [postsFetched, setPostsFetched] = useState(0)
+  const [commentsFetched, setCommentsFetched] = useState(0)
+  const [subscriptionsFetched, setSubscriptionsFetched] = useState(0)
 
   let params = useParams()
+  const amountToFetch = 10
 
   const [getUser, { data: getUserData }] = useLazyQuery(GET_USER_BY_NAME, {
     fetchPolicy: 'cache-and-network'
@@ -31,15 +35,20 @@ const UserPage = (props) => {
     fetchPolicy: 'cache-and-network'
   })
 
-  const [getMemberOf, { data: getMemberOfData }] = useLazyQuery(GET_DISCUSSIONS_USER_SUBSCRIBED_TO, {
+  const [getMemberOf, { data: getMemberOfData, fetchMore: fetchMoreSubscriptions }] = useLazyQuery(GET_DISCUSSIONS_USER_SUBSCRIBED_TO, {
     fetchPolicy: 'cache-and-network'
   })
 
+  //get the first 'amountToFetch' of each
   useEffect(() => {
     getUser({ variables: { username: params.username } })
-    getPostsByUser({ variables: { username: params.username } })
-    getCommentsByUser({ variables: { username: params.username } })
-    getMemberOf({ variables: { username: params.username } })
+    getPostsByUser({ variables: { username: params.username, first: amountToFetch } })
+    getCommentsByUser({ variables: { username: params.username, first: amountToFetch } })
+    getMemberOf({ variables: { username: params.username, first: amountToFetch } })
+
+    setPostsFetched(amountToFetch)
+    setCommentsFetched(amountToFetch)
+    setSubscriptionsFetched(amountToFetch)
   }, [params.username]) //eslint-disable-line
 
   useEffect(() => {
@@ -68,6 +77,22 @@ const UserPage = (props) => {
       setMemberOf(getMemberOfData.findDiscussionsUserHasSubscribedTo)
     }
   }, [getMemberOfData])
+
+  const fetchSubscriptions = async (event) => {
+    event.preventDefault()
+
+    const { data } = await fetchMoreSubscriptions({
+      variables: {
+        username: params.username,
+        first: amountToFetch,
+        after: subscriptionsFetched
+      }
+    })
+
+    if (data.findDiscussionsUserHasSubscribedTo.length > 0) {
+      setSubscriptionsFetched(subscriptionsFetched + amountToFetch)
+    }
+  }
 
   return (
     <div>
@@ -134,6 +159,7 @@ const UserPage = (props) => {
             )}
           </tbody>
         </table>
+        <button onClick={fetchSubscriptions}>Get More Subscriptions</button>
       </div>
     </div>
   )

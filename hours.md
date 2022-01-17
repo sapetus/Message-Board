@@ -35,4 +35,5 @@
 | 13.1.2022  | 0.5  | created a new database to use during development, fixed UserPage not showing username or total likes/dislikes |
 |            | 0.5  | findDiscussionsUserHasSubscribedTo, findCommentsByUser, and findPostsByUser now support simple first, after pagination |
 |            | 0.5  | changed more queries to support first-after pagination, updated queries in the frontend to allow these variables; spent time creating more data to development db |
-| total      | 44.5 | |
+| 17.1.2022  | 1    | implemented fetching more data on frontend (currently only users subscriptions can be fetched more, will implement rest) |
+| total      | 45.5 | |

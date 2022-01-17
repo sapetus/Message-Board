@@ -24,7 +24,20 @@ const authenticationLink = setContext((__, { headers }) => {
 const httpLink = new HttpLink({ uri: 'http://localhost:4000/graphql' })
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          findDiscussionsUserHasSubscribedTo: {
+            keyArgs: false,
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming]
+            }
+          }
+        }
+      }
+    }
+  }),
   link: authenticationLink.concat(httpLink)
 })
 
