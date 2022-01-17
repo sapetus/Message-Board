@@ -53,7 +53,7 @@ const UserPage = (props) => {
     setPostsFetched(amountToFetch)
     setCommentsFetched(amountToFetch)
     setSubscriptionsFetched(amountToFetch)
-  }, []) //eslint-disable-line
+  }, [params.username]) //eslint-disable-line
 
   useEffect(() => {
     if (getUserData?.getUserByName) {
