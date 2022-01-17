@@ -23,15 +23,37 @@ const authenticationLink = setContext((__, { headers }) => {
 
 const httpLink = new HttpLink({ uri: 'http://localhost:4000/graphql' })
 
+const mergeFunction = (existing, incoming, after) => {
+  const merged = existing ? existing.slice(0) : []
+
+  for (let i = 0; i < incoming.length; i++) {
+    merged[after + i] = incoming[i]
+  }
+
+  return merged
+}
+
 const client = new ApolloClient({
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
         fields: {
           findDiscussionsUserHasSubscribedTo: {
-            keyArgs: false,
-            merge(existing = [], incoming) {
-              return [...existing, ...incoming]
+            keyArgs: [],
+            merge(existing, incoming, { args: { after = 0 } }) {
+              return mergeFunction(existing, incoming, after)
+            }
+          },
+          findPostsByUser: {
+            keyArgs: [],
+            merge(existing, incoming, { args: { after = 0 } }) {
+              return mergeFunction(existing, incoming, after)
+            }
+          },
+          findCommentsByUser: {
+            keyArgs: [],
+            merge(existing, incoming, { args: { after = 0 } }) {
+              return mergeFunction(existing, incoming, after)
             }
           }
         }

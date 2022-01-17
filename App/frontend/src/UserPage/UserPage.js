@@ -21,17 +21,17 @@ const UserPage = (props) => {
   const [subscriptionsFetched, setSubscriptionsFetched] = useState(0)
 
   let params = useParams()
-  const amountToFetch = 10
+  const amountToFetch = 5
 
   const [getUser, { data: getUserData }] = useLazyQuery(GET_USER_BY_NAME, {
     fetchPolicy: 'cache-and-network'
   })
 
-  const [getPostsByUser, { data: getPostsByUserData }] = useLazyQuery(GET_POSTS_BY_USER, {
+  const [getPostsByUser, { data: getPostsByUserData, fetchMore: fetchMorePosts }] = useLazyQuery(GET_POSTS_BY_USER, {
     fetchPolicy: 'cache-and-network'
   })
 
-  const [getCommentsByUser, { data: getCommentsByUserData }] = useLazyQuery(GET_COMMENTS_BY_USER, {
+  const [getCommentsByUser, { data: getCommentsByUserData, fetchMore: fetchMoreComments }] = useLazyQuery(GET_COMMENTS_BY_USER, {
     fetchPolicy: 'cache-and-network'
   })
 
@@ -40,6 +40,10 @@ const UserPage = (props) => {
   })
 
   //get the first 'amountToFetch' of each
+  //amount of fetched items is reset back to 'amountToFetch' when page is revisited
+  //if page is left and returned to, and user has created e.g. a new post, 
+  //user must click get more posts multiple times to get that post
+  //need to change read functions of each query?
   useEffect(() => {
     getUser({ variables: { username: params.username } })
     getPostsByUser({ variables: { username: params.username, first: amountToFetch } })
@@ -49,7 +53,7 @@ const UserPage = (props) => {
     setPostsFetched(amountToFetch)
     setCommentsFetched(amountToFetch)
     setSubscriptionsFetched(amountToFetch)
-  }, [params.username]) //eslint-disable-line
+  }, []) //eslint-disable-line
 
   useEffect(() => {
     if (getUserData?.getUserByName) {
@@ -89,8 +93,46 @@ const UserPage = (props) => {
       }
     })
 
-    if (data.findDiscussionsUserHasSubscribedTo.length > 0) {
-      setSubscriptionsFetched(subscriptionsFetched + amountToFetch)
+    const dataLength = data.findDiscussionsUserHasSubscribedTo.length
+
+    if (dataLength > 0) {
+      setSubscriptionsFetched(subscriptionsFetched + dataLength)
+    }
+  }
+
+  const fetchPosts = async (event) => {
+    event.preventDefault()
+
+    const { data } = await fetchMorePosts({
+      variables: {
+        username: params.username,
+        first: amountToFetch,
+        after: postsFetched
+      }
+    })
+
+    const dataLength = data.findPostsByUser.length
+
+    if (dataLength > 0) {
+      setPostsFetched(postsFetched + dataLength)
+    }
+  }
+
+  const fetchComments = async (event) => {
+    event.preventDefault()
+
+    const { data } = await fetchMoreComments({
+      variables: {
+        username: params.username,
+        first: amountToFetch,
+        after: commentsFetched
+      }
+    })
+
+    const dataLength = data.findCommentsByUser.length
+
+    if (dataLength > 0) {
+      setCommentsFetched(commentsFetched + dataLength)
     }
   }
 
@@ -99,6 +141,7 @@ const UserPage = (props) => {
       <h1>User Page</h1>
       <h3>User: {username}</h3>
       <h4>Likes: {totalLikes} | Dislikes: {totalDislikes}</h4>
+
       <div id="user_posts">
         <h3>Posts</h3>
         <table>
@@ -119,7 +162,9 @@ const UserPage = (props) => {
             )}
           </tbody>
         </table>
+        <button onClick={fetchPosts}>Get More Posts</button>
       </div>
+
       <div id="user_comments">
         <h3>Comments</h3>
         <table>
@@ -142,7 +187,9 @@ const UserPage = (props) => {
             )}
           </tbody>
         </table>
+        <button onClick={fetchComments}>Get More Comments</button>
       </div>
+
       <div id="user_subscriptions">
         <h3>Subscriptions</h3>
         <table>

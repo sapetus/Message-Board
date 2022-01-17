@@ -36,4 +36,5 @@
 |            | 0.5  | findDiscussionsUserHasSubscribedTo, findCommentsByUser, and findPostsByUser now support simple first, after pagination |
 |            | 0.5  | changed more queries to support first-after pagination, updated queries in the frontend to allow these variables; spent time creating more data to development db |
 | 17.1.2022  | 1    | implemented fetching more data on frontend (currently only users subscriptions can be fetched more, will implement rest) |
-| total      | 45.5 | |
+|            | 1.5  | user page now shows 5 first comment, post, and subsription. More (5) of each can be fetched by clicking a button. TOBEFIXED: when user re-enters the same users page, multiple button clicks are needed to fetch new data (problem in read function?) |
+| total      | 47   | |
