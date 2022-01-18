@@ -38,4 +38,5 @@
 | 17.1.2022  | 1    | implemented fetching more data on frontend (currently only users subscriptions can be fetched more, will implement rest) |
 |            | 1.5  | user page now shows 5 first comment, post, and subsription. More (5) of each can be fetched by clicking a button. TOBEFIXED: when user re-enters the same users page, multiple button clicks are needed to fetch new data (problem in read function?) |
 |            | 0.5  | Trying to fix problem mentioned in the last commit, problem is most likely in querys read-function, as on revisit backend returns only the first few items |
-| total      | 47.5 | |
+| 18.1.2022  | 1.5  | Partially fixed problem mentioned previously, data still persists bethween visits, but user can now fetch new data without the need to click the button multiple times |
+| total      | 49   | | 

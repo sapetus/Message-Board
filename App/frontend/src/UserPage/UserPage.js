@@ -16,9 +16,6 @@ const UserPage = (props) => {
   const [memberOf, setMemberOf] = useState(null)
   const [totalLikes, setTotalLikes] = useState(0)
   const [totalDislikes, setTotalDislikes] = useState(0)
-  const [postsFetched, setPostsFetched] = useState(0)
-  const [commentsFetched, setCommentsFetched] = useState(0)
-  const [subscriptionsFetched, setSubscriptionsFetched] = useState(0)
 
   let params = useParams()
   const amountToFetch = 5
@@ -39,20 +36,12 @@ const UserPage = (props) => {
     fetchPolicy: 'cache-and-network'
   })
 
-  //get the first 'amountToFetch' of each
-  //amount of fetched items is reset back to 'amountToFetch' when page is revisited
-  //if page is left and returned to, and user has created e.g. a new post, 
-  //user must click get more posts multiple times to get that post
-  //need to change read functions of each query?
+  //data persists after user leaves and comes back, would be nice to have everything reset back
   useEffect(() => {
     getUser({ variables: { username: params.username } })
     getPostsByUser({ variables: { username: params.username, first: amountToFetch } })
     getCommentsByUser({ variables: { username: params.username, first: amountToFetch } })
     getMemberOf({ variables: { username: params.username, first: amountToFetch } })
-
-    setPostsFetched(amountToFetch)
-    setCommentsFetched(amountToFetch)
-    setSubscriptionsFetched(amountToFetch)
   }, [params.username]) //eslint-disable-line
 
   useEffect(() => {
@@ -84,56 +73,41 @@ const UserPage = (props) => {
 
   const fetchSubscriptions = async (event) => {
     event.preventDefault()
+    const subscriptionsFetched = getMemberOfData.findDiscussionsUserHasSubscribedTo.length
 
-    const { data } = await fetchMoreSubscriptions({
+    await fetchMoreSubscriptions({
       variables: {
         username: params.username,
         first: amountToFetch,
         after: subscriptionsFetched
       }
     })
-
-    const dataLength = data.findDiscussionsUserHasSubscribedTo.length
-
-    if (dataLength > 0) {
-      setSubscriptionsFetched(subscriptionsFetched + dataLength)
-    }
   }
 
   const fetchPosts = async (event) => {
     event.preventDefault()
+    const postsFetched = getPostsByUserData.findPostsByUser.length
 
-    const { data } = await fetchMorePosts({
+    await fetchMorePosts({
       variables: {
         username: params.username,
         first: amountToFetch,
         after: postsFetched
       }
     })
-
-    const dataLength = data.findPostsByUser.length
-
-    if (dataLength > 0) {
-      setPostsFetched(postsFetched + dataLength)
-    }
   }
 
   const fetchComments = async (event) => {
     event.preventDefault()
+    const commentsFetched = getCommentsByUserData.findCommentsByUser.length
 
-    const { data } = await fetchMoreComments({
+    await fetchMoreComments({
       variables: {
         username: params.username,
         first: amountToFetch,
         after: commentsFetched
       }
     })
-
-    const dataLength = data.findCommentsByUser.length
-
-    if (dataLength > 0) {
-      setCommentsFetched(commentsFetched + dataLength)
-    }
   }
 
   return (
