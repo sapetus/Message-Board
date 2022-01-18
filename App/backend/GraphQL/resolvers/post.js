@@ -36,8 +36,25 @@ const post = {
             path: 'discussion'
           }
         })
-      
+
       let posts = user.posts
+
+      const paginatedPosts = paginate(
+        posts,
+        args.first,
+        args.after
+      )
+
+      return paginatedPosts
+    },
+    findPostsByDiscussion: async (root, args) => {
+      const discussion = await Discussion.findOne({ name: args.name })
+        .populate({
+          path: 'posts',
+          model: 'Post'
+        })
+
+      let posts = discussion.posts
 
       const paginatedPosts = paginate(
         posts,

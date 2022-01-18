@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useParams, Link } from 'react-router-dom'
 
-import { FIND_DISCUSSION } from '../GraphQL/queries'
+import {
+  FIND_DISCUSSION,
+  GET_POSTS_BY_DISCUSSION
+} from '../GraphQL/queries'
 import {
   SUBSCRIBE_TO_DISCUSSION,
   UNSUBSCRIBE_FROM_DISCUSSION
@@ -18,8 +21,13 @@ const DiscussionPage = ({ token }) => {
   const [userIsSubscribed, setUserIsSubscribed] = useState(false)
 
   let params = useParams()
+  const amountToFetch = 5
 
-  const [getDiscussion, { data }] = useLazyQuery(FIND_DISCUSSION, {
+  const [getDiscussion, { data: getDiscussionData }] = useLazyQuery(FIND_DISCUSSION, {
+    fetchPolicy: 'cache-and-network'
+  })
+
+  const [getPosts, { data: getPostsData, fetchMore }] = useLazyQuery(GET_POSTS_BY_DISCUSSION, {
     fetchPolicy: 'cache-and-network'
   })
 
@@ -39,17 +47,23 @@ const DiscussionPage = ({ token }) => {
 
   useEffect(() => {
     getDiscussion({ variables: { name: params.name } })
+    getPosts({ variables: { name: params.name, first: amountToFetch } })
   }, [params.name]) //eslint-disable-line
 
-  //set the values for accessing data
   useEffect(() => {
-    if (data?.findDiscussion) {
-      setDiscussionName(data.findDiscussion.name)
-      setDiscussionMembers(data.findDiscussion.members)
-      setPosts(data.findDiscussion.posts)
-      setListOfMembers(data.findDiscussion.listOfMembers)
+    if (getDiscussionData?.findDiscussion) {
+      const data = getDiscussionData.findDiscussion
+      setDiscussionName(data.name)
+      setDiscussionMembers(data.members)
+      setListOfMembers(data.listOfMembers)
     }
-  }, [data?.findDiscussion])
+  }, [getDiscussionData?.findDiscussion])
+
+  useEffect(() => {
+    if (getPostsData?.findPostsByDiscussion) {
+      setPosts(getPostsData.findPostsByDiscussion)
+    }
+  }, [getPostsData?.findPostsByDiscussion])
 
   //check if user is subscribed and show subscribe buttons accordingly
   //but only when user is logged in
@@ -66,6 +80,18 @@ const DiscussionPage = ({ token }) => {
 
   const unsubscribe = (discussionName) => {
     unsubscribeFromDiscussion({ variables: { discussionName } })
+  }
+
+  const fetchPosts = async (event) => {
+    event.preventDefault()
+
+    await fetchMore({
+      variables: {
+        name: params.name,
+        first: amountToFetch,
+        after: getPostsData.findPostsByDiscussion.length
+      }
+    })
   }
 
   return (
@@ -106,6 +132,7 @@ const DiscussionPage = ({ token }) => {
             )}
           </tbody>
         </table>
+        <button onClick={fetchPosts}>Get More Posts</button>
         {token &&
           <CreatePostForm
             discussionName={params.name}

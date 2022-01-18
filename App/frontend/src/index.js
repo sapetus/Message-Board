@@ -39,6 +39,18 @@ const client = new ApolloClient({
     typePolicies: {
       Query: {
         fields: {
+          allDiscussions: {
+            keyArgs: [],
+            merge(existing, incoming, { args: { after = 0 } }) {
+              return mergeFunction(existing, incoming, after)
+            }
+          },
+          findPostsByDiscussion: {
+            keyArgs: [],
+            merge(existing, incoming, { args: { after = 0 } }) {
+              return mergeFunction(existing, incoming, after)
+            }
+          },
           findDiscussionsUserHasSubscribedTo: {
             keyArgs: [],
             merge(existing, incoming, { args: { after = 0 } }) {

@@ -13,6 +13,7 @@
 - **tests!**
 
 ## frontend:
+- cleanup function for VoteButtons
 - Comment more!
 - MAKE IT LOOK BETTER!
 - inline style?

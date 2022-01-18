@@ -9,12 +9,14 @@ import CreateDiscussionForm from './CreateDiscussionForm';
 const LandingPage = ({ token }) => {
   const [discussions, setDiscussion] = useState(null)
 
-  const [getAllDiscussions, { data }] = useLazyQuery(ALL_DISCUSSIONS, {
+  const amountToFetch = 5
+
+  const [getAllDiscussions, { data, fetchMore }] = useLazyQuery(ALL_DISCUSSIONS, {
     fetchPolicy: 'cache-and-network'
   })
 
   useEffect(() => {
-    getAllDiscussions()
+    getAllDiscussions({ variables: { first: amountToFetch } })
   }, []) //eslint-disable-line
 
   useEffect(() => {
@@ -22,6 +24,17 @@ const LandingPage = ({ token }) => {
       setDiscussion(data.allDiscussions)
     }
   }, [data?.allDiscussions])
+
+  const fetchDiscussions = async (event) => {
+    event.preventDefault()
+
+    await fetchMore({
+      variables: {
+        first: amountToFetch,
+        after: data.allDiscussions.length
+      }
+    })
+  }
 
   return (
     <div id="landingPage">
@@ -40,9 +53,8 @@ const LandingPage = ({ token }) => {
           )}
         </tbody>
       </table>
-      {token && <CreateDiscussionForm
-        updateDiscussions={getAllDiscussions}
-      />}
+      <button onClick={fetchDiscussions}>Get More Discussions</button>
+      {token && <CreateDiscussionForm />}
     </div>
   )
 }

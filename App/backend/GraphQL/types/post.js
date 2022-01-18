@@ -21,6 +21,11 @@ const post = gql`
       first: Int
       after: Int
     ): [Post]
+    findPostsByDiscussion(
+      name: String!
+      first: Int
+      after: Int
+    ): [Post]
   }
 
   type Mutation {

@@ -73,39 +73,36 @@ const UserPage = (props) => {
 
   const fetchSubscriptions = async (event) => {
     event.preventDefault()
-    const subscriptionsFetched = getMemberOfData.findDiscussionsUserHasSubscribedTo.length
 
     await fetchMoreSubscriptions({
       variables: {
         username: params.username,
         first: amountToFetch,
-        after: subscriptionsFetched
+        after: getMemberOfData.findDiscussionsUserHasSubscribedTo.length
       }
     })
   }
 
   const fetchPosts = async (event) => {
     event.preventDefault()
-    const postsFetched = getPostsByUserData.findPostsByUser.length
 
     await fetchMorePosts({
       variables: {
         username: params.username,
         first: amountToFetch,
-        after: postsFetched
+        after: getPostsByUserData.findPostsByUser.length
       }
     })
   }
 
   const fetchComments = async (event) => {
     event.preventDefault()
-    const commentsFetched = getCommentsByUserData.findCommentsByUser.length
 
     await fetchMoreComments({
       variables: {
         username: params.username,
         first: amountToFetch,
-        after: commentsFetched
+        after: getCommentsByUserData.findCommentsByUser.length
       }
     })
   }
