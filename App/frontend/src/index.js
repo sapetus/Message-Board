@@ -68,6 +68,12 @@ const client = new ApolloClient({
             merge(existing, incoming, { args: { after = 0 } }) {
               return mergeFunction(existing, incoming, after)
             }
+          },
+          findCommentsByPost: {
+            keyArgs: ["id"],
+            merge(existing, incoming, { args: { after = 0 } }) {
+              return mergeFunction(existing, incoming, after)
+            }
           }
         }
       }

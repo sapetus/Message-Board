@@ -32,6 +32,7 @@ const PostPage = ({ token }) => {
   const [userHasDislikedPost, setUserHasDislikedPost] = useState(false)
 
   let params = useParams()
+  const amountToFetch = 5
 
   const [getPost, { data: getPostData }] = useLazyQuery(FIND_POST, {
     fetchPolicy: 'cache-and-network'
@@ -40,7 +41,7 @@ const PostPage = ({ token }) => {
   /* when liking/disliking a comment, console alerts 'cache data may be lost when replacing the...'
   this stops after liking/disliking the comment, don't know how to fix
   (doesn't seem to have any effect on actual functionality) */
-  const [getComments, { data: getCommentsData }] = useLazyQuery(FIND_COMMENTS_BY_POST, {
+  const [getComments, { data: getCommentsData, fetchMore }] = useLazyQuery(FIND_COMMENTS_BY_POST, {
     fetchPolicy: 'cache-and-network'
   })
 
@@ -74,7 +75,7 @@ const PostPage = ({ token }) => {
 
   useEffect(() => {
     getPost({ variables: { id: params.id } })
-    getComments({ variables: { id: params.id } })
+    getComments({ variables: { id: params.id, first: amountToFetch } })
   }, [params.id]) //eslint-disable-line
 
   //parse post data to be easily accessible
@@ -111,6 +112,18 @@ const PostPage = ({ token }) => {
       setUserHasDislikedPost(dislikeUsernames.includes(localStorage.getItem('username')))
     }
   }, [listOfLikeUsers, listOfDislikeUsers, token])
+
+  const fetchMoreComments = (event) => {
+    event.preventDefault()
+
+    fetchMore({
+      variables: {
+        id: params.id,
+        first: amountToFetch,
+        after: getCommentsData.findCommentsByPost.length
+      }
+    })
+  }
 
   return (
     <div>
@@ -149,6 +162,7 @@ const PostPage = ({ token }) => {
             />
           )}
         </ul>
+        <button onClick={fetchMoreComments}>Get More Comments</button>
       </div>
       {token &&
         <CreateCommentForm postId={params.id} />}
