@@ -1,7 +1,7 @@
 const EasyGraphQLTester = require('easygraphql-tester')
 
-const typeDefs = require('../GraphQL/typeDefs')
-const resolvers = require('../GraphQL/resolvers')
+const typeDefs = require('../GraphQL/types/mergedTypes')
+const resolvers = require('../GraphQL/resolvers/mergedResolvers')
 
 describe("Test queries and mutations", () => {
   let tester

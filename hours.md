@@ -41,4 +41,5 @@
 | 18.1.2022  | 1.5  | Partially fixed problem mentioned previously, data still persists bethween visits, but user can now fetch new data without the need to click the button multiple times |
 |            | 0.5  | pagination now works in landing page (discussions can be fetched in batches) and in discussion page (posts in given discussion can be fetched in batches) |
 | 19.1.2022  | 0.5  | Comments are now paginated |
-| total      | 50   | | 
+|            | 1.5  | backend: got tests working using supertest |
+| total      | 51.5 | | 
