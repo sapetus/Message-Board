@@ -96,7 +96,15 @@ export const LIKE_COMMENT = gql`
       id,
       text,
       likes,
-      dislikes
+      dislikes,
+      listOfLikeUsers {
+        id
+        username
+      },
+      listOfDislikeUsers {
+        id
+        username
+      }
     }
   }
 `
@@ -107,7 +115,15 @@ export const DISLIKE_COMMENT = gql`
       id,
       text,
       likes,
-      dislikes
+      dislikes,
+      listOfLikeUsers {
+        id
+        username
+      },
+      listOfDislikeUsers {
+        id
+        username
+      }
     }
   }
 `
@@ -118,7 +134,15 @@ export const UNLIKE_COMMENT = gql`
       id,
       text,
       likes,
-      dislikes
+      dislikes,
+      listOfLikeUsers {
+        id
+        username
+      },
+      listOfDislikeUsers {
+        id
+        username
+      }
     }
   }
 `
@@ -129,7 +153,15 @@ export const UNDISLIKE_COMMENT = gql`
       id,
       text,
       likes,
-      dislikes
+      dislikes,
+      listOfLikeUsers {
+        id
+        username
+      },
+      listOfDislikeUsers {
+        id
+        username
+      }
     }
   }
 `

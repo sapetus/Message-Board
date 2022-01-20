@@ -158,6 +158,7 @@ const PostPage = ({ token }) => {
           {comments?.map(comment =>
             <Comment
               key={comment.id}
+              postId={params.id}
               comment={comment}
               token={token}
             />

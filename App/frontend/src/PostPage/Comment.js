@@ -11,7 +11,7 @@ import {
   UNDISLIKE_COMMENT
 } from '../GraphQL/mutations'
 
-const Comment = ({ comment, token }) => {
+const Comment = ({ comment, token, postId }) => {
   const [userHasLikedComment, setUserHasLikedComment] = useState(false)
   const [userHasDislikedComment, setUserHasDislikedComment] = useState(false)
 
@@ -40,8 +40,6 @@ const Comment = ({ comment, token }) => {
   })
 
   //set values for conditional rendering of vote buttons
-  //when new comments are fetched, those comments' list of like/dislike users doesn't get updated when voting
-  //altough likes/dislikes do get updated. After refreshing the page, these updates have happened
   useEffect(() => {
     if (comment?.listOfLikeUsers && token) {
       const likeUsernames = comment.listOfLikeUsers.map(user => user.username)

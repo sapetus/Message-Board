@@ -44,4 +44,5 @@
 |            | 1.5  | backend: got tests working using supertest |
 | 20.1.2022  | 1    | User now has value creationDate. Show this date in user's page |
 |            | 1    | Comments now have links to comments creators user page. FIX: before, when voting on a comment, page would fetch ALL comments after. New bug: newly fetched comments don't update when voted on |
-| total      | 53.5 | | 
+|            | 1    | Fix: newly fetched comments can now be voted on, and the change happens without the need to reset the page (problem wasm that the update method's return didn't have a new list to replace the old list) |
+| total      | 54.5 | |

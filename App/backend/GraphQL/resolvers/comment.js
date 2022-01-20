@@ -60,11 +60,11 @@ const comment = {
             }
           }
         })
-      
+
       const comments = user.comments
 
       const paginatedComments = paginate(comments, args.first, args.after)
-      
+
       return paginatedComments
     }
   },
@@ -158,6 +158,8 @@ const comment = {
           },
           { new: true }
         )
+          .populate({ path: 'listOfLikeUsers', model: 'User' })
+          .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
         const updatedCommentDislikes = currentUser.commentDislikes.filter(comment => comment.id !== args.id)
         const updatedCommentLikes = currentUser.commentLikes.concat(updatedComment)
@@ -192,6 +194,8 @@ const comment = {
           },
           { new: true }
         )
+          .populate({ path: 'listOfLikeUsers', model: 'User' })
+          .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
         const updatedCommentLikes = currentUser.commentLikes.concat(updatedComment)
 
@@ -247,6 +251,8 @@ const comment = {
           },
           { new: true }
         )
+          .populate({ path: 'listOfLikeUsers', model: 'User' })
+          .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
         const updatedCommentLikes = currentUser.commentLikes.filter(comment => comment.id !== args.id)
         const updatedCommentDislikes = currentUser.commentDislikes.concat(updatedComment)
@@ -281,6 +287,8 @@ const comment = {
           },
           { new: true }
         )
+          .populate({ path: 'listOfLikeUsers', model: 'User' })
+          .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
         const updatedCommentDislikes = currentUser.commentDislikes.concat(updatedComment)
 
@@ -331,6 +339,8 @@ const comment = {
         { listOfLikeUsers: updatedListOfLikeUsers, $inc: { likes: -1 } },
         { new: true }
       )
+        .populate({ path: 'listOfLikeUsers', model: 'User' })
+        .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
       return updatedComment
     },
@@ -372,6 +382,8 @@ const comment = {
         { listOfDislikeUsers: updatedListOfDislikeUsers, $inc: { dislikes: -1 } },
         { new: true }
       )
+        .populate({ path: 'listOfLikeUsers', model: 'User' })
+        .populate({ path: 'listOfDislikeUsers', model: 'User' })
 
       return updatedComment
     }
