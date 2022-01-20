@@ -16,6 +16,7 @@ const UserPage = (props) => {
   const [memberOf, setMemberOf] = useState(null)
   const [totalLikes, setTotalLikes] = useState(0)
   const [totalDislikes, setTotalDislikes] = useState(0)
+  const [creationDate, setCreationDate] = useState('')
 
   let params = useParams()
   const amountToFetch = 5
@@ -36,7 +37,7 @@ const UserPage = (props) => {
     fetchPolicy: 'cache-and-network'
   })
 
-  //data persists after user leaves and comes back, would be nice to have everything reset back
+  //data persists after user leaves and comes back, would be nice to have everything reset
   useEffect(() => {
     getUser({ variables: { username: params.username } })
     getPostsByUser({ variables: { username: params.username, first: amountToFetch } })
@@ -50,6 +51,10 @@ const UserPage = (props) => {
       setUsername(userData.username)
       setTotalLikes(userData.totalLikes)
       setTotalDislikes(userData.totalDislikes)
+      //this is here temporary, as not all users have createdAt date
+      if (userData.creationDate) {
+        setCreationDate(parseDate(userData.creationDate))
+      }
     }
   }, [getUserData])
 
@@ -95,6 +100,14 @@ const UserPage = (props) => {
     })
   }
 
+  const parseDate = (date) => {
+    const year = date.slice(0, 4)
+    const month = date.slice(5, 7)
+    const day = date.slice(8, 10)
+
+    return `${day}.${month}.${year}`
+  }
+
   const fetchComments = async (event) => {
     event.preventDefault()
 
@@ -112,6 +125,7 @@ const UserPage = (props) => {
       <h1>User Page</h1>
       <h3>User: {username}</h3>
       <h4>Likes: {totalLikes} | Dislikes: {totalDislikes}</h4>
+      {creationDate && <h4>Created at: {creationDate}</h4>}
 
       <div id="user_posts">
         <h3>Posts</h3>

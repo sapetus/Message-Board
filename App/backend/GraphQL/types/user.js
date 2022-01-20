@@ -18,6 +18,7 @@ const user = gql`
     postDislikes: [Post!]!
     commentLikes: [Comment!]!
     commentDislikes: [Comment!]!
+    creationDate: String
   }
 
   type Query {

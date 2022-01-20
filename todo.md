@@ -9,7 +9,7 @@
 - ~~users total likes/dislikes across all posts and comments~~ (DONE)
 - possible to breakdown long functions in to reusable helper functions?
 - admin status for the creator of a discussion?
-- comments for comments?
+- comments for comments? (as in, comment can reference another comment)
 - **tests!**
 
 ## frontend:

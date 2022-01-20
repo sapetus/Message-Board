@@ -56,7 +56,8 @@ const user = {
         comments: [],
         memberOf: [],
         totalLikes: 0,
-        totalDislikes: 0
+        totalDislikes: 0,
+        creationDate: new Date().toISOString()
       })
 
       try {

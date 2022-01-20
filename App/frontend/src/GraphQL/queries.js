@@ -109,6 +109,7 @@ export const GET_USER_BY_NAME = gql`
       username
       totalLikes
       totalDislikes
+      creationDate
     }
   }
 `

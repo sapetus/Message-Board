@@ -37,7 +37,6 @@ mongoose.connect(URI)
   })
 
 const app = express()
-
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 
 const server = new ApolloServer({

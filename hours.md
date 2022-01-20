@@ -42,4 +42,5 @@
 |            | 0.5  | pagination now works in landing page (discussions can be fetched in batches) and in discussion page (posts in given discussion can be fetched in batches) |
 | 19.1.2022  | 0.5  | Comments are now paginated |
 |            | 1.5  | backend: got tests working using supertest |
-| total      | 51.5 | | 
+| 20.1.2022  | 1    | User now has value creationDate. Show this date in user's page |
+| total      | 52.5 | | 

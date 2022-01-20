@@ -19,6 +19,9 @@ const schema = new mongoose.Schema({
   totalDislikes: {
     type: Number
   },
+  creationDate: {
+    type: String
+  },
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
