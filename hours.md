@@ -45,4 +45,5 @@
 | 20.1.2022  | 1    | User now has value creationDate. Show this date in user's page |
 |            | 1    | Comments now have links to comments creators user page. FIX: before, when voting on a comment, page would fetch ALL comments after. New bug: newly fetched comments don't update when voted on |
 |            | 1    | Fix: newly fetched comments can now be voted on, and the change happens without the need to reset the page (problem wasm that the update method's return didn't have a new list to replace the old list) |
-| total      | 54.5 | |
+|            | 1.5  | Fix: When switching from user page to another user page, data doesn't persist anymore. Creating a comment or post appends it to their existing list. |
+| total      | 57   | |

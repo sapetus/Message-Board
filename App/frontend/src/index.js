@@ -30,7 +30,10 @@ const mergeFunction = (existing, incoming, after) => {
     merged[after + i] = incoming[i]
   }
 
-  return merged
+  //this gets rid of duplicates that appear when a new comment/post is created
+  const uniqueOnly = [...new Map(merged.map(obj => [obj.__ref, obj])).values()]
+
+  return uniqueOnly
 }
 
 const client = new ApolloClient({
@@ -45,25 +48,25 @@ const client = new ApolloClient({
             }
           },
           findPostsByDiscussion: {
-            keyArgs: [],
+            keyArgs: ["name"],
             merge(existing, incoming, { args: { after = 0 } }) {
               return mergeFunction(existing, incoming, after)
             }
           },
           findDiscussionsUserHasSubscribedTo: {
-            keyArgs: [],
+            keyArgs: ["username"],
             merge(existing, incoming, { args: { after = 0 } }) {
               return mergeFunction(existing, incoming, after)
             }
           },
           findPostsByUser: {
-            keyArgs: [],
+            keyArgs: ["username"],
             merge(existing, incoming, { args: { after = 0 } }) {
               return mergeFunction(existing, incoming, after)
             }
           },
           findCommentsByUser: {
-            keyArgs: [],
+            keyArgs: ["username"],
             merge(existing, incoming, { args: { after = 0 } }) {
               return mergeFunction(existing, incoming, after)
             }

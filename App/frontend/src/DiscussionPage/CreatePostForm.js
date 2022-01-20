@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
 import { CREATE_POST } from '../GraphQL/mutations'
-import { FIND_DISCUSSION } from '../GraphQL/queries'
+import { GET_POSTS_BY_DISCUSSION } from '../GraphQL/queries'
 
 const CreatePostForm = ({ discussionName }) => {
   const [title, setTitle] = useState('')
@@ -12,7 +12,17 @@ const CreatePostForm = ({ discussionName }) => {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
     },
-    refetchQueries: [{ query: FIND_DISCUSSION, variables: { name: discussionName } }]
+    update: (store, response) => {
+      const dataInStore = store.readQuery({ query: GET_POSTS_BY_DISCUSSION, variables: { name: discussionName } })
+      store.writeQuery({
+        query: GET_POSTS_BY_DISCUSSION,
+        variables: { name: discussionName },
+        data: {
+          ...dataInStore,
+          findPostsByDiscussion: [...dataInStore.findPostsByDiscussion, response.data.createPost]
+        }
+      })
+    }
   })
 
   const submit = async (event) => {

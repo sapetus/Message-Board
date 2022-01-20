@@ -41,7 +41,11 @@ export const CREATE_COMMENT = gql`
       id,
       text,
       likes,
-      dislikes
+      dislikes,
+      user {
+        id
+        username
+      }
     }
   }
 `

@@ -4,7 +4,7 @@
 
 ## backend:
 - Comment more!
-- pagination, relay-style pagination (probably a must)
+- pagination, relay-style pagination (probably a must) (first, after -pagination implemented)
 - better solution for keeping track of likes/dislikes per user, post, and discussion?
 - ~~users total likes/dislikes across all posts and comments~~ (DONE)
 - possible to breakdown long functions in to reusable helper functions?
