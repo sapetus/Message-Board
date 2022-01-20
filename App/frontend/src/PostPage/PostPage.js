@@ -38,9 +38,6 @@ const PostPage = ({ token }) => {
     fetchPolicy: 'cache-and-network'
   })
 
-  /* when liking/disliking a comment, console alerts 'cache data may be lost when replacing the...'
-  this stops after liking/disliking the comment, don't know how to fix
-  (doesn't seem to have any effect on actual functionality) */
   const [getComments, { data: getCommentsData, fetchMore }] = useLazyQuery(FIND_COMMENTS_BY_POST, {
     fetchPolicy: 'cache-and-network'
   })
@@ -133,6 +130,7 @@ const PostPage = ({ token }) => {
           {discussion?.name}
         </Link>
       </h2>
+
       <div id='post_data'>
         <h3>Title</h3>
         <p>{postTitle}</p>
@@ -140,6 +138,7 @@ const PostPage = ({ token }) => {
         <h3>Text</h3>
         <p>{postText}</p>
       </div>
+
       <div id='likes_dislikes'>
         <h3>Likes & Dislikes</h3>
         {postLikes} | {postDislikes}
@@ -152,18 +151,21 @@ const PostPage = ({ token }) => {
           />
         </div>
       </div>
+      
       <div id='comments'>
         <h3>Comments</h3>
         <ul>
           {comments?.map(comment =>
             <Comment
-              key={comment.id} comment={comment}
-              token={token} postId={params.id}
+              key={comment.id}
+              comment={comment}
+              token={token}
             />
           )}
         </ul>
         <button onClick={fetchMoreComments}>Get More Comments</button>
       </div>
+
       {token &&
         <CreateCommentForm postId={params.id} />}
     </div>

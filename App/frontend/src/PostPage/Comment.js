@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
+import { Link } from 'react-router-dom'
 
 import VoteButtons from '../Components/VoteButtons'
 
-import { FIND_POST, FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 import {
   LIKE_COMMENT,
   UNLIKE_COMMENT,
@@ -11,52 +11,37 @@ import {
   UNDISLIKE_COMMENT
 } from '../GraphQL/mutations'
 
-//is it better to fetch each comment separately, or fetch all comments when the post they are associated with is queried?
-const Comment = ({ comment, token, postId }) => {
+const Comment = ({ comment, token }) => {
   const [userHasLikedComment, setUserHasLikedComment] = useState(false)
   const [userHasDislikedComment, setUserHasDislikedComment] = useState(false)
 
   const [likeComment] = useMutation(LIKE_COMMENT, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [
-      { query: FIND_POST, variables: { id: postId } },
-      { query: FIND_COMMENTS_BY_POST, variables: { id: postId } }
-    ]
+    }
   })
 
   const [dislikeComment] = useMutation(DISLIKE_COMMENT, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [
-      { query: FIND_POST, variables: { id: postId } },
-      { query: FIND_COMMENTS_BY_POST, variables: { id: postId } }
-    ]
+    }
   })
 
   const [unlikeComment] = useMutation(UNLIKE_COMMENT, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [
-      { query: FIND_POST, variables: { id: postId } },
-      { query: FIND_COMMENTS_BY_POST, variables: { id: postId } }
-    ]
+    }
   })
 
   const [undislikeComment] = useMutation(UNDISLIKE_COMMENT, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [
-      { query: FIND_POST, variables: { id: postId } },
-      { query: FIND_COMMENTS_BY_POST, variables: { id: postId } }
-    ]
+    }
   })
 
   //set values for conditional rendering of vote buttons
+  //when new comments are fetched, those comments' list of like/dislike users doesn't get updated when voting
+  //altough likes/dislikes do get updated. After refreshing the page, these updates have happened
   useEffect(() => {
     if (comment?.listOfLikeUsers && token) {
       const likeUsernames = comment.listOfLikeUsers.map(user => user.username)
@@ -77,7 +62,7 @@ const Comment = ({ comment, token, postId }) => {
         likeFunction={likeComment} unlikeFunction={unlikeComment}
         dislikeFunction={dislikeComment} undislikeFunction={undislikeComment}
       />
-      <p>Comment by {comment.user.username}</p>
+      <p>Comment by <Link to={`/user/${comment.user.username}`}>{comment.user.username}</Link></p>
     </li >
   )
 }

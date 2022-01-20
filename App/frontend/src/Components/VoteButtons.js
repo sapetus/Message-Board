@@ -6,6 +6,7 @@ const VoteButtons = ({
   likeFunction, unlikeFunction,
   dislikeFunction, undislikeFunction
 }) => {
+  //stupid way to block user from voting again too fast
   const [wait, setWait] = useState(false)
 
   const like = () => {

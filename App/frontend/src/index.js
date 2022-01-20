@@ -8,7 +8,6 @@ import {
 } from '@apollo/client'
 import { setContext } from 'apollo-link-context'
 import { BrowserRouter } from 'react-router-dom';
-import { offsetLimitPagination } from '@apollo/client/utilities';
 
 import App from './App';
 
@@ -73,6 +72,20 @@ const client = new ApolloClient({
             keyArgs: ["id"],
             merge(existing, incoming, { args: { after = 0 } }) {
               return mergeFunction(existing, incoming, after)
+            }
+          }
+        }
+      },
+      Comment: {
+        fields: {
+          listOfLikeUsers: {
+            merge(existing, incoming) {
+              return incoming
+            }
+          },
+          listOfDislikeUsers: {
+            merge(existing, incoming) {
+              return incoming
             }
           }
         }

@@ -43,4 +43,5 @@
 | 19.1.2022  | 0.5  | Comments are now paginated |
 |            | 1.5  | backend: got tests working using supertest |
 | 20.1.2022  | 1    | User now has value creationDate. Show this date in user's page |
-| total      | 52.5 | | 
+|            | 1    | Comments now have links to comments creators user page. FIX: before, when voting on a comment, page would fetch ALL comments after. New bug: newly fetched comments don't update when voted on |
+| total      | 53.5 | | 
