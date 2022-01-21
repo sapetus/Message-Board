@@ -17,28 +17,39 @@ const UserPage = (props) => {
   const [totalLikes, setTotalLikes] = useState(0)
   const [totalDislikes, setTotalDislikes] = useState(0)
   const [creationDate, setCreationDate] = useState('')
+  //these allow to 'hide' data when user comes back to the page
+  const [postsFetched, setPostsFetched] = useState(0)
+  const [commentsFetched, setCommentsFetched] = useState(0)
+  const [subscriptionsFetched, setSubscriptionsFetched] = useState(0)
 
   let params = useParams()
   const amountToFetch = 5
 
-  const [getUser, { data: getUserData }] = useLazyQuery(GET_USER_BY_NAME, {
-    fetchPolicy: 'cache-and-network'
-  })
+  const [getUser, { data: getUserData }] = useLazyQuery(
+    GET_USER_BY_NAME,
+    { fetchPolicy: 'cache-and-network' }
+  )
 
-  const [getPostsByUser, { data: getPostsByUserData, fetchMore: fetchMorePosts }] = useLazyQuery(GET_POSTS_BY_USER, {
-    fetchPolicy: 'cache-and-network'
-  })
+  const [getPostsByUser, { data: getPostsByUserData, fetchMore: fetchMorePosts }] = useLazyQuery(
+    GET_POSTS_BY_USER,
+    { fetchPolicy: 'cache-and-network' }
+  )
 
-  const [getCommentsByUser, { data: getCommentsByUserData, fetchMore: fetchMoreComments }] = useLazyQuery(GET_COMMENTS_BY_USER, {
-    fetchPolicy: 'cache-and-network'
-  })
+  const [getCommentsByUser, { data: getCommentsByUserData, fetchMore: fetchMoreComments }] = useLazyQuery(
+    GET_COMMENTS_BY_USER,
+    { fetchPolicy: 'cache-and-network' }
+  )
 
-  const [getMemberOf, { data: getMemberOfData, fetchMore: fetchMoreSubscriptions }] = useLazyQuery(GET_DISCUSSIONS_USER_SUBSCRIBED_TO, {
-    fetchPolicy: 'cache-and-network'
-  })
+  const [getMemberOf, { data: getMemberOfData, fetchMore: fetchMoreSubscriptions }] = useLazyQuery(
+    GET_DISCUSSIONS_USER_SUBSCRIBED_TO,
+    { fetchPolicy: 'cache-and-network' }
+  )
 
-  //data persists after user leaves and comes back, would be nice to have everything reset
   useEffect(() => {
+    setPostsFetched(amountToFetch)
+    setCommentsFetched(amountToFetch)
+    setSubscriptionsFetched(amountToFetch)
+
     getUser({ variables: { username: params.username } })
     getPostsByUser({ variables: { username: params.username, first: amountToFetch } })
     getCommentsByUser({ variables: { username: params.username, first: amountToFetch } })
@@ -51,7 +62,7 @@ const UserPage = (props) => {
       setUsername(userData.username)
       setTotalLikes(userData.totalLikes)
       setTotalDislikes(userData.totalDislikes)
-      //this is here temporary, as not all users have createdAt date
+      //this is here temporary, as not all users have creationDate data
       if (userData.creationDate) {
         setCreationDate(parseDate(userData.creationDate))
       }
@@ -60,45 +71,21 @@ const UserPage = (props) => {
 
   useEffect(() => {
     if (getPostsByUserData?.findPostsByUser) {
-      setPosts(getPostsByUserData.findPostsByUser)
+      setPosts(getPostsByUserData.findPostsByUser.slice(0, postsFetched))
     }
-  }, [getPostsByUserData])
+  }, [getPostsByUserData, postsFetched])
 
   useEffect(() => {
     if (getCommentsByUserData?.findCommentsByUser) {
-      setComments(getCommentsByUserData.findCommentsByUser)
+      setComments(getCommentsByUserData.findCommentsByUser.slice(0, commentsFetched))
     }
-  }, [getCommentsByUserData])
+  }, [getCommentsByUserData, commentsFetched])
 
   useEffect(() => {
     if (getMemberOfData?.findDiscussionsUserHasSubscribedTo) {
-      setMemberOf(getMemberOfData.findDiscussionsUserHasSubscribedTo)
+      setMemberOf(getMemberOfData.findDiscussionsUserHasSubscribedTo.slice(0, subscriptionsFetched))
     }
-  }, [getMemberOfData])
-
-  const fetchSubscriptions = async (event) => {
-    event.preventDefault()
-
-    await fetchMoreSubscriptions({
-      variables: {
-        username: params.username,
-        first: amountToFetch,
-        after: getMemberOfData.findDiscussionsUserHasSubscribedTo.length
-      }
-    })
-  }
-
-  const fetchPosts = async (event) => {
-    event.preventDefault()
-
-    await fetchMorePosts({
-      variables: {
-        username: params.username,
-        first: amountToFetch,
-        after: getPostsByUserData.findPostsByUser.length
-      }
-    })
-  }
+  }, [getMemberOfData, subscriptionsFetched])
 
   const parseDate = (date) => {
     const year = date.slice(0, 4)
@@ -108,16 +95,58 @@ const UserPage = (props) => {
     return `${day}.${month}.${year}`
   }
 
+  const fetchSubscriptions = async (event) => {
+    event.preventDefault()
+
+    const { data } = await fetchMoreSubscriptions({
+      variables: {
+        username: params.username,
+        first: amountToFetch,
+        after: getMemberOfData.findDiscussionsUserHasSubscribedTo.length
+      }
+    })
+
+    if ((data?.findDiscussionsUserHasSubscribedTo.length + getMemberOfData.findDiscussionsUserHasSubscribedTo.length) > subscriptionsFetched) {
+      setSubscriptionsFetched(subscriptionsFetched + amountToFetch)
+    }
+  }
+
+  const fetchPosts = async (event) => {
+    event.preventDefault()
+
+    const { data } = await fetchMorePosts({
+      variables: {
+        username: params.username,
+        first: amountToFetch,
+        after: getPostsByUserData.findPostsByUser.length
+      }
+    })
+
+    if ((data?.findPostsByUser.length + getPostsByUserData.findPostsByUser.length) > postsFetched) {
+      setPostsFetched(postsFetched + amountToFetch)
+    }
+  }
+
   const fetchComments = async (event) => {
     event.preventDefault()
 
-    await fetchMoreComments({
+    const { data } = await fetchMoreComments({
       variables: {
         username: params.username,
         first: amountToFetch,
         after: getCommentsByUserData.findCommentsByUser.length
       }
     })
+
+    if ((data?.findCommentsByUser.length + getCommentsByUserData.findCommentsByUser.length) > commentsFetched) {
+      setCommentsFetched(commentsFetched + amountToFetch)
+    }
+  }
+
+  const showLess = (what, setWhat) => {
+    if (what - amountToFetch >= amountToFetch) {
+      setWhat(what - amountToFetch)
+    }
   }
 
   return (
@@ -147,7 +176,8 @@ const UserPage = (props) => {
             )}
           </tbody>
         </table>
-        <button onClick={fetchPosts}>Get More Posts</button>
+        <button onClick={fetchPosts}>Show More</button>
+        <button onClick={() => showLess(postsFetched, setPostsFetched)}>Show Less</button>
       </div>
 
       <div id="user_comments">
@@ -172,7 +202,8 @@ const UserPage = (props) => {
             )}
           </tbody>
         </table>
-        <button onClick={fetchComments}>Get More Comments</button>
+        <button onClick={fetchComments}>Show More</button>
+        <button onClick={() => showLess(commentsFetched, setCommentsFetched)}>Show less</button>
       </div>
 
       <div id="user_subscriptions">
@@ -191,7 +222,8 @@ const UserPage = (props) => {
             )}
           </tbody>
         </table>
-        <button onClick={fetchSubscriptions}>Get More Subscriptions</button>
+        <button onClick={fetchSubscriptions}>Show More</button>
+        <button onClick={() => showLess(subscriptionsFetched, setSubscriptionsFetched)}>Show Less</button>
       </div>
     </div>
   )

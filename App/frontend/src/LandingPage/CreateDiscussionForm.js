@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
 import { CREATE_DISCUSSION } from '../GraphQL/mutations'
+import { ALL_DISCUSSIONS } from '../GraphQL/queries'
 
 const CreateDiscussionForm = () => {
   const [name, setName] = useState('')
@@ -9,6 +10,16 @@ const CreateDiscussionForm = () => {
   const [createDiscussion] = useMutation(CREATE_DISCUSSION, {
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
+    },
+    update: (store, response) => {
+      const dataInStore = store.readQuery({ query: ALL_DISCUSSIONS })
+      store.writeQuery({
+        query: ALL_DISCUSSIONS,
+        data: {
+          ...dataInStore,
+          allDiscussions: [...dataInStore.allDiscussions, response.data.createDiscussion]
+        }
+      })
     }
   })
 

@@ -7,23 +7,25 @@ import { FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 const CreateCommentForm = ({ postId }) => {
   const [text, setText] = useState('')
 
-  const [createComment] = useMutation(CREATE_COMMENT, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    update: (store, response) => {
-      const dataInStore = store.readQuery({ query: FIND_COMMENTS_BY_POST, variables: { id: postId } })
-      const newComment = { ...response.data.createComment, listOfLikeUsers: [], listOfDislikeUsers: [] }
-      store.writeQuery({
-        query: FIND_COMMENTS_BY_POST,
-        variables: { id: postId },
-        data: {
-          ...dataInStore,
-          findCommentsByPost: [...dataInStore.findCommentsByPost, newComment]
-        }
-      })
-    }
-  })
+  const [createComment] = useMutation(
+    CREATE_COMMENT,
+    {
+      onError: (error) => {
+        console.log(error.graphQLErrors[0].message)
+      },
+      update: (store, response) => {
+        const dataInStore = store.readQuery({ query: FIND_COMMENTS_BY_POST, variables: { id: postId } })
+        const newComment = { ...response.data.createComment, listOfLikeUsers: [], listOfDislikeUsers: [] }
+        store.writeQuery({
+          query: FIND_COMMENTS_BY_POST,
+          variables: { id: postId },
+          data: {
+            ...dataInStore,
+            findCommentsByPost: [...dataInStore.findCommentsByPost, newComment]
+          }
+        })
+      }
+    })
 
   const submit = async (event) => {
     event.preventDefault()

@@ -34,41 +34,51 @@ const PostPage = ({ token }) => {
   let params = useParams()
   const amountToFetch = 5
 
-  const [getPost, { data: getPostData }] = useLazyQuery(FIND_POST, {
-    fetchPolicy: 'cache-and-network'
-  })
+  const [getPost, { data: getPostData }] = useLazyQuery(
+    FIND_POST,
+    { fetchPolicy: 'cache-and-network' }
+  )
 
-  const [getComments, { data: getCommentsData, fetchMore }] = useLazyQuery(FIND_COMMENTS_BY_POST, {
-    fetchPolicy: 'cache-and-network'
-  })
+  const [getComments, { data: getCommentsData, fetchMore }] = useLazyQuery(
+    FIND_COMMENTS_BY_POST,
+    { fetchPolicy: 'cache-and-network' }
+  )
 
-  const [likePost] = useMutation(LIKE_POST, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
-  })
+  const [likePost] = useMutation(
+    LIKE_POST,
+    {
+      onError: (error) => {
+        console.log(error.graphQLErrors[0].message)
+      },
+      refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
+    })
 
-  const [dislikePost] = useMutation(DISLIKE_POST, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
-  })
+  const [dislikePost] = useMutation(
+    DISLIKE_POST,
+    {
+      onError: (error) => {
+        console.log(error.graphQLErrors[0].message)
+      },
+      refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
+    })
 
-  const [unlikePost] = useMutation(UNLIKE_POST, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
-  })
+  const [unlikePost] = useMutation(
+    UNLIKE_POST,
+    {
+      onError: (error) => {
+        console.log(error.graphQLErrors[0].message)
+      },
+      refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
+    })
 
-  const [undislikePost] = useMutation(UNDISLIKE_POST, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
-  })
+  const [undislikePost] = useMutation(
+    UNDISLIKE_POST,
+    {
+      onError: (error) => {
+        console.log(error.graphQLErrors[0].message)
+      },
+      refetchQueries: [{ query: FIND_POST, variables: { id: params.id } }]
+    })
 
   useEffect(() => {
     getPost({ variables: { id: params.id } })
@@ -151,7 +161,7 @@ const PostPage = ({ token }) => {
           />
         </div>
       </div>
-      
+
       <div id='comments'>
         <h3>Comments</h3>
         <ul>
