@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
+import { useNavigate } from 'react-router-dom'
 
 import { CREATE_POST } from '../GraphQL/mutations'
 import { GET_POSTS_BY_DISCUSSION } from '../GraphQL/queries'
@@ -7,6 +8,8 @@ import { GET_POSTS_BY_DISCUSSION } from '../GraphQL/queries'
 const CreatePostForm = ({ discussionName }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
+
+  const navigate = useNavigate()
 
   const [createPost] = useMutation(CREATE_POST, {
     onError: (error) => {
@@ -28,9 +31,11 @@ const CreatePostForm = ({ discussionName }) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    createPost({ variables: { title, text, discussionName: discussionName } })
+    const { data } = await createPost({ variables: { title, text, discussionName: discussionName } })
     setTitle('')
     setText('')
+
+    navigate(`/post/${data.createPost.id}`)
   }
 
   return (

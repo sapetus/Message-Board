@@ -30,6 +30,7 @@ const PostPage = ({ token }) => {
   const [listOfDislikeUsers, setListOfDislikeUsers] = useState(null)
   const [userHasLikedPost, setUserHasLikedPost] = useState(false)
   const [userHasDislikedPost, setUserHasDislikedPost] = useState(false)
+  const [commentsFetched, setCommentsFetched] = useState(0)
 
   let params = useParams()
   const amountToFetch = 5
@@ -81,6 +82,8 @@ const PostPage = ({ token }) => {
     })
 
   useEffect(() => {
+    setCommentsFetched(amountToFetch)
+
     getPost({ variables: { id: params.id } })
     getComments({ variables: { id: params.id, first: amountToFetch } })
   }, [params.id]) //eslint-disable-line
@@ -104,9 +107,9 @@ const PostPage = ({ token }) => {
   //parse post's comment data 
   useEffect(() => {
     if (getCommentsData?.findCommentsByPost) {
-      setComments(getCommentsData.findCommentsByPost)
+      setComments(getCommentsData.findCommentsByPost.slice(0, commentsFetched))
     }
-  }, [getCommentsData?.findCommentsByPost])
+  }, [getCommentsData?.findCommentsByPost, commentsFetched])
 
   //set values for conditional rendering of like and dislike buttons
   useEffect(() => {
@@ -120,16 +123,26 @@ const PostPage = ({ token }) => {
     }
   }, [listOfLikeUsers, listOfDislikeUsers, token])
 
-  const fetchMoreComments = (event) => {
+  const fetchMoreComments = async (event) => {
     event.preventDefault()
 
-    fetchMore({
+    const { data } = await fetchMore({
       variables: {
         id: params.id,
         first: amountToFetch,
         after: getCommentsData.findCommentsByPost.length
       }
     })
+
+    if (data.findCommentsByPost.length + getCommentsData.findCommentsByPost.length > commentsFetched) {
+      setCommentsFetched(commentsFetched + amountToFetch)
+    }
+  }
+
+  const showLess = () => {
+    if (commentsFetched - amountToFetch >= amountToFetch) {
+      setCommentsFetched(commentsFetched - amountToFetch)
+    }
   }
 
   return (
@@ -174,7 +187,8 @@ const PostPage = ({ token }) => {
             />
           )}
         </ul>
-        <button onClick={fetchMoreComments}>Get More Comments</button>
+        <button onClick={fetchMoreComments}>Show More</button>
+        <button onClick={showLess}>Show Less</button>
       </div>
 
       {token &&

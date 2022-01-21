@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
+import { useNavigate } from 'react-router-dom'
 
 import { CREATE_DISCUSSION } from '../GraphQL/mutations'
 import { ALL_DISCUSSIONS } from '../GraphQL/queries'
 
 const CreateDiscussionForm = () => {
   const [name, setName] = useState('')
+
+  const navigate = useNavigate()
 
   const [createDiscussion] = useMutation(CREATE_DISCUSSION, {
     onError: (error) => {
@@ -26,8 +29,10 @@ const CreateDiscussionForm = () => {
   const submit = async (event) => {
     event.preventDefault()
 
-    createDiscussion({ variables: { name } })
+    const { data } = await createDiscussion({ variables: { name } })
     setName('')
+
+    navigate(`/discussion/${data.createDiscussion.name}`)
   }
 
   return (

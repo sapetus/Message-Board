@@ -143,9 +143,9 @@ const UserPage = (props) => {
     }
   }
 
-  const showLess = (what, setWhat) => {
-    if (what - amountToFetch >= amountToFetch) {
-      setWhat(what - amountToFetch)
+  const showLess = (amount, setAmount) => {
+    if (amount - amountToFetch >= amountToFetch) {
+      setAmount(amount - amountToFetch)
     }
   }
 

@@ -19,33 +19,44 @@ const DiscussionPage = ({ token }) => {
   const [posts, setPosts] = useState(null)
   const [listOfMembers, setListOfMembers] = useState(null)
   const [userIsSubscribed, setUserIsSubscribed] = useState(false)
+  const [postsFetched, setPostsFetched] = useState(0)
 
   let params = useParams()
   const amountToFetch = 5
 
-  const [getDiscussion, { data: getDiscussionData }] = useLazyQuery(FIND_DISCUSSION, {
-    fetchPolicy: 'cache-and-network'
-  })
+  const [getDiscussion, { data: getDiscussionData }] = useLazyQuery(
+    FIND_DISCUSSION,
+    { fetchPolicy: 'cache-and-network' }
+  )
 
-  const [getPosts, { data: getPostsData, fetchMore }] = useLazyQuery(GET_POSTS_BY_DISCUSSION, {
-    fetchPolicy: 'cache-and-network'
-  })
+  const [getPosts, { data: getPostsData, fetchMore }] = useLazyQuery(
+    GET_POSTS_BY_DISCUSSION,
+    { fetchPolicy: 'cache-and-network' }
+  )
 
-  const [subscribeToDiscussion] = useMutation(SUBSCRIBE_TO_DISCUSSION, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_DISCUSSION, variables: { name: params.name } }]
-  })
+  const [subscribeToDiscussion] = useMutation(
+    SUBSCRIBE_TO_DISCUSSION,
+    {
+      onError: (error) => {
+        console.log(error.graphQLErrors[0].message)
+      },
+      refetchQueries: [{ query: FIND_DISCUSSION, variables: { name: params.name } }]
+    }
+  )
 
-  const [unsubscribeFromDiscussion] = useMutation(UNSUBSCRIBE_FROM_DISCUSSION, {
-    onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
-    },
-    refetchQueries: [{ query: FIND_DISCUSSION, variables: { name: params.name } }]
-  })
+  const [unsubscribeFromDiscussion] = useMutation(
+    UNSUBSCRIBE_FROM_DISCUSSION,
+    {
+      onError: (error) => {
+        console.log(error.graphQLErrors[0].message)
+      },
+      refetchQueries: [{ query: FIND_DISCUSSION, variables: { name: params.name } }]
+    }
+  )
 
   useEffect(() => {
+    setPostsFetched(amountToFetch)
+
     getDiscussion({ variables: { name: params.name } })
     getPosts({ variables: { name: params.name, first: amountToFetch } })
   }, [params.name]) //eslint-disable-line
@@ -61,9 +72,9 @@ const DiscussionPage = ({ token }) => {
 
   useEffect(() => {
     if (getPostsData?.findPostsByDiscussion) {
-      setPosts(getPostsData.findPostsByDiscussion)
+      setPosts(getPostsData.findPostsByDiscussion.slice(0, postsFetched))
     }
-  }, [getPostsData?.findPostsByDiscussion])
+  }, [getPostsData?.findPostsByDiscussion, postsFetched])
 
   //check if user is subscribed and show subscribe buttons accordingly
   //but only when user is logged in
@@ -85,59 +96,70 @@ const DiscussionPage = ({ token }) => {
   const fetchPosts = async (event) => {
     event.preventDefault()
 
-    await fetchMore({
+    const { data } = await fetchMore({
       variables: {
         name: params.name,
         first: amountToFetch,
         after: getPostsData.findPostsByDiscussion.length
       }
     })
+
+    if (data.findPostsByDiscussion.length + getPostsData.findPostsByDiscussion.length > postsFetched) {
+      setPostsFetched(postsFetched + amountToFetch)
+    }
+  }
+
+  const showLess = () => {
+    if (postsFetched - amountToFetch >= amountToFetch) {
+      setPostsFetched(postsFetched - amountToFetch)
+    }
   }
 
   return (
     <div>
       <h1>Discussion Page</h1>
-      <div>
-        <h3>{discussionName}</h3>
-        <h4>members: {discussionMembers}</h4>
-        {token && // only show when user is logged in
-          <div id="subscription_selection">
-            {userIsSubscribed
-              ? //if is subscribed, show unsubscribe
-              <button onClick={() => unsubscribe(discussionName)} style={{ backgroundColor: 'orange' }}>
-                Unsubscribe
-              </button>
-              : //if isn't subscribed, show subscribe
-              <button onClick={() => subscribe(discussionName)}>
-                Subscribe
-              </button>
-            }
-          </div>}
-        <h3>Posts</h3>
-        <table id="posts">
-          <tbody>
-            <tr>
-              <th>Title</th>
-              <th>Text</th>
-              <th>Likes</th>
-              <th>Dislikes</th>
+      <h3>{discussionName}</h3>
+      <h4>members: {discussionMembers}</h4>
+      {token && // only show when user is logged in
+        <div id="subscription_selection">
+          {userIsSubscribed
+            ? //if is subscribed, show unsubscribe
+            <button onClick={() => unsubscribe(discussionName)} style={{ backgroundColor: 'orange' }}>
+              Unsubscribe
+            </button>
+            : //if isn't subscribed, show subscribe
+            <button onClick={() => subscribe(discussionName)}>
+              Subscribe
+            </button>
+          }
+        </div>}
+
+      <h3>Posts</h3>
+      <table id="posts">
+        <tbody>
+          <tr>
+            <th>Title</th>
+            <th>Text</th>
+            <th>Likes</th>
+            <th>Dislikes</th>
+          </tr>
+          {posts?.map(post =>
+            <tr key={post.id}>
+              <td><Link to={`/post/${post.id}`}>{post.title}</Link> |</td>
+              <td>{post.text} |</td>
+              <td>{post.likes} |</td>
+              <td>{post.dislikes}</td>
             </tr>
-            {posts?.map(post =>
-              <tr key={post.id}>
-                <td><Link to={`/post/${post.id}`}>{post.title}</Link> |</td>
-                <td>{post.text} |</td>
-                <td>{post.likes} |</td>
-                <td>{post.dislikes}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <button onClick={fetchPosts}>Get More Posts</button>
-        {token &&
-          <CreatePostForm
-            discussionName={params.name}
-          />}
-      </div>
+          )}
+        </tbody>
+      </table>
+      <button onClick={fetchPosts}>Show More</button>
+      <button onClick={showLess}>Show Less</button>
+
+      {token &&
+        <CreatePostForm
+          discussionName={params.name}
+        />}
     </div>
   )
 }

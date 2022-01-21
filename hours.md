@@ -46,5 +46,6 @@
 |            | 1    | Comments now have links to comments creators user page. FIX: before, when voting on a comment, page would fetch ALL comments after. New bug: newly fetched comments don't update when voted on |
 |            | 1    | Fix: newly fetched comments can now be voted on, and the change happens without the need to reset the page (problem wasm that the update method's return didn't have a new list to replace the old list) |
 |            | 1.5  | Fix: When switching from user page to another user page, data doesn't persist anymore. Creating a comment or post appends it to their existing list. |
-| 21.1.2022  | 1.5  | When discussion is created, it is now appended to the existing list, similarly to comments and posts. In UserPage, data now 'resets' when revisiting same user twice, show less button added |
-| total      | 58.5 | |
+| 21.1.2022  | 1.5  | When discussion is created, it is now appended to the existing list, similarly to comments and posts. In UserPage, data now 'resets' when revisiting same user twice, 'show less' -button added |
+|            | 1    | comments and discussions now have the functionality to show more and less. Creating a post/discussion redirects to created posts/discussions page |
+| total      | 59.5 | |
