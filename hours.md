@@ -51,4 +51,5 @@
 | 24.1.2022  | 1.5  | Comments can now be commented, and comment shows the comment it responded to |
 |            | 0.5  | Comment form now has a 'hide' button, to only show the form when needed. Created bugs.md | 
 |            | 0.5  | Created comments now appear properly. |
-| total      | 62   | |
+|            | 1    | Cleaned up VoteButtons component. FIX: when leaving a page quickly after voting, 'Can't perform state update on an unmounted componen' -error would apear. |
+| total      | 63   | |

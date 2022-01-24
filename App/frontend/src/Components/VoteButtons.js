@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const VoteButtons = ({
   id, token,
@@ -6,46 +6,27 @@ const VoteButtons = ({
   likeFunction, unlikeFunction,
   dislikeFunction, undislikeFunction
 }) => {
-  //stupid way to block user from voting again too fast
+  //?stupid? way to block user from voting again too fast
   const [wait, setWait] = useState(false)
+  let currentTimeoutId = null
+  const waitTime = 1000
 
-  const like = () => {
-    if (!wait) {
-      likeFunction({ variables: { id } })
-      setWait(true)
-      setTimeout(() => {
-        setWait(false)
-      }, 1000)
+  //this appears get rid of the 'Can't perform state update on an unmounted componen' -error
+  useEffect(() => {
+    let timeoutId = currentTimeoutId
+
+    return () => {
+      clearTimeout(timeoutId)
     }
-  }
+  }, [currentTimeoutId])
 
-  const unlike = () => {
+  const vote = (voteFunction) => {
     if (!wait) {
-      unlikeFunction({ variables: { id } })
+      voteFunction({ variables: { id } })
       setWait(true)
-      setTimeout(() => {
+      currentTimeoutId = setTimeout(() => {
         setWait(false)
-      }, 1000)
-    }
-  }
-
-  const dislike = () => {
-    if (!wait) {
-      dislikeFunction({ variables: { id } })
-      setWait(true)
-      setTimeout(() => {
-        setWait(false)
-      }, 1000)
-    }
-  }
-
-  const undislike = () => {
-    if (!wait) {
-      undislikeFunction({ variables: { id } })
-      setWait(true)
-      setTimeout(() => {
-        setWait(false)
-      }, 1000)
+      }, waitTime)
     }
   }
 
@@ -53,13 +34,13 @@ const VoteButtons = ({
     <p className="vote_button">
       {token &&
         (hasLiked
-          ? <button onClick={() => unlike()} style={{ backgroundColor: "orange" }}>Unlike</button>
-          : <button onClick={() => like()}>Like</button>)
+          ? <button onClick={() => vote(unlikeFunction)} style={{ backgroundColor: "orange" }}>Unlike</button>
+          : <button onClick={() => vote(likeFunction)}>Like</button>)
       }
       {token &&
         (hasDisliked
-          ? <button onClick={() => undislike()} style={{ backgroundColor: "orange" }}>Undislike</button>
-          : <button onClick={() => dislike()}>Dislike</button>)
+          ? <button onClick={() => vote(undislikeFunction)} style={{ backgroundColor: "orange" }}>Undislike</button>
+          : <button onClick={() => vote(dislikeFunction)}>Dislike</button>)
       }
     </p>
   )

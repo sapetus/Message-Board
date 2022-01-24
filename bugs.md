@@ -1,2 +1,4 @@
 - ~~When creating a comment, the comment appears like supposed to, when fetched comments is NOT divisible by 5 
 (new comments are fetched in batches of 5, if current fetch is "full" the new comment doesn't "fit", and is fetched in the next batch, as in, user needs to press get more comments)~~ FIXED
+- ~~If user leaves a page where voting has happened recently (< 1s ago) warning is displayer in console: Can't perform React state update on an unmounted component. 
+This is because VoteButtons component sets a timeout, and if user leaves before timeout finishes, state cannot be updated, leading to this error.~~ FIXED
