@@ -49,4 +49,5 @@
 | 21.1.2022  | 1.5  | When discussion is created, it is now appended to the existing list, similarly to comments and posts. In UserPage, data now 'resets' when revisiting same user twice, 'show less' -button added |
 |            | 1    | comments and discussions now have the functionality to show more and less. Creating a post/discussion redirects to created posts/discussions page |
 | 24.1.2022  | 1.5  | Comments can now be commented, and comment shows the comment it responded to |
-| total      | 61   | |
+|            | 0.5  | Comment form now has a 'hide' button, to only show the form when needed. Created bugs.md | 
+| total      | 61.5 | |
