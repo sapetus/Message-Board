@@ -33,10 +33,11 @@ export const CREATE_DISCUSSION = gql`
 `
 
 export const CREATE_COMMENT = gql`
-  mutation createComment($text: String!, $postId: ID!) {
+  mutation createComment($text: String!, $postId: ID!, $commentId: ID) {
     createComment(
       text: $text,
-      postId: $postId
+      postId: $postId,
+      responseToId: $commentId
     ) {
       id,
       text,
@@ -45,6 +46,10 @@ export const CREATE_COMMENT = gql`
       user {
         id
         username
+      },
+      responseTo {
+        id
+        text
       }
     }
   }

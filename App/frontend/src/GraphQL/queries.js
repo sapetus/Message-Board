@@ -90,6 +90,10 @@ export const FIND_COMMENTS_BY_POST = gql`
         id,
         username
       },
+      responseTo {
+        id,
+        text
+      },
       listOfLikeUsers {
         id,
         username

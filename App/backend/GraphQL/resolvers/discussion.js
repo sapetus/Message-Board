@@ -11,7 +11,6 @@ const {
 
 const discussion = {
   Query: {
-    //no need to populate posts, as they are not needed in this query
     allDiscussions: async (root, args) => {
       const discussions = await Discussion.find({})
 

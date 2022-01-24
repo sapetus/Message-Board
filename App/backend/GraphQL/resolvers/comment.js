@@ -18,6 +18,7 @@ const comment = {
         .populate('user')
         .populate({ path: 'listOfLikeUsers', model: 'User' })
         .populate({ path: 'listOfDislikeUsers', model: 'User' })
+        .populate({ path: 'responseTo', model: 'Comment' })
 
       return comment
     },
@@ -38,6 +39,10 @@ const comment = {
             {
               path: 'listOfDislikeUsers',
               model: 'User'
+            },
+            {
+              path: 'responseTo',
+              model: 'Comment'
             }
           ]
         })
@@ -73,6 +78,7 @@ const comment = {
       const currentUser = checkUser(context)
 
       const post = await Post.findOne({ _id: args.postId })
+      const responseTo = await Comment.findOne({ _id: args.responseToId })
 
       if (!post) {
         throw new UserInputError('Post must exists to be able to comment', {
@@ -85,7 +91,8 @@ const comment = {
         likes: 0,
         dislikes: 0,
         post: post,
-        user: currentUser
+        user: currentUser,
+        responseTo: responseTo
       })
 
       try {

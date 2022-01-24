@@ -48,4 +48,5 @@
 |            | 1.5  | Fix: When switching from user page to another user page, data doesn't persist anymore. Creating a comment or post appends it to their existing list. |
 | 21.1.2022  | 1.5  | When discussion is created, it is now appended to the existing list, similarly to comments and posts. In UserPage, data now 'resets' when revisiting same user twice, 'show less' -button added |
 |            | 1    | comments and discussions now have the functionality to show more and less. Creating a post/discussion redirects to created posts/discussions page |
-| total      | 59.5 | |
+| 24.1.2022  | 1.5  | Comments can now be commented, and comment shows the comment it responded to |
+| total      | 61   | |

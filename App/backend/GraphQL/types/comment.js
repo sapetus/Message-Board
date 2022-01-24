@@ -7,6 +7,7 @@ const comment = gql`
     likes: Int!
     dislikes: Int!
     post: Post!
+    responseTo: Comment
     user: User!
     listOfLikeUsers: [User!]!
     listOfDislikeUsers: [User!]!
@@ -30,6 +31,7 @@ const comment = gql`
     createComment (
       text: String!
       postId: ID!
+      responseToId: ID
     ): Comment
     likeComment (
       id: ID!

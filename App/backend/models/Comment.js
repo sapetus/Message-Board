@@ -17,6 +17,10 @@ const schema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
   },
+  responseTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment'
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
