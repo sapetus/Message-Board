@@ -1,0 +1,2 @@
+- When creating a comment, the comment appears like supposed to, when fetched comments is NOT divisible by 5 
+(new comments are fetched in batches of 5, if current fetch is "full" the new comment doesn't "fit", and is fetched in the next batch, as in, user needs to press get more comments)

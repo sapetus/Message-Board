@@ -6,6 +6,7 @@ import { FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 
 const CreateCommentForm = ({ postId, commentId }) => {
   const [text, setText] = useState('')
+  const [showForm, setShowForm] = useState(false)
 
   const [createComment] = useMutation(
     CREATE_COMMENT,
@@ -32,21 +33,25 @@ const CreateCommentForm = ({ postId, commentId }) => {
 
     await createComment({ variables: { text, postId, commentId } })
     setText('')
+    setShowForm(false)
   }
 
   return (
     <div className='form'>
-      <h3>Comment</h3>
-      <form onSubmit={submit}>
-        <div className="formField">
-          Text
-          <input
-            value={text}
-            onChange={({ target }) => setText(target.value)}
-          />
-        </div>
-        <button type="submit">Create Comment</button>
-      </form>
+      {/* Delete this style later */}
+      <button style={ {marginBottom: "10px"} } onClick={() => setShowForm(!showForm)}>Reply</button>
+      {showForm &&
+        <form onSubmit={submit}>
+          <div className="formField">
+            Text
+            <input
+              value={text}
+              onChange={({ target }) => setText(target.value)}
+            />
+          </div>
+          <button type="submit">Create Comment</button>
+        </form>
+      }
     </div>
   )
 }

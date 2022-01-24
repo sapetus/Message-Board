@@ -15,7 +15,6 @@ import {
 const Comment = ({ comment, token, postId }) => {
   const [userHasLikedComment, setUserHasLikedComment] = useState(false)
   const [userHasDislikedComment, setUserHasDislikedComment] = useState(false)
-  const [showForm, setShowForm] = useState(false)
 
   const [likeComment] = useMutation(LIKE_COMMENT, {
     onError: (error) => {
@@ -67,10 +66,7 @@ const Comment = ({ comment, token, postId }) => {
         dislikeFunction={dislikeComment} undislikeFunction={undislikeComment}
       />
       <p>Comment by <Link to={`/user/${comment.user.username}`}>{comment.user.username}</Link></p>
-      <button style={{ marginBottom: "10px" }} onClick={() => setShowForm(!showForm)}>Reply</button>
-      {showForm &&
-        <CreateCommentForm postId={postId} commentId={comment.id} />
-      }
+      <CreateCommentForm postId={postId} commentId={comment.id} />
     </li >
   )
 }

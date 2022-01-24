@@ -123,9 +123,7 @@ const PostPage = ({ token }) => {
     }
   }, [listOfLikeUsers, listOfDislikeUsers, token])
 
-  const fetchMoreComments = async (event) => {
-    event.preventDefault()
-
+  const fetchMoreComments = async () => {
     const { data } = await fetchMore({
       variables: {
         id: params.id,
@@ -192,7 +190,8 @@ const PostPage = ({ token }) => {
       </div>
 
       {token &&
-        <CreateCommentForm postId={params.id} />}
+        <CreateCommentForm postId={params.id} />
+      }
     </div>
   )
 }
