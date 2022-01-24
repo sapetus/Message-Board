@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client'
 import { CREATE_COMMENT } from '../GraphQL/mutations'
 import { FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 
-const CreateCommentForm = ({ postId, commentId }) => {
+const CreateCommentForm = ({ postId, commentId, fetched, setFetched }) => {
   const [text, setText] = useState('')
   const [showForm, setShowForm] = useState(false)
 
@@ -34,12 +34,13 @@ const CreateCommentForm = ({ postId, commentId }) => {
     await createComment({ variables: { text, postId, commentId } })
     setText('')
     setShowForm(false)
+    setFetched(fetched + 1)
   }
 
   return (
     <div className='form'>
       {/* Delete this style later */}
-      <button style={ {marginBottom: "10px"} } onClick={() => setShowForm(!showForm)}>Reply</button>
+      <button style={{ marginBottom: "10px" }} onClick={() => setShowForm(!showForm)}>Reply</button>
       {showForm &&
         <form onSubmit={submit}>
           <div className="formField">

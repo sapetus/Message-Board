@@ -182,6 +182,8 @@ const PostPage = ({ token }) => {
               postId={params.id}
               comment={comment}
               token={token}
+              fetched={commentsFetched}
+              setFetched={setCommentsFetched}
             />
           )}
         </ul>
@@ -190,7 +192,11 @@ const PostPage = ({ token }) => {
       </div>
 
       {token &&
-        <CreateCommentForm postId={params.id} />
+        <CreateCommentForm
+          postId={params.id}
+          fetched={commentsFetched}
+          setFetched={setCommentsFetched}
+        />
       }
     </div>
   )

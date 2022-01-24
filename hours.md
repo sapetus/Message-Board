@@ -50,4 +50,5 @@
 |            | 1    | comments and discussions now have the functionality to show more and less. Creating a post/discussion redirects to created posts/discussions page |
 | 24.1.2022  | 1.5  | Comments can now be commented, and comment shows the comment it responded to |
 |            | 0.5  | Comment form now has a 'hide' button, to only show the form when needed. Created bugs.md | 
-| total      | 61.5 | |
+|            | 0.5  | Created comments now appear properly. |
+| total      | 62   | |
