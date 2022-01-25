@@ -87,9 +87,140 @@ const initialUsers = [
   }
 ]
 
+const initializeDatabase = async () => {
+  await clearDb()
+
+  const discussions = await initDiscussions()
+  const posts = await initPosts()
+  const comments = await initComments()
+  const users = await initUsers()
+
+  const updatedDiscussions = await updateDiscussions(discussions, posts)
+  const updatedComments = await updateComments(comments, users, posts)
+  const updatedPosts = await updatePosts(posts, users, comments, discussions)
+  const updatedUsers = await updateUsers(users, posts, comments)
+
+  return {
+    discussions: updatedDiscussions,
+    posts: updatedPosts,
+    comments: updatedComments,
+    users: updatedUsers
+  }
+}
+
+const clearDb = async () => {
+  await Discussion.deleteMany({})
+  await Comment.deleteMany({})
+  await Post.deleteMany({})
+  await User.deleteMany({})
+}
+
+const initDiscussions = async () => {
+  await Discussion.insertMany(initialDiscussions)
+  const discussions = await Discussion.find({})
+
+  return discussions
+}
+
+const updateDiscussions = async (discussions, posts) => {
+  await Discussion.findOneAndUpdate(
+    { _id: discussions[0].id },
+    { posts: [posts[0].id] },
+    { new: true }
+  )
+  await Discussion.findOneAndUpdate(
+    { _id: discussions[1].id },
+    { posts: [posts[1].id] },
+    { new: true }
+  )
+
+  const updatedDiscussions = await Discussion.find({})
+
+  return updatedDiscussions
+}
+
+const initPosts = async () => {
+  await Post.insertMany(initialPosts)
+  const posts = await Post.find({})
+
+  return posts
+}
+
+const updatePosts = async (posts, users, comments, discussions) => {
+  await Post.findOneAndUpdate(
+    { _id: posts[0].id },
+    { user: users[1].id, comments: [comments[0].id], discussion: discussions[0].id },
+    { new: true }
+  )
+  await Post.findOneAndUpdate(
+    { _id: posts[1].id },
+    { user: users[0].id, comments: [comments[1].id], discussions: discussions[1].id },
+    { new: true }
+  )
+
+  const updatedPosts = await Post.find({})
+
+  return updatedPosts
+}
+
+const initComments = async () => {
+  await Comment.insertMany(initialComments)
+  const comments = await Comment.find({})
+
+  return comments
+}
+
+const updateComments = async (comments, users, posts) => {
+  await Comment.findOneAndUpdate(
+    { _id: comments[0].id },
+    { user: users[0].id, post: posts[0].id },
+    { new: true }
+  )
+  await Comment.findOneAndUpdate(
+    { _id: comments[1].id },
+    { user: users[1].id, post: posts[1].id },
+    { new: true }
+  )
+
+  const updatedComments = await Comment.find({})
+
+  return updatedComments
+}
+
+const initUsers = async () => {
+  //both test users use same password
+  const passwordHash = await bcrypt.hash("password", 10)
+  initialUsers.map(user => {
+    user.passwordHash = passwordHash
+  })
+
+  await User.insertMany(initialUsers)
+  const users = await User.find({})
+
+  return users
+}
+
+const updateUsers = async (users, posts, comments) => {
+  await User.findOneAndUpdate(
+    { _id: users[0].id },
+    { posts: [posts[1].id], comments: [comments[0].id] },
+    { new: true }
+  )
+  await User.findOneAndUpdate(
+    { id: users[1].id },
+    { posts: [posts[0].id], comments: [comments[1].id] },
+    { new: true }
+  )
+
+  const updatedUsers = await User.find({})
+
+  return updatedUsers
+}
+
 module.exports = {
   initialDiscussions,
   initialPosts,
   initialComments,
-  initialUsers
+  initialUsers,
+  initializeDatabase
 }

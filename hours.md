@@ -53,4 +53,5 @@
 |            | 0.5  | Created comments now appear properly. |
 |            | 1    | Cleaned up VoteButtons component. FIX: when leaving a page quickly after voting, 'Can't perform state update on an unmounted componen' -error would apear. |
 | 25.1.2022  | 2    | Started writing tests |
-| total      | 65   | |
+|            | 2    | Continued writing tests |
+| total      | 67   | |
