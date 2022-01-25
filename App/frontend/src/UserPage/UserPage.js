@@ -9,7 +9,7 @@ import {
   GET_DISCUSSIONS_USER_SUBSCRIBED_TO
 } from '../GraphQL/queries'
 
-const UserPage = (props) => {
+const UserPage = ({ token }) => {
   const [username, setUsername] = useState('')
   const [posts, setPosts] = useState(null)
   const [comments, setComments] = useState(null)
