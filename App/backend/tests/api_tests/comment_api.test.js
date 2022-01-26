@@ -97,7 +97,7 @@ describe('Comment', () => {
       const comments = response.body.data.findCommentsByUser
 
       expect(comments).toHaveLength(1)
-      expect(comments[0].text).toEqual(helper.initialComments[1].text)
+      expect(comments[0].text).toEqual(helper.initialComments[0].text)
     })
   })
 

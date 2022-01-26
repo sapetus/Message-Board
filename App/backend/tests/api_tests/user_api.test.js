@@ -14,6 +14,33 @@ describe('User', () => {
   })
 
   describe('Queries', () => {
+    test('get logged in user', async () => {
+      const token = await helper.createToken(0)
+
+      const data = {
+        query: `
+          query getCurrentUser {
+            getCurrentUser {
+              id
+              username
+            }
+          }
+        `,
+        operationName: "getCurrentUser"
+      }
+
+      const response = await api
+        .post('/graphql')
+        .set({ 'Authorization': token })
+        .send(data)
+        .expect(200)
+
+      const user = response.body.data.getCurrentUser
+
+      expect(user).not.toBeFalsy()
+      expect(user.username).toEqual(helper.initialUsers[0].username)
+    })
+
     test('get user by name', async () => {
       const data = {
         query: `

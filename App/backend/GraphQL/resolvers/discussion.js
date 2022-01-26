@@ -31,7 +31,7 @@ const discussion = {
           path: 'memberOf',
           model: 'Discussion'
         })
-      
+
       const discussions = user.memberOf
 
       const paginatedDiscussions = paginate(

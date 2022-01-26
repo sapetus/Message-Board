@@ -102,7 +102,101 @@ describe('Discussion', () => {
   })
 
   describe('Mutations', () => {
+    test('creating a discussion works', async () => {
+      const token = await helper.createToken(0)
 
+      const data = {
+        query: `
+          mutation createDiscussion($name: String!) {
+            createDiscussion(name: $name) {
+              id
+              name
+              members
+            }
+          }
+        `,
+        operationName: "createDiscussion",
+        variables: {
+          name: "Pets"
+        }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .set({ 'Authorization': token })
+        .send(data)
+        .expect(200)
+
+      const discussion = response.body.data.createDiscussion
+
+      //if creation was succesfull, the new discussion was returned
+      expect(discussion).not.toBeFalsy()
+
+      const discussionCount = await Discussion.count({})
+      expect(discussionCount).toEqual(3)
+    })
+
+    test('subscribing to a discussion works', async () => {
+      const token = await helper.createToken(0)
+
+      const data = {
+        query: `
+          mutation subscribeToDiscussion($discussionName: String!) {
+            subscribeToDiscussion(discussionName: $discussionName) {
+              id
+              members
+            }
+          }
+        `,
+        operationName: "subscribeToDiscussion",
+        variables: {
+          "discussionName": "Movies"
+        }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .set({ 'Authorization': token })
+        .send(data)
+        .expect(200)
+
+      const discussion = response.body.data.subscribeToDiscussion
+
+      //if subscription was succesfull, the updated discussion is returned
+      expect(discussion.id).not.toBeFalsy()
+      expect(discussion.members).toEqual(1)
+    })
+
+    test('unsubscribing from a discussion works', async () => {
+      const token = await helper.createToken(1)
+
+      const data = {
+        query: `
+          mutation unsubscribeFromDiscussion($discussionName: String!) {
+            unsubscribeFromDiscussion(discussionName: $discussionName) {
+              id
+              members
+            }
+          }
+        `,
+        operationName: "unsubscribeFromDiscussion",
+        variables: {
+          "discussionName": "Books"
+        }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .set({ 'Authorization': token })
+        .send(data)
+        .expect(200)
+
+      const discussion = response.body.data.unsubscribeFromDiscussion
+
+      //if unsubscribing was sucessful, the updated discussion was returned
+      expect(discussion.id).not.toBeFalsy()
+      expect(discussion.members).toEqual(0)
+    })
   })
 })
 

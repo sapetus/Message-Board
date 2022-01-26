@@ -1,9 +1,27 @@
+require('dotenv').config()
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const Discussion = require('../models/Discussion')
 const Comment = require('../models/Comment')
 const Post = require('../models/Post')
 const User = require('../models/User')
+
+const JWT_SECRET = process.env.JWT_SECRET
+
+/* state of the data in DB after initialization
+User[0].Comments[Comment[0]].Posts[Post[1]]
+User[1].Comments[Comment[1]].Posts[Post[0]].MemberOf[Discussion[1]]
+
+Comment[0].User(User[0]).Post(Post[0])
+Comment[1].User(User[1]).Post(Post[1])
+
+Post[0].User(User[1]).Comments[Comment[0]].Discussion(Discussion[0])
+Post[1].User(User[0]).Comments[Comment[1]].Discussion(Discussion[1])
+
+Discussion[0].Posts[Post[0]]
+Discussion[1].Posts[Post[1]].Members(1).listOfMembers[User[1]]
+*/
 
 const initialDiscussions = [
   {
@@ -87,6 +105,20 @@ const initialUsers = [
   }
 ]
 
+//Create token for a user in initialUsers with index
+const createToken = async (index) => {
+  const user = await User.findOne({ username: initialUsers[index].username })
+
+  const userForToken = {
+    username: user.username,
+    id: user._id
+  }
+
+  const token = `bearer ${jwt.sign(userForToken, JWT_SECRET)}`
+
+  return token
+}
+
 const initializeDatabase = async () => {
   await clearDb()
 
@@ -96,10 +128,10 @@ const initializeDatabase = async () => {
   const users = await initUsers()
 
   //update each with associated data (post gets an user, discussion gets posts, posts get comments etc.)
-  const updatedDiscussions = await updateDiscussions(discussions, posts)
+  const updatedDiscussions = await updateDiscussions(discussions, posts, users)
   const updatedComments = await updateComments(comments, users, posts)
   const updatedPosts = await updatePosts(posts, users, comments, discussions)
-  const updatedUsers = await updateUsers(users, posts, comments)
+  const updatedUsers = await updateUsers(users, posts, comments, discussions)
 
   return {
     discussions: updatedDiscussions,
@@ -123,7 +155,7 @@ const initDiscussions = async () => {
   return discussions
 }
 
-const updateDiscussions = async (discussions, posts) => {
+const updateDiscussions = async (discussions, posts, users) => {
   await Discussion.findOneAndUpdate(
     { _id: discussions[0].id },
     { posts: [posts[0].id] },
@@ -131,7 +163,7 @@ const updateDiscussions = async (discussions, posts) => {
   )
   await Discussion.findOneAndUpdate(
     { _id: discussions[1].id },
-    { posts: [posts[1].id] },
+    { posts: [posts[1].id], members: 1, listOfMembers: [users[1].id] },
     { new: true }
   )
 
@@ -155,7 +187,7 @@ const updatePosts = async (posts, users, comments, discussions) => {
   )
   await Post.findOneAndUpdate(
     { _id: posts[1].id },
-    { user: users[0].id, comments: [comments[1].id], discussions: discussions[1].id },
+    { user: users[0].id, comments: [comments[1].id], discussion: discussions[1].id },
     { new: true }
   )
 
@@ -191,7 +223,7 @@ const updateComments = async (comments, users, posts) => {
 const initUsers = async () => {
   //both test users use same password
   const passwordHash = await bcrypt.hash("password", 10)
-  
+
   initialUsers.map(user => {
     user.passwordHash = passwordHash
   })
@@ -202,15 +234,15 @@ const initUsers = async () => {
   return users
 }
 
-const updateUsers = async (users, posts, comments) => {
+const updateUsers = async (users, posts, comments, discussions) => {
   await User.findOneAndUpdate(
     { _id: users[0].id },
     { posts: [posts[1].id], comments: [comments[0].id] },
     { new: true }
   )
   await User.findOneAndUpdate(
-    { id: users[1].id },
-    { posts: [posts[0].id], comments: [comments[1].id] },
+    { _id: users[1].id },
+    { posts: [posts[0].id], comments: [comments[1].id], memberOf: [discussions[1].id] },
     { new: true }
   )
 
@@ -224,5 +256,6 @@ module.exports = {
   initialPosts,
   initialComments,
   initialUsers,
-  initializeDatabase
+  initializeDatabase,
+  createToken
 }
