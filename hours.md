@@ -54,4 +54,5 @@
 |            | 1    | Cleaned up VoteButtons component. FIX: when leaving a page quickly after voting, 'Can't perform state update on an unmounted componen' -error would apear. |
 | 25.1.2022  | 2    | Started writing tests |
 |            | 2    | Continued writing tests |
-| total      | 67   | |
+| 26.1.2022  | 1.5  | tests for queries written |
+| total      | 68.5 | |

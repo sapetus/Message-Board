@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('express-async-errors')
 
 const { ApolloServer } = require('apollo-server-express')
 const mongoose = require('mongoose')

@@ -95,6 +95,7 @@ const initializeDatabase = async () => {
   const comments = await initComments()
   const users = await initUsers()
 
+  //update each with associated data (post gets an user, discussion gets posts, posts get comments etc.)
   const updatedDiscussions = await updateDiscussions(discussions, posts)
   const updatedComments = await updateComments(comments, users, posts)
   const updatedPosts = await updatePosts(posts, users, comments, discussions)
@@ -190,6 +191,7 @@ const updateComments = async (comments, users, posts) => {
 const initUsers = async () => {
   //both test users use same password
   const passwordHash = await bcrypt.hash("password", 10)
+  
   initialUsers.map(user => {
     user.passwordHash = passwordHash
   })

@@ -1,12 +1,10 @@
 const supertest = require('supertest')
 const mongoose = require('mongoose')
 
-const { app } = require('../app')
-const Discussion = require('../models/Discussion')
-const Comment = require('../models/Comment')
-const Post = require('../models/Post')
-const User = require('../models/User')
-const helper = require('./testHelper')
+const { app } = require('../../app')
+const Discussion = require('../../models/Discussion')
+const User = require('../../models/User')
+const helper = require('../testHelper')
 
 const api = supertest(app)
 
@@ -105,49 +103,6 @@ describe('Discussion', () => {
 
   describe('Mutations', () => {
 
-  })
-})
-
-describe('Post', () => {
-  let helperData = null
-
-  beforeEach(async () => {
-    helperData = await helper.initializeDatabase()
-  })
-
-  describe('Queries', () => {
-    test('specific post is returned', async () => {
-      const data = {
-        query: `
-          query findPost($id: ID!) {
-            findPost(id: $id) {
-              id
-              title
-              text
-              likes
-              dislikes
-            }
-          }
-        `,
-        operationName: 'findPost',
-        variables: {
-          "id": helperData.posts[0].id
-        }
-      }
-
-      const response = await api
-        .post('/graphql')
-        .send(data)
-        .expect(200)
-
-      const post = response.body.data.findPost
-
-      expect(post.title).toEqual(helper.initialPosts[0].title)
-      expect(post.text).toEqual(helper.initialPosts[0].text)
-    })
-  })
-
-  describe('Mutations', () => {
   })
 })
 
