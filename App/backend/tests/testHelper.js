@@ -10,17 +10,62 @@ const User = require('../models/User')
 const JWT_SECRET = process.env.JWT_SECRET
 
 /* state of the data in DB after initialization
-User[0].Comments[Comment[0]].Posts[Post[1]]
-User[1].Comments[Comment[1]].Posts[Post[0]].MemberOf[Discussion[1]]
+USERS-------------------------
+User[0] {
+  comments: [Comment[0]],
+  posts: [Post[1]]
+}
+User[1] {
+  comments: [Comment[1]],
+  posts: [Post[0]],
+  memberOf: [Discussion[1]],
+  postDislikes: [Post[1]]
+  commentDislikes: [Comment[1]]
+}
+User[2] {
+  postLikes: [Post[1]]
+  commentLikes: [Comment[1]]
+}
 
-Comment[0].User(User[0]).Post(Post[0])
-Comment[1].User(User[1]).Post(Post[1])
+COMMENTS--------------------
+Comment[0] {
+  user: User[0],
+  post: Post[0]
+}
+Comment[1] {
+  user: User[1],
+  post: Post[1],
+  likes: 1,
+  dislikes: 1,
+  listOfLikeUsers: [User[2]],
+  listOfDislikeUsers: [User[1]]
+}
 
-Post[0].User(User[1]).Comments[Comment[0]].Discussion(Discussion[0])
-Post[1].User(User[0]).Comments[Comment[1]].Discussion(Discussion[1])
+POSTS------------------------
+Post[0] {
+  user: User[1],
+  comments: [Comment[0]],
+  discussion: Discussion[0]
+}
+Post[1] {
+  user: User[0],
+  comments: [Comment[1]],
+  discussion: Discussion[1],
+  likes: 1,
+  dislikes: 1,
+  listOfLikeUsers: [User[2]]
+  listOfDislikeUsers: [User[1]]
+}
 
-Discussion[0].Posts[Post[0]]
-Discussion[1].Posts[Post[1]].Members(1).listOfMembers[User[1]]
+DISCUSSIONS----------------------
+Discussion[0] {
+  posts: [Post[0]]
+}
+Discussion[1] {
+  posts: [Post[1]],
+  members: 1,
+  listOfMembers: [User[1]]
+}
 */
 
 const initialDiscussions = [
@@ -95,6 +140,19 @@ const initialUsers = [
     totalLikes: 0,
     totalDislikes: 0,
     creationDate: "2022-01-20T09:38:34.994Z",
+    posts: [],
+    comments: [],
+    memberOf: [],
+    postLikes: [],
+    postDislikes: [],
+    commentLikes: [],
+    commentDislikes: []
+  },
+  {
+    username: "fanFan",
+    totalLikes: 0,
+    totalDislikes: 0,
+    creationDate: "2022-01-20T09:57:48.829Z",
     posts: [],
     comments: [],
     memberOf: [],
@@ -187,7 +245,15 @@ const updatePosts = async (posts, users, comments, discussions) => {
   )
   await Post.findOneAndUpdate(
     { _id: posts[1].id },
-    { user: users[0].id, comments: [comments[1].id], discussion: discussions[1].id },
+    {
+      user: users[0].id,
+      comments: [comments[1].id],
+      discussion: discussions[1].id,
+      listOfLikeUsers: [users[2].id],
+      listOfDislikeUsers: [users[1].id],
+      likes: 1,
+      dislikes: 1
+    },
     { new: true }
   )
 
@@ -211,7 +277,14 @@ const updateComments = async (comments, users, posts) => {
   )
   await Comment.findOneAndUpdate(
     { _id: comments[1].id },
-    { user: users[1].id, post: posts[1].id },
+    {
+      user: users[1].id,
+      post: posts[1].id,
+      likes: 1,
+      dislikes: 1,
+      listOfLikeUsers: [users[2].id],
+      listOfDislikeUsers: [users[1].id]
+    },
     { new: true }
   )
 
@@ -242,7 +315,18 @@ const updateUsers = async (users, posts, comments, discussions) => {
   )
   await User.findOneAndUpdate(
     { _id: users[1].id },
-    { posts: [posts[0].id], comments: [comments[1].id], memberOf: [discussions[1].id] },
+    {
+      posts: [posts[0].id],
+      comments: [comments[1].id],
+      memberOf: [discussions[1].id],
+      postDislikes: [posts[1].id],
+      commentDislikes: [comments[1].id]
+    },
+    { new: true }
+  )
+  await User.findOneAndUpdate(
+    { _id: users[2].id },
+    { postLikes: [posts[1].id], commentLikes: [comments[1].id] },
     { new: true }
   )
 

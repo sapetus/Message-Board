@@ -56,4 +56,5 @@
 |            | 2    | Continued writing tests |
 | 26.1.2022  | 1.5  | tests for queries written |
 |            | 2    | Created a helper function to create a log in token when needed for tests. Mutation tests written for discussions, and partially for posts |
-| total      | 70.5 | |
+| 27.1.2022  | 3.5  | Wrote tests for backend |
+| total      | 74   | |

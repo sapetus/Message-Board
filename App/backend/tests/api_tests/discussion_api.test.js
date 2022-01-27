@@ -16,17 +16,39 @@ describe('Discussion', () => {
   })
 
   describe('Queries', () => {
+    const queries = {
+      allDiscussions: `
+        query allDiscussions {
+          allDiscussions {
+            id
+            name
+            members
+          }
+        }
+      `,
+      findDiscussion: `
+        query findDiscussion($name: String!) {
+          findDiscussion(name: $name) {
+            id
+            name
+            members
+          }
+        }
+      `,
+      findDiscussionsUserHasSubscribedTo: `
+        query findDiscussionsUserHasSubscribedTo($username: String!) {
+          findDiscussionsUserHasSubscribedTo(username: $username) {
+            id
+            name
+            members
+          }
+        }
+      `
+    }
+
     test('return all discussions', async () => {
       const data = {
-        query: `
-          query allDiscussions {
-            allDiscussions {
-              id
-              name
-              members
-            }
-          }
-        `,
+        query: queries.allDiscussions,
         operationName: 'allDiscussions'
       }
 
@@ -40,15 +62,7 @@ describe('Discussion', () => {
 
     test('specific discussion is returned', async () => {
       const data = {
-        query: `
-          query findDiscussion($name: String!) {
-            findDiscussion(name: $name) {
-              id
-              name
-              members
-            }
-          }
-        `,
+        query: queries.findDiscussion,
         operationName: 'findDiscussion',
         variables: {
           "name": "Movies"
@@ -74,15 +88,7 @@ describe('Discussion', () => {
       )
 
       const data = {
-        query: `
-          query findDiscussionsUserHasSubscribedTo($username: String!) {
-            findDiscussionsUserHasSubscribedTo(username: $username) {
-              id
-              name
-              members
-            }
-          }
-        `,
+        query: queries.findDiscussionsUserHasSubscribedTo,
         operationName: 'findDiscussionsUserHasSubscribedTo',
         variables: {
           "username": "movieFan"
@@ -102,19 +108,39 @@ describe('Discussion', () => {
   })
 
   describe('Mutations', () => {
-    test('creating a discussion works', async () => {
+    const queries = {
+      createDiscussion: `
+        mutation createDiscussion($name: String!) {
+          createDiscussion(name: $name) {
+            id
+            name
+            members
+          }
+        }
+      `,
+      subscribeToDiscussion: `
+        mutation subscribeToDiscussion($discussionName: String!) {
+          subscribeToDiscussion(discussionName: $discussionName) {
+            id
+            members
+          }
+        }
+      `,
+      unsubscribeFromDiscussion: `
+        mutation unsubscribeFromDiscussion($discussionName: String!) {
+          unsubscribeFromDiscussion(discussionName: $discussionName) {
+            id
+            members
+          }
+        }
+      `
+    }
+
+    test('creating a discussion with valid data works', async () => {
       const token = await helper.createToken(0)
 
       const data = {
-        query: `
-          mutation createDiscussion($name: String!) {
-            createDiscussion(name: $name) {
-              id
-              name
-              members
-            }
-          }
-        `,
+        query: queries.createDiscussion,
         operationName: "createDiscussion",
         variables: {
           name: "Pets"
@@ -136,18 +162,52 @@ describe('Discussion', () => {
       expect(discussionCount).toEqual(3)
     })
 
+    test('creating a discussion with invalid data doesnt work', async () => {
+      const token = await helper.createToken(0)
+
+      const data = {
+        query: queries.createDiscussion,
+        operationName: "createDiscussion",
+        variables: {
+          "invalid": "invalid"
+        }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .set({ 'Authorization': token })
+        .send(data)
+        .expect(400)
+
+      expect(response.body.errors[0].message)
+        .toEqual(`Variable "$name" of required type "String!" was not provided.`)
+    })
+
+    test('trying to create a discussion with already existing name doesnt work', async () => {
+      const token = await helper.createToken(0)
+
+      const data = {
+        query: queries.createDiscussion,
+        operationName: "createDiscussion",
+        variables: {
+          "name": "Movies"
+        }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .set({ 'Authorization': token })
+        .send(data)
+        .expect(200)
+
+      expect(response.body.errors[0].message).toEqual('Name of the discussion must be unique')
+    })
+
     test('subscribing to a discussion works', async () => {
       const token = await helper.createToken(0)
 
       const data = {
-        query: `
-          mutation subscribeToDiscussion($discussionName: String!) {
-            subscribeToDiscussion(discussionName: $discussionName) {
-              id
-              members
-            }
-          }
-        `,
+        query: queries.subscribeToDiscussion,
         operationName: "subscribeToDiscussion",
         variables: {
           "discussionName": "Movies"
@@ -167,18 +227,31 @@ describe('Discussion', () => {
       expect(discussion.members).toEqual(1)
     })
 
+    test('subscribing to an already subscibed discussion doesnt work', async () => {
+      const token = await helper.createToken(1)
+
+      const data = {
+        query: queries.subscribeToDiscussion,
+        operationName: "subscribeToDiscussion",
+        variables: {
+          "discussionName": "Books"
+        }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .set({ 'Authorization': token })
+        .send(data)
+        .expect(200)
+
+      expect(response.body.errors[0].message).toEqual("User has already subscribed to this discussion")
+    })
+
     test('unsubscribing from a discussion works', async () => {
       const token = await helper.createToken(1)
 
       const data = {
-        query: `
-          mutation unsubscribeFromDiscussion($discussionName: String!) {
-            unsubscribeFromDiscussion(discussionName: $discussionName) {
-              id
-              members
-            }
-          }
-        `,
+        query: queries.unsubscribeFromDiscussion,
         operationName: "unsubscribeFromDiscussion",
         variables: {
           "discussionName": "Books"
@@ -196,6 +269,27 @@ describe('Discussion', () => {
       //if unsubscribing was sucessful, the updated discussion was returned
       expect(discussion.id).not.toBeFalsy()
       expect(discussion.members).toEqual(0)
+    })
+
+    test('unsubscribing from an unsubscribed discussion doesnt work', async () => {
+      const token = await helper.createToken(0)
+
+      const data = {
+        query: queries.unsubscribeFromDiscussion,
+        operationName: "unsubscribeFromDiscussion",
+        variables: {
+          "discussionName": "Movies"
+        }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .set({ 'Authorization': token })
+        .send(data)
+        .expect(200)
+
+      expect(response.body.errors[0].message)
+        .toEqual("User is not subscribed to this discussion, cannot unsubscribe")
     })
   })
 })
