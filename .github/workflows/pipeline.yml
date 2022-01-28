@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: install
-        run: npm install
+      - name: install npm backend
+        run: cd App/backend && npm install
       - name: test
-        run: npm run test
+        run: cd App/backend && npm run test
