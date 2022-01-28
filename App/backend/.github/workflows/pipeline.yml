@@ -16,8 +16,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: move to backend
-        run: cd App/backend && ls -l
       - name: install
         run: npm install
       - name: test
