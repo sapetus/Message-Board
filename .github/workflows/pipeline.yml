@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: '12.x'
       - name: move to backend
-        run: cd App/backend
+        run: cd App/backend && ls -l
       - name: install
         run: npm install
       - name: test
