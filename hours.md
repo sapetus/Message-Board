@@ -58,4 +58,5 @@
 |            | 2    | Created a helper function to create a log in token when needed for tests. Mutation tests written for discussions, and partially for posts |
 | 27.1.2022  | 3.5  | Wrote tests for backend |
 | 28.1.2022  | 1    | Started working on CI/CD pipeline with github actions |
-| total      | 75   | |
+|            | 1    | Created basic sorting for discussions (new first, old first, most members first) |
+| total      | 76   | |

@@ -1,6 +1,12 @@
 const { gql } = require('apollo-server')
 
 const discussion = gql`
+  enum Order {
+    NEW
+    OLD
+    MEMBERS
+  }
+
   type Discussion {
     id: ID!
     name: String!
@@ -13,6 +19,7 @@ const discussion = gql`
     allDiscussions(
       first: Int
       after: Int
+      order: Order
     ): [Discussion!]!
     findDiscussion(name: String!): Discussion
     findDiscussionsUserHasSubscribedTo(

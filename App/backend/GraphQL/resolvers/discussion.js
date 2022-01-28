@@ -12,7 +12,25 @@ const {
 const discussion = {
   Query: {
     allDiscussions: async (root, args) => {
-      const discussions = await Discussion.find({})
+      let discussions = await Discussion.find({})
+
+      if (args.order) {
+        switch (args.order) {
+          case "NEW":
+            discussions = discussions.reverse()
+            break
+          case "OLD":
+            //defaults to oldest first
+            break
+          case "MEMBERS":
+            discussions = discussions.sort((a, b) => (a.members < b.members) ? 1 : -1)
+            break;
+          default:
+            throw new UserInputError('not a valid order', {
+              invalidArgs: args.order
+            })
+        }
+      }
 
       const paginatedDiscussions = paginate(discussions, args.first, args.after)
 

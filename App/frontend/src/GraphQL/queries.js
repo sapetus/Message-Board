@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const ALL_DISCUSSIONS = gql`
-  query allDiscussions($first: Int, $after: Int) {
-    allDiscussions(first: $first, after: $after) {
+  query allDiscussions($first: Int, $after: Int, $order: Order) {
+    allDiscussions(first: $first, after: $after, order: $order) {
       id,
       name,
       members

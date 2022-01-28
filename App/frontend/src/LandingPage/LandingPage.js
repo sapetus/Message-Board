@@ -9,6 +9,7 @@ import CreateDiscussionForm from './CreateDiscussionForm';
 const LandingPage = ({ token }) => {
   const [discussions, setDiscussions] = useState(null)
   const [discussionsFetched, setDiscussionsFetched] = useState(0)
+  const [discussionOrder, setDiscussionOrder] = useState('NEW')
 
   const amountToFetch = 5
 
@@ -18,7 +19,7 @@ const LandingPage = ({ token }) => {
 
   useEffect(() => {
     setDiscussionsFetched(amountToFetch)
-    getAllDiscussions({ variables: { first: amountToFetch } })
+    getAllDiscussions({ variables: { first: amountToFetch, order: discussionOrder } })
   }, []) //eslint-disable-line
 
   useEffect(() => {
@@ -33,7 +34,8 @@ const LandingPage = ({ token }) => {
     const { data } = await fetchMore({
       variables: {
         first: amountToFetch,
-        after: discussionData.allDiscussions.length
+        after: discussionData.allDiscussions.length,
+        order: discussionOrder
       }
     })
 
@@ -48,9 +50,27 @@ const LandingPage = ({ token }) => {
     }
   }
 
+  const changeOrder = async (order) => {
+    setDiscussionOrder(order)
+
+    fetchMore({
+      variables: {
+        first: discussionData.allDiscussions.length,
+        after: 0,
+        order: order
+      }
+    })
+  }
+
   return (
     <div id="landingPage">
       <h1>Landing Page</h1>
+      <label>Order</label>
+      <select name="order" onChange={({ target }) => changeOrder(target.value)}>
+        <option value="NEW">New</option>
+        <option value="OLD">Old</option>
+        <option value="MEMBERS">Most members</option>
+      </select>
       <table id="discussions">
         <tbody>
           <tr>
