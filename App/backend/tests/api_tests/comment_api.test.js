@@ -1,6 +1,5 @@
 const supertest = require('supertest')
 const mongoose = require('mongoose')
-const jest = require('jest')
 
 const { app } = require('../../app')
 const helper = require('../testHelper')
