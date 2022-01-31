@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { CREATE_POST } from '../GraphQL/mutations'
 import { GET_POSTS_BY_DISCUSSION } from '../GraphQL/queries'
 
-const CreatePostForm = ({ discussionName }) => {
+const CreatePostForm = ({ discussionName, order }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
 
@@ -16,10 +16,10 @@ const CreatePostForm = ({ discussionName }) => {
       console.log(error.graphQLErrors[0].message)
     },
     update: (store, response) => {
-      const dataInStore = store.readQuery({ query: GET_POSTS_BY_DISCUSSION, variables: { name: discussionName } })
+      const dataInStore = store.readQuery({ query: GET_POSTS_BY_DISCUSSION, variables: { name: discussionName, order: order } })
       store.writeQuery({
         query: GET_POSTS_BY_DISCUSSION,
-        variables: { name: discussionName },
+        variables: { name: discussionName, order: order },
         data: {
           ...dataInStore,
           findPostsByDiscussion: [...dataInStore.findPostsByDiscussion, response.data.createPost]

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLazyQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom'
 
 import { ALL_DISCUSSIONS } from '../GraphQL/queries'
@@ -13,13 +13,16 @@ const LandingPage = ({ token }) => {
 
   const amountToFetch = 5
 
-  const [getAllDiscussions, { data: discussionData, fetchMore }] = useLazyQuery(
-    ALL_DISCUSSIONS, { fetchPolicy: 'cache-and-network' }
+  const { data: discussionData, fetchMore } = useQuery(
+    ALL_DISCUSSIONS,
+    {
+      fetchPolicy: "cache-and-network",
+      variables: { first: amountToFetch, order: discussionOrder }
+    }
   )
 
   useEffect(() => {
     setDiscussionsFetched(amountToFetch)
-    getAllDiscussions({ variables: { first: amountToFetch, order: discussionOrder } })
   }, []) //eslint-disable-line
 
   useEffect(() => {
@@ -70,6 +73,7 @@ const LandingPage = ({ token }) => {
         <option value="NEW">New</option>
         <option value="OLD">Old</option>
         <option value="MEMBERS">Most members</option>
+        <option value="ALPHABETICAL">Alphabetical</option>
       </select>
       <table id="discussions">
         <tbody>

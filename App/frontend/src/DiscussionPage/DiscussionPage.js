@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 import { useParams, Link } from 'react-router-dom'
 
 import {
@@ -20,6 +20,7 @@ const DiscussionPage = ({ token }) => {
   const [listOfMembers, setListOfMembers] = useState(null)
   const [userIsSubscribed, setUserIsSubscribed] = useState(false)
   const [postsFetched, setPostsFetched] = useState(0)
+  const [postOrder, setPostOrder] = useState('NEW')
 
   let params = useParams()
   const amountToFetch = 5
@@ -29,9 +30,12 @@ const DiscussionPage = ({ token }) => {
     { fetchPolicy: 'cache-and-network' }
   )
 
-  const [getPosts, { data: getPostsData, fetchMore }] = useLazyQuery(
+  const { data: getPostsData, fetchMore } = useQuery(
     GET_POSTS_BY_DISCUSSION,
-    { fetchPolicy: 'cache-and-network' }
+    {
+      fetchPolicy: 'cache-and-network',
+      variables: { name: params.name, first: amountToFetch, order: postOrder }
+    }
   )
 
   const [subscribeToDiscussion] = useMutation(
@@ -58,7 +62,6 @@ const DiscussionPage = ({ token }) => {
     setPostsFetched(amountToFetch)
 
     getDiscussion({ variables: { name: params.name } })
-    getPosts({ variables: { name: params.name, first: amountToFetch } })
   }, [params.name]) //eslint-disable-line
 
   useEffect(() => {
@@ -115,6 +118,18 @@ const DiscussionPage = ({ token }) => {
     }
   }
 
+  const changeOrder = (order) => {
+    setPostOrder(order)
+
+    fetchMore({
+      variables: {
+        first: getPostsData.findPostsByDiscussion.length,
+        after: 0,
+        order: order
+      }
+    })
+  }
+
   return (
     <div>
       <h1>Discussion Page</h1>
@@ -135,6 +150,13 @@ const DiscussionPage = ({ token }) => {
         </div>}
 
       <h3>Posts</h3>
+      <label>Order</label>
+      <select name="order" onChange={({ target }) => changeOrder(target.value)}>
+        <option value="NEW">New</option>
+        <option value="OLD">Old</option>
+        <option value="LIKES">Likes</option>
+        <option value="DISLIKES">Dislikes</option>
+      </select>
       <table id="posts">
         <tbody>
           <tr>
@@ -159,6 +181,7 @@ const DiscussionPage = ({ token }) => {
       {token &&
         <CreatePostForm
           discussionName={params.name}
+          order={postOrder}
         />}
     </div>
   )

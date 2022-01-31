@@ -5,6 +5,7 @@ const discussion = gql`
     NEW
     OLD
     MEMBERS
+    ALPHABETICAL
   }
 
   type Discussion {

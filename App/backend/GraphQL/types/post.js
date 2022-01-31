@@ -1,6 +1,13 @@
 const { gql } = require('apollo-server')
 
 const post = gql`
+  enum Order {
+    NEW
+    OLD
+    LIKES
+    DISLIKES
+  }
+
   type Post {
     id: ID!
     title: String!
@@ -20,11 +27,13 @@ const post = gql`
       username: String!
       first: Int
       after: Int
+      order: Order
     ): [Post]
     findPostsByDiscussion(
       name: String!
       first: Int
       after: Int
+      order: Order
     ): [Post]
   }
 

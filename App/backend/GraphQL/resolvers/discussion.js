@@ -25,6 +25,9 @@ const discussion = {
           case "MEMBERS":
             discussions = discussions.sort((a, b) => (a.members < b.members) ? 1 : -1)
             break;
+          case "ALPHABETICAL":
+            discussions = discussions.sort((a, b) => (a.name < b.name) ? -1 : 1)
+            break;
           default:
             throw new UserInputError('not a valid order', {
               invalidArgs: args.order
@@ -52,8 +55,9 @@ const discussion = {
 
       const discussions = user.memberOf
 
+      //reverse discussions so newest comes first
       const paginatedDiscussions = paginate(
-        discussions,
+        discussions.reverse(),
         args.first,
         args.after
       )

@@ -59,4 +59,5 @@
 | 27.1.2022  | 3.5  | Wrote tests for backend |
 | 28.1.2022  | 1    | Started working on CI/CD pipeline with github actions |
 |            | 1    | Created basic sorting for discussions (new first, old first, most members first) |
-| total      | 76   | |
+| 31.1.2022  | 2    | Sorting of posts and discussions works, fixed associated bugs (more info in bugs.md) |
+| total      | 78   | |
