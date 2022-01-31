@@ -51,9 +51,9 @@ const UserPage = ({ token }) => {
     setSubscriptionsFetched(amountToFetch)
 
     getUser({ variables: { username: params.username } })
-    getPostsByUser({ variables: { username: params.username, first: amountToFetch } })
-    getCommentsByUser({ variables: { username: params.username, first: amountToFetch } })
-    getMemberOf({ variables: { username: params.username, first: amountToFetch } })
+    getPostsByUser({ variables: { username: params.username, first: amountToFetch, order: "NEW" } })
+    getCommentsByUser({ variables: { username: params.username, first: amountToFetch, order: "NEW" } })
+    getMemberOf({ variables: { username: params.username, first: amountToFetch, order: "NEW" } })
   }, [params.username]) //eslint-disable-line
 
   useEffect(() => {

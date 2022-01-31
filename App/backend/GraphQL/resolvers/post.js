@@ -7,7 +7,8 @@ const User = require('../../models/User')
 const {
   checkUser,
   checkUserAction,
-  paginate
+  paginate,
+  sort
 } = require('../utils')
 
 const post = {
@@ -37,31 +38,11 @@ const post = {
           }
         })
 
-      let posts = user.posts
-
-      if (args.order) {
-        switch (args.order) {
-          case "NEW":
-            posts = posts.reverse()
-            break
-          case "OLD":
-            //defaults to OLD
-            break
-          case "LIKES":
-            posts = posts.sort((a, b) => (a.likes > b.likes) ? -1 : 1)
-            break
-          case "DISLIKES":
-            posts = posts.sort((a, b) => (a.dislikes > b.dislikes) ? -1 : 1)
-            break
-          default:
-            throw new UserInputError('not a valid order', {
-              invalidArgs: args.order
-            })
-        }
-      }
+      const posts = user.posts
+      const sortedPosts = sort(posts, args.order)
 
       const paginatedPosts = paginate(
-        posts,
+        sortedPosts,
         args.first,
         args.after
       )
@@ -75,31 +56,11 @@ const post = {
           model: 'Post'
         })
 
-      let posts = discussion.posts
-
-      if (args.order) {
-        switch (args.order) {
-          case "NEW":
-            posts = posts.reverse()
-            break
-          case "OLD":
-            //defaults to OLD
-            break
-          case "LIKES":
-            posts = posts.sort((a, b) => (a.likes > b.likes) ? -1 : 1)
-            break
-          case "DISLIKES":
-            posts = posts.sort((a, b) => (a.dislikes > b.dislikes) ? -1 : 1)
-            break
-          default:
-            throw new UserInputError('not a valid order', {
-              invalidArgs: args.order
-            })
-        }
-      }
+      const posts = discussion.posts
+      const sortedPosts = sort(posts, args.order)
 
       const paginatedPosts = paginate(
-        posts,
+        sortedPosts,
         args.first,
         args.after
       )

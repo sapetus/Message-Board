@@ -61,8 +61,57 @@ const paginate = (list, first, after) => {
   return listCopy
 }
 
+const sort = (list, keyword) => {
+  let listCopy = list
+
+  if (keyword) {
+    switch (keyword) {
+      case "NEW":
+        listCopy = list.reverse()
+        break
+      case "OLD":
+        //defaults to OLD
+        break
+      case "LIKES":
+        listCopy = list.sort((a, b) => (a.likes > b.likes) ? -1 : 1)
+        break
+      case "DISLIKES":
+        listCopy = list.sort((a, b) => (a.dislikes > b.dislikes) ? -1 : 1)
+        break
+      case "MEMBERS":
+        listCopy = list.sort((a, b) => (a.members < b.members) ? 1 : -1)
+        break;
+      case "ALPHABETICAL":
+        listCopy = list.sort((a, b) => (a.name < b.name) ? -1 : 1)
+        break;
+      default:
+        throw new UserInputError('not a valid order', {
+          invalidArgs: args.order
+        })
+    }
+  }
+
+  return listCopy
+}
+
+const filter = (list, filter) => {
+  let listCopy = list
+
+  if (filter) {
+
+    listCopy = list.filter(
+      item => item.name.toLowerCase()
+        .includes(filter.toLowerCase())
+    )
+  }
+
+  return listCopy
+}
+
 module.exports = {
   checkUser,
   checkUserAction,
-  paginate
+  paginate,
+  sort,
+  filter
 }

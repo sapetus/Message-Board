@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 
 import {
   FIND_POST,
@@ -31,6 +31,7 @@ const PostPage = ({ token }) => {
   const [userHasLikedPost, setUserHasLikedPost] = useState(false)
   const [userHasDislikedPost, setUserHasDislikedPost] = useState(false)
   const [commentsFetched, setCommentsFetched] = useState(0)
+  const [commentOrder, setCommentOrder] = useState('NEW')
 
   let params = useParams()
   const amountToFetch = 5
@@ -40,9 +41,12 @@ const PostPage = ({ token }) => {
     { fetchPolicy: 'cache-and-network' }
   )
 
-  const [getComments, { data: getCommentsData, fetchMore }] = useLazyQuery(
+  const { data: getCommentsData, fetchMore } = useQuery(
     FIND_COMMENTS_BY_POST,
-    { fetchPolicy: 'cache-and-network' }
+    {
+      fetchPolicy: "cache-and-network",
+      variables: { id: params.id, first: amountToFetch, order: commentOrder }
+    }
   )
 
   const [likePost] = useMutation(
@@ -85,7 +89,6 @@ const PostPage = ({ token }) => {
     setCommentsFetched(amountToFetch)
 
     getPost({ variables: { id: params.id } })
-    getComments({ variables: { id: params.id, first: amountToFetch } })
   }, [params.id]) //eslint-disable-line
 
   //parse post data to be easily accessible
@@ -143,6 +146,18 @@ const PostPage = ({ token }) => {
     }
   }
 
+  const changeOrder = (order) => {
+    setCommentOrder(order)
+
+    fetchMore({
+      variables: {
+        first: getCommentsData.findCommentsByPost.length,
+        after: 0,
+        order: order
+      }
+    })
+  }
+
   return (
     <div>
       <h1>Post Page</h1>
@@ -175,6 +190,13 @@ const PostPage = ({ token }) => {
 
       <div id='comments'>
         <h3>Comments</h3>
+        <label>Order</label>
+        <select name="order" onChange={({ target }) => changeOrder(target.value)}>
+          <option value="NEW">New</option>
+          <option value="OLD">Old</option>
+          <option value="LIKES">Likes</option>
+          <option value="DISLIKES">Dislikes</option>
+        </select>
         <ul>
           {comments?.map(comment =>
             <Comment

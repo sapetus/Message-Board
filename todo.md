@@ -21,7 +21,7 @@
 - why does input field with password property give an error on submit?
   - 'Uncaught (in promise) Error: Something went wrong. Please check back shortly. at g (content.js:X:XXXXXXX)
   - error doesn't seem to break anything, as page keeps functioning normally
-- ordering to be done on server or client side? (probably server, modify queries)
+- ~~ordering to be done on server or client side? (probably server, modify queries)~~ (DONE)
 - Search/Filter bar for discussions
 - Search/Filter bar for posts
 - Search/Filter bar for users?

@@ -21,12 +21,14 @@ const discussion = gql`
       first: Int
       after: Int
       order: Order
+      filter: String
     ): [Discussion!]!
     findDiscussion(name: String!): Discussion
     findDiscussionsUserHasSubscribedTo(
       username: String!
       first: Int
       after: Int
+      order: Order
     ): [Discussion]
   }
 

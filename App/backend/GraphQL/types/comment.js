@@ -1,6 +1,13 @@
 const { gql } = require('apollo-server')
 
 const comment = gql`
+  enum Order {
+    NEW
+    OLD
+    LIKES
+    DISLIKES
+  }
+
   type Comment {
     id: ID!
     text: String!
@@ -19,11 +26,13 @@ const comment = gql`
       id: ID!
       first: Int
       after: Int
+      order: Order
     ): [Comment]
     findCommentsByUser(
       username: String!
       first: Int
       after: Int
+      order: Order
     ): [Comment]
   }
 

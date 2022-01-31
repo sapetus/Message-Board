@@ -10,6 +10,8 @@ const LandingPage = ({ token }) => {
   const [discussions, setDiscussions] = useState(null)
   const [discussionsFetched, setDiscussionsFetched] = useState(0)
   const [discussionOrder, setDiscussionOrder] = useState('NEW')
+  const [searchString, setSearchString] = useState("")
+  const [timeoutId, setTimeoutId] = useState(null)
 
   const amountToFetch = 5
 
@@ -17,7 +19,7 @@ const LandingPage = ({ token }) => {
     ALL_DISCUSSIONS,
     {
       fetchPolicy: "cache-and-network",
-      variables: { first: amountToFetch, order: discussionOrder }
+      variables: { first: amountToFetch, order: discussionOrder, filter: searchString }
     }
   )
 
@@ -32,13 +34,12 @@ const LandingPage = ({ token }) => {
   }, [discussionData?.allDiscussions, discussionsFetched])
 
   const fetchDiscussions = async (event) => {
-    event.preventDefault()
-
     const { data } = await fetchMore({
       variables: {
         first: amountToFetch,
         after: discussionData.allDiscussions.length,
-        order: discussionOrder
+        order: discussionOrder,
+        filter: searchString
       }
     })
 
@@ -53,21 +54,42 @@ const LandingPage = ({ token }) => {
     }
   }
 
-  const changeOrder = async (order) => {
+  const changeOrder = (order) => {
     setDiscussionOrder(order)
 
     fetchMore({
       variables: {
-        first: discussionData.allDiscussions.length,
+        first: Math.max(discussionData.allDiscussions.length, amountToFetch),
         after: 0,
-        order: order
+        order: order,
+        filter: searchString
       }
     })
+  }
+
+  const onSearchChange = (search) => {
+    clearTimeout(timeoutId)
+    setSearchString(search)
+    setTimeoutId(
+      setTimeout(() => {
+        fetchMore({
+          variables: {
+            first: Math.max(discussionData.allDiscussions.length, amountToFetch),
+            after: 0,
+            order: discussionOrder,
+            filter: search
+          }
+        })
+      }, 1000)
+    )
   }
 
   return (
     <div id="landingPage">
       <h1>Landing Page</h1>
+      <label>Search</label>
+      <input onChange={({ target }) => onSearchChange(target.value)} />
+      <br />
       <label>Order</label>
       <select name="order" onChange={({ target }) => changeOrder(target.value)}>
         <option value="NEW">New</option>

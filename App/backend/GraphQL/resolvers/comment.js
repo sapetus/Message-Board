@@ -7,7 +7,8 @@ const User = require('../../models/User')
 const {
   checkUser,
   checkUserAction,
-  paginate
+  paginate,
+  sort
 } = require('../utils')
 
 const comment = {
@@ -48,8 +49,9 @@ const comment = {
         })
 
       const comments = post.comments
+      const sortedComments = sort(comments, args.order)
 
-      const paginatedComments = paginate(comments, args.first, args.after)
+      const paginatedComments = paginate(sortedComments, args.first, args.after)
 
       return paginatedComments
     },
@@ -67,8 +69,9 @@ const comment = {
         })
 
       const comments = user.comments
+      const sortedComments = sort(comments, args.order)
 
-      const paginatedComments = paginate(comments, args.first, args.after)
+      const paginatedComments = paginate(sortedComments, args.first, args.after)
 
       return paginatedComments
     }

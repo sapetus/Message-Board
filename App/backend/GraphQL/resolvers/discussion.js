@@ -6,36 +6,19 @@ const User = require('../../models/User')
 const {
   checkUser,
   checkUserAction,
-  paginate
+  paginate,
+  sort,
+  filter
 } = require('../utils')
 
 const discussion = {
   Query: {
     allDiscussions: async (root, args) => {
-      let discussions = await Discussion.find({})
+      const discussions = await Discussion.find({})
+      const sortedDiscussions = sort(discussions, args.order)
+      const sortedAndFilteredDiscs = filter(sortedDiscussions, args.filter)
 
-      if (args.order) {
-        switch (args.order) {
-          case "NEW":
-            discussions = discussions.reverse()
-            break
-          case "OLD":
-            //defaults to oldest first
-            break
-          case "MEMBERS":
-            discussions = discussions.sort((a, b) => (a.members < b.members) ? 1 : -1)
-            break;
-          case "ALPHABETICAL":
-            discussions = discussions.sort((a, b) => (a.name < b.name) ? -1 : 1)
-            break;
-          default:
-            throw new UserInputError('not a valid order', {
-              invalidArgs: args.order
-            })
-        }
-      }
-
-      const paginatedDiscussions = paginate(discussions, args.first, args.after)
+      const paginatedDiscussions = paginate(sortedAndFilteredDiscs, args.first, args.after)
 
       return paginatedDiscussions
     },
@@ -54,10 +37,11 @@ const discussion = {
         })
 
       const discussions = user.memberOf
+      const sortedDiscussions = sort(discussions, args.order)
 
       //reverse discussions so newest comes first
       const paginatedDiscussions = paginate(
-        discussions.reverse(),
+        sortedDiscussions,
         args.first,
         args.after
       )

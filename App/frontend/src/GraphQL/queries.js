@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const ALL_DISCUSSIONS = gql`
-  query allDiscussions($first: Int, $after: Int, $order: Order) {
-    allDiscussions(first: $first, after: $after, order: $order) {
+  query allDiscussions($first: Int, $after: Int, $order: Order, $filter: String) {
+    allDiscussions(first: $first, after: $after, order: $order, filter: $filter) {
       id,
       name,
       members
@@ -80,8 +80,8 @@ export const FIND_COMMENT = gql`
 `
 
 export const FIND_COMMENTS_BY_POST = gql`
-  query findCommentsByPost($id: ID!, $first: Int, $after: Int) {
-    findCommentsByPost(id: $id, first: $first, after: $after) {
+  query findCommentsByPost($id: ID!, $first: Int, $after: Int, $order: Order) {
+    findCommentsByPost(id: $id, first: $first, after: $after, order: $order) {
       id,
       text,
       likes,
@@ -119,8 +119,8 @@ export const GET_USER_BY_NAME = gql`
 `
 
 export const GET_POSTS_BY_USER = gql`
-  query FindPostsByUser($username: String!, $first: Int, $after: Int) {
-    findPostsByUser(username: $username, first: $first, after: $after) {
+  query FindPostsByUser($username: String!, $first: Int, $after: Int, $order: Order) {
+    findPostsByUser(username: $username, first: $first, after: $after, order: $order) {
       id
       title
       text
@@ -135,8 +135,8 @@ export const GET_POSTS_BY_USER = gql`
 `
 
 export const GET_COMMENTS_BY_USER = gql`
-  query FindCommentsByUser($username: String!, $first: Int, $after: Int) {
-    findCommentsByUser(username: $username, first: $first, after: $after) {
+  query FindCommentsByUser($username: String!, $first: Int, $after: Int, $order: Order) {
+    findCommentsByUser(username: $username, first: $first, after: $after, order: $order) {
       id
       text
       likes
@@ -154,8 +154,8 @@ export const GET_COMMENTS_BY_USER = gql`
 `
 
 export const GET_DISCUSSIONS_USER_SUBSCRIBED_TO = gql`
-  query FindDiscussionsUserHasSubscribedTo($username: String!, $first: Int, $after: Int) {
-    findDiscussionsUserHasSubscribedTo(username: $username, first: $first, after: $after) {
+  query FindDiscussionsUserHasSubscribedTo($username: String!, $first: Int, $after: Int, $order: Order) {
+    findDiscussionsUserHasSubscribedTo(username: $username, first: $first, after: $after, order: $order) {
       id
       name
       members

@@ -40,7 +40,9 @@ const CreateCommentForm = ({ postId, commentId, fetched, setFetched }) => {
   return (
     <div className='form'>
       {/* Delete this style later */}
-      <button style={{ marginBottom: "10px" }} onClick={() => setShowForm(!showForm)}>Reply</button>
+      <button style={{ marginBottom: "10px" }} onClick={() => setShowForm(!showForm)}>
+        {showForm ? 'Hide' : 'Reply'}
+      </button>
       {showForm &&
         <form onSubmit={submit}>
           <div className="formField">
