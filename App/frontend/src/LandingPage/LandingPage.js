@@ -67,19 +67,12 @@ const LandingPage = ({ token }) => {
     })
   }
 
-  const onSearchChange = (search) => {
+  const onSearchChange = (filter) => {
     clearTimeout(timeoutId)
-    setSearchString(search)
+
     setTimeoutId(
       setTimeout(() => {
-        fetchMore({
-          variables: {
-            first: Math.max(discussionData.allDiscussions.length, amountToFetch),
-            after: 0,
-            order: discussionOrder,
-            filter: search
-          }
-        })
+        setSearchString(filter)
       }, 1000)
     )
   }

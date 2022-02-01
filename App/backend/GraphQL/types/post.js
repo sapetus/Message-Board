@@ -34,6 +34,7 @@ const post = gql`
       first: Int
       after: Int
       order: Order
+      filter: String
     ): [Post]
   }
 

@@ -164,8 +164,8 @@ export const GET_DISCUSSIONS_USER_SUBSCRIBED_TO = gql`
 `
 
 export const GET_POSTS_BY_DISCUSSION = gql`
-  query FindPostsByDiscussion($name: String!, $first: Int, $after: Int, $order: Order) {
-    findPostsByDiscussion(name: $name, first: $first, after: $after, order: $order) {
+  query FindPostsByDiscussion($name: String!, $first: Int, $after: Int, $order: Order, $filter: String) {
+    findPostsByDiscussion(name: $name, first: $first, after: $after, order: $order, filter: $filter) {
       id
       title
       text

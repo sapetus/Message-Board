@@ -8,7 +8,8 @@ const {
   checkUser,
   checkUserAction,
   paginate,
-  sort
+  sort,
+  filter
 } = require('../utils')
 
 const post = {
@@ -58,9 +59,10 @@ const post = {
 
       const posts = discussion.posts
       const sortedPosts = sort(posts, args.order)
+      const filteredAndSortedPosts = filter(sortedPosts, args.filter)
 
       const paginatedPosts = paginate(
-        sortedPosts,
+        filteredAndSortedPosts,
         args.first,
         args.after
       )

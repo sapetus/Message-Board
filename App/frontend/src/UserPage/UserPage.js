@@ -42,7 +42,9 @@ const UserPage = ({ token }) => {
 
   const [getMemberOf, { data: getMemberOfData, fetchMore: fetchMoreSubscriptions }] = useLazyQuery(
     GET_DISCUSSIONS_USER_SUBSCRIBED_TO,
-    { fetchPolicy: 'cache-and-network' }
+    {
+      fetchPolicy: 'cache-and-network'
+    }
   )
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const UserPage = ({ token }) => {
     getUser({ variables: { username: params.username } })
     getPostsByUser({ variables: { username: params.username, first: amountToFetch, order: "NEW" } })
     getCommentsByUser({ variables: { username: params.username, first: amountToFetch, order: "NEW" } })
-    getMemberOf({ variables: { username: params.username, first: amountToFetch, order: "NEW" } })
+    getMemberOf({ variables: { username: params.username, first: amountToFetch, order: "ALPHABETICAL" } })
   }, [params.username]) //eslint-disable-line
 
   useEffect(() => {

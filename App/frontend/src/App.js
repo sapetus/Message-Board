@@ -44,7 +44,7 @@ const App = () => {
           </li>
           {token &&
             <li>
-              <Link to={`/user/${localStorage.getItem('username')}`}>User</Link>
+              <Link to={`/user/${localStorage.getItem('username')}`}>Profile</Link>
             </li>}
           {!token &&
             <li>

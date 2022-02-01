@@ -21,6 +21,8 @@ const DiscussionPage = ({ token }) => {
   const [userIsSubscribed, setUserIsSubscribed] = useState(false)
   const [postsFetched, setPostsFetched] = useState(0)
   const [postOrder, setPostOrder] = useState('NEW')
+  const [searchString, setSearchString] = useState('')
+  const [timeoutId, setTimeoutId] = useState(null)
 
   let params = useParams()
   const amountToFetch = 5
@@ -34,7 +36,7 @@ const DiscussionPage = ({ token }) => {
     GET_POSTS_BY_DISCUSSION,
     {
       fetchPolicy: 'cache-and-network',
-      variables: { name: params.name, first: amountToFetch, order: postOrder }
+      variables: { name: params.name, first: amountToFetch, order: postOrder, filter: searchString }
     }
   )
 
@@ -130,6 +132,16 @@ const DiscussionPage = ({ token }) => {
     })
   }
 
+  const onSearchChange = (filter) => {
+    clearTimeout(timeoutId)
+
+    setTimeoutId(
+      setTimeout(() => {
+        setSearchString(filter)
+      }, 1000)
+    )
+  }
+
   return (
     <div>
       <h1>Discussion Page</h1>
@@ -150,6 +162,9 @@ const DiscussionPage = ({ token }) => {
         </div>}
 
       <h3>Posts</h3>
+      <label>Search</label>
+      <input onChange={({ target }) => onSearchChange(target.value)} />
+      <br />
       <label>Order</label>
       <select name="order" onChange={({ target }) => changeOrder(target.value)}>
         <option value="NEW">New</option>

@@ -98,11 +98,20 @@ const filter = (list, filter) => {
   let listCopy = list
 
   if (filter) {
-
-    listCopy = list.filter(
-      item => item.name.toLowerCase()
-        .includes(filter.toLowerCase())
-    )
+    //for discussions
+    if (list[0]?.name) {
+      listCopy = list.filter(
+        item => item.name.toLowerCase()
+          .includes(filter.toLowerCase())
+      )
+    }
+    //for posts
+    if (list[0]?.title) {
+      listCopy = list.filter(
+        item => item.title.toLowerCase()
+          .includes(filter.toLowerCase())
+      )
+    }
   }
 
   return listCopy
