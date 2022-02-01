@@ -62,4 +62,5 @@
 | 31.1.2022  | 2    | Sorting of posts and discussions works, fixed associated bugs (more info in bugs.md) |
 |            | 2    | Added sorting to other queries, filtering for discussions added |
 | 1.2.2022   | 1    | Filtering added to posts in a given discussion. Users subscription now appear in alphabetical order |
-| total      | 81   | |
+|            | 3    | possible to upload an image when creating a post |
+| total      | 84   | |

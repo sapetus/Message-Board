@@ -38,6 +38,7 @@ export const FIND_POST = gql`
       text,
       likes,
       dislikes,
+      image
       discussion {
         name
       },

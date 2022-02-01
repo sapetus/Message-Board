@@ -13,6 +13,9 @@ const schema = new mongoose.Schema({
     minlength: 5,
     maxlength: 500
   },
+  image: {
+    type: String
+  },
   likes: {
     type: Number
   },

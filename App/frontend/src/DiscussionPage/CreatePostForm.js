@@ -8,6 +8,7 @@ import { GET_POSTS_BY_DISCUSSION } from '../GraphQL/queries'
 const CreatePostForm = ({ discussionName, order }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
+  const [file, setFile] = useState(null)
 
   const navigate = useNavigate()
 
@@ -31,11 +32,35 @@ const CreatePostForm = ({ discussionName, order }) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    const { data } = await createPost({ variables: { title, text, discussionName: discussionName } })
+    const { data } = await createPost({ variables: { title, text, discussionName, image: file } })
+
     setTitle('')
     setText('')
+    setFile(null)
 
     navigate(`/post/${data.createPost.id}`)
+  }
+
+  const readFile = () => {
+    const file = document.querySelector('input[type=file]').files[0]
+
+    const reader = new FileReader()
+
+    reader.addEventListener("load", () => {
+      if (file.type.includes('image')) {
+        if (file.size < 1024000) {
+          setFile(reader.result)
+        } else {
+          console.log("size needs to be less than 1MB")
+        }
+      } else {
+        console.log("file needs to be an image")
+      }
+    }, false)
+
+    if (file) {
+      reader.readAsDataURL(file)
+    }
   }
 
   return (
@@ -54,6 +79,13 @@ const CreatePostForm = ({ discussionName, order }) => {
           <input
             value={text}
             onChange={({ target }) => setText(target.value)}
+          />
+        </div>
+        <div className="formField">
+          File
+          <input
+            type="file"
+            onChange={readFile}
           />
         </div>
         <button type='submit'>Create Post</button>

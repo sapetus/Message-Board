@@ -75,7 +75,7 @@ const server = new ApolloServer({
 
 const startServer = async () => {
   await server.start()
-  server.applyMiddleware({ app, path: '/graphql' })
+  server.applyMiddleware({ app, path: '/graphql', bodyParserConfig: { limit: '2mb' } })
 }
 
 startServer()

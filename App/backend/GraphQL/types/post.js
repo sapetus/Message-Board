@@ -13,6 +13,7 @@ const post = gql`
     title: String!
     text: String!
     likes: Int!
+    image: String
     dislikes: Int!
     discussion: Discussion!
     comments: [Comment!]!
@@ -43,6 +44,7 @@ const post = gql`
       title: String!
       text: String!
       discussionName: String!
+      image: String
     ): Post
     likePost (
       id: ID!

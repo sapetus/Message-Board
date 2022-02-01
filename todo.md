@@ -24,6 +24,8 @@
 - ~~Search/Filter bar for discussions~~ (DONE)
 - ~~Search/Filter bar for posts~~ (DONE)
 - Search/Filter bar for users?
+- Compress images to be uploaded
+- in addition to uploading an image, allow the use of an URL
 - **tests!**
 
 ## app:

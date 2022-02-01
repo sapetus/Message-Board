@@ -34,6 +34,7 @@ const post = {
         .populate({
           path: 'posts',
           model: 'Post',
+          select: '-image',
           populate: {
             path: 'discussion'
           }
@@ -54,10 +55,12 @@ const post = {
       const discussion = await Discussion.findOne({ name: args.name })
         .populate({
           path: 'posts',
-          model: 'Post'
+          model: 'Post',
+          select: '-image'
         })
 
       const posts = discussion.posts
+
       const sortedPosts = sort(posts, args.order)
       const filteredAndSortedPosts = filter(sortedPosts, args.filter)
 
@@ -85,6 +88,7 @@ const post = {
       const newPost = new Post({
         title: args.title,
         text: args.text,
+        image: args.image,
         likes: 0,
         dislikes: 0,
         discussion: discussion,
