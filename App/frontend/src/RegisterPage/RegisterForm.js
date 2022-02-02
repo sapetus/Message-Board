@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
 
 import { CREATE_USER } from '../GraphQL/mutations'
@@ -18,6 +18,14 @@ const RegisterForm = ({ setMessage }) => {
     }
   })
 
+  useEffect(() => {
+    const currentTimeoutId = timeoutId
+
+    return () => {
+      clearTimeout(currentTimeoutId)
+    }
+  }, [timeoutId])
+
   const timeOutMessage = (message, messageTime) => {
     if (timeoutId) {
       clearTimeout(timeoutId)
@@ -25,11 +33,11 @@ const RegisterForm = ({ setMessage }) => {
 
     setMessage(message)
 
-    const timeOutId = setTimeout(() => {
+    const newTimeoutId = setTimeout(() => {
       setMessage(null)
     }, messageTime)
 
-    return timeOutId
+    return newTimeoutId
   }
 
   const submit = (event) => {

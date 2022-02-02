@@ -63,4 +63,5 @@
 |            | 2    | Added sorting to other queries, filtering for discussions added |
 | 1.2.2022   | 1    | Filtering added to posts in a given discussion. Users subscription now appear in alphabetical order |
 |            | 3    | possible to upload an image when creating a post |
-| total      | 84   | |
+| 2.2.2022   | 1    | Post cannot be created if file being uploaded isn't valid (too large, isn't an image), log-in page now shows messages if credentials are wrong etc. |
+| total      | 85   | |

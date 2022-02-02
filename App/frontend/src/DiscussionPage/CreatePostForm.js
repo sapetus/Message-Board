@@ -9,6 +9,7 @@ const CreatePostForm = ({ discussionName, order }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [file, setFile] = useState(null)
+  const [failedToLoadFile, setFailedToLoadFile] = useState(false)
 
   const navigate = useNavigate()
 
@@ -32,13 +33,19 @@ const CreatePostForm = ({ discussionName, order }) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    const { data } = await createPost({ variables: { title, text, discussionName, image: file } })
+    if (failedToLoadFile) {
+      console.log("File is not valid")
+    } else {
+      const { data } = await createPost({
+        variables: { title, text, discussionName, image: file }
+      })
 
-    setTitle('')
-    setText('')
-    setFile(null)
+      setTitle('')
+      setText('')
+      setFile(null)
 
-    navigate(`/post/${data.createPost.id}`)
+      navigate(`/post/${data.createPost.id}`)
+    }
   }
 
   const readFile = () => {
@@ -46,14 +53,19 @@ const CreatePostForm = ({ discussionName, order }) => {
 
     const reader = new FileReader()
 
+    //might be good idea to compress images before saving to backend?
+    //implement somekind of security here?
     reader.addEventListener("load", () => {
       if (file.type.includes('image')) {
-        if (file.size < 1024000) {
+        if (file.size < 1100000) {
+          setFailedToLoadFile(false)
           setFile(reader.result)
         } else {
+          setFailedToLoadFile(true)
           console.log("size needs to be less than 1MB")
         }
       } else {
+        setFailedToLoadFile(true)
         console.log("file needs to be an image")
       }
     }, false)
@@ -82,7 +94,7 @@ const CreatePostForm = ({ discussionName, order }) => {
           />
         </div>
         <div className="formField">
-          File
+          Image
           <input
             type="file"
             onChange={readFile}

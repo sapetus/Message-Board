@@ -176,7 +176,7 @@ const PostPage = ({ token }) => {
         <h3>Text</h3>
         <p>{postText}</p>
         {postImage &&
-          <img alt="associated" src={postImage} style={{ maxWidth: 300, maxHeight: 300 }} />
+          <img alt="could not load content" src={postImage} style={{ maxWidth: 300, maxHeight: 300 }} />
         }
       </div>
 

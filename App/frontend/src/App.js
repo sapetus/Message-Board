@@ -36,7 +36,7 @@ const App = () => {
   }
 
   return (
-    <div id="main">
+    <div id="main" >
       <nav>
         <ul>
           <li>

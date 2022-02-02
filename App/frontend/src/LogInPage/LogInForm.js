@@ -4,17 +4,40 @@ import { useNavigate } from 'react-router-dom'
 
 import { LOG_IN } from '../GraphQL/mutations'
 
-const LogInForm = ({ setToken }) => {
+const LogInForm = ({ setToken, setMessage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [timeoutId, setTimeoutId] = useState('')
 
   const navigate = useNavigate()
 
   const [login, result] = useMutation(LOG_IN, {
     onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
+      setTimeoutId(timeOutMessage(error.graphQLErrors[0].message, 5000))
     }
   })
+
+  useEffect(() => {
+    const currentTimeoutId = timeoutId
+
+    return () => {
+      clearTimeout(currentTimeoutId)
+    }
+  }, [timeoutId])
+
+  const timeOutMessage = (message, messageTime) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+    }
+
+    setMessage(message)
+
+    const newTimeoutId = setTimeout(() => {
+      setMessage(null)
+    }, messageTime)
+
+    return newTimeoutId
+  }
 
   useEffect(() => {
     if (result.data) {
