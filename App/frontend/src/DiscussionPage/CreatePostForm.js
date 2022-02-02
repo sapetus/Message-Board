@@ -53,7 +53,8 @@ const CreatePostForm = ({ discussionName, order }) => {
 
     const reader = new FileReader()
 
-    //might be good idea to compress images before saving to backend?
+    //might be good idea to compress images?
+    //encode image??
     //implement somekind of security here?
     reader.addEventListener("load", () => {
       if (file.type.includes('image')) {

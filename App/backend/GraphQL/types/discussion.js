@@ -11,6 +11,7 @@ const discussion = gql`
   type Discussion {
     id: ID!
     name: String!
+    description: String!
     members: Int!
     listOfMembers: [User!]!
     posts: [Post!]!
@@ -35,6 +36,7 @@ const discussion = gql`
   type Mutation {
     createDiscussion (
       name: String!
+      description: String!
     ): Discussion
     subscribeToDiscussion (
       discussionName: String!

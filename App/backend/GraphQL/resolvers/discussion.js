@@ -23,9 +23,14 @@ const discussion = {
       return paginatedDiscussions
     },
     findDiscussion: async (root, args) => {
-      const discussion = await Discussion.findOne({ name: args.name })
+      let discussion = await Discussion.findOne({ name: args.name })
         .populate({ path: 'posts', model: 'Post' })
         .populate({ path: 'listOfMembers', model: 'User' })
+
+      //this is here as some older discussions don't have any description propery
+      if (!discussion.description) {
+        discussion.description = ''
+      }
 
       return discussion
     },

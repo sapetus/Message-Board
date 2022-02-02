@@ -13,6 +13,7 @@ import PostPage from './PostPage/PostPage';
 import RegisterPage from './RegisterPage/RegisterPage';
 import LogInPage from './LogInPage/LogInPage';
 import UserPage from './UserPage/UserPage'
+import theme from './theme'
 
 const App = () => {
   const [token, setToken] = useState(null)
@@ -40,19 +41,27 @@ const App = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" >
+              Home
+            </Link>
           </li>
           {token &&
             <li>
-              <Link to={`/user/${localStorage.getItem('username')}`}>Profile</Link>
+              <Link to={`/user/${localStorage.getItem('username')}`} >
+                Profile
+              </Link>
             </li>}
           {!token &&
             <li>
-              <Link to="log-in">Log In</Link>
+              <Link to="log-in" >
+                Log In
+              </Link>
             </li>}
           {!token &&
             <li>
-              <Link to="register">Register</Link>
+              <Link to="register" >
+                Register
+              </Link>
             </li>}
           {token && <button onClick={logout}>Log Out</button>}
         </ul>

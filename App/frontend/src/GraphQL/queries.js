@@ -15,6 +15,7 @@ export const FIND_DISCUSSION = gql`
     findDiscussion(name: $name) {
       id,
       name,
+      description,
       members,
       posts {
         id,

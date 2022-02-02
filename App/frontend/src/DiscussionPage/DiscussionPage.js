@@ -15,6 +15,7 @@ import CreatePostForm from './CreatePostForm'
 
 const DiscussionPage = ({ token }) => {
   const [discussionName, setDiscussionName] = useState(null)
+  const [discussionDescription, setDiscussionDescription] = useState(null)
   const [discussionMembers, setDiscussionMembers] = useState(null)
   const [posts, setPosts] = useState(null)
   const [listOfMembers, setListOfMembers] = useState(null)
@@ -69,6 +70,7 @@ const DiscussionPage = ({ token }) => {
   useEffect(() => {
     if (getDiscussionData?.findDiscussion) {
       const data = getDiscussionData.findDiscussion
+      setDiscussionDescription(data.description)
       setDiscussionName(data.name)
       setDiscussionMembers(data.members)
       setListOfMembers(data.listOfMembers)
@@ -146,6 +148,7 @@ const DiscussionPage = ({ token }) => {
     <div>
       <h1>Discussion Page</h1>
       <h3>{discussionName}</h3>
+      <p>{discussionDescription}</p>
       <h4>members: {discussionMembers}</h4>
       {token && // only show when user is logged in
         <div id="subscription_selection">

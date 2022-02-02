@@ -22,9 +22,10 @@ export const CREATE_POST = gql`
 `
 
 export const CREATE_DISCUSSION = gql`
-  mutation createDiscussion($name: String!) {
+  mutation createDiscussion($name: String!, $description: String!) {
     createDiscussion(
       name: $name
+      description: $description
     ) {
       id,
       name,

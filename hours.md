@@ -64,4 +64,5 @@
 | 1.2.2022   | 1    | Filtering added to posts in a given discussion. Users subscription now appear in alphabetical order |
 |            | 3    | possible to upload an image when creating a post |
 | 2.2.2022   | 1    | Post cannot be created if file being uploaded isn't valid (too large, isn't an image), log-in page now shows messages if credentials are wrong etc. |
-| total      | 85   | |
+|            | 2    | When creating a post, a description of the discussion is needed. Started designing frontend and working on styling, fixed hours.md (had one hour too much) |
+| total      | 86   | |

@@ -7,6 +7,7 @@ import { ALL_DISCUSSIONS } from '../GraphQL/queries'
 
 const CreateDiscussionForm = () => {
   const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
 
   const navigate = useNavigate()
 
@@ -29,8 +30,9 @@ const CreateDiscussionForm = () => {
   const submit = async (event) => {
     event.preventDefault()
 
-    const { data } = await createDiscussion({ variables: { name } })
+    const { data } = await createDiscussion({ variables: { name, description } })
     setName('')
+    setDescription('')
 
     navigate(`/discussion/${data.createDiscussion.name}`)
   }
@@ -44,6 +46,13 @@ const CreateDiscussionForm = () => {
           <input
             value={name}
             onChange={({ target }) => setName(target.value)}
+          />
+        </div>
+        <div className='formField'>
+          Description
+          <input
+            value={description}
+            onChange={({ target }) => setDescription(target.value)}
           />
         </div>
         <button type='submit'>Create Discussion</button>

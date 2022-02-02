@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { ALL_DISCUSSIONS } from '../GraphQL/queries'
 
 import CreateDiscussionForm from './CreateDiscussionForm';
+import theme from '../theme'
 
 const LandingPage = ({ token }) => {
   const [discussions, setDiscussions] = useState(null)
@@ -78,7 +79,7 @@ const LandingPage = ({ token }) => {
   }
 
   return (
-    <div id="landingPage">
+    <div id="landingPage" >
       <h1>Landing Page</h1>
       <label>Search</label>
       <input onChange={({ target }) => onSearchChange(target.value)} />
@@ -90,15 +91,15 @@ const LandingPage = ({ token }) => {
         <option value="MEMBERS">Most members</option>
         <option value="ALPHABETICAL">Alphabetical</option>
       </select>
-      <table id="discussions">
+      <table id="discussions" >
         <tbody>
           <tr>
             <th>Discussion</th>
             <th>Members</th>
           </tr>
           {discussions?.map(discussion =>
-            <tr key={discussion.name}>
-              <td><Link to={`/discussion/${discussion.name}`}>{discussion.name}</Link></td>
+            <tr key={discussion.name} >
+              <td><Link to={`/discussion/${discussion.name}`} >{discussion.name}</Link></td>
               <td>{discussion.members}</td>
             </tr>
           )}

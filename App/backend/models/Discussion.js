@@ -8,6 +8,10 @@ const schema = new mongoose.Schema({
     unique: true,
     minlength: 2
   },
+  description: {
+    type: String,
+    required: true
+  },
   members: {
     type: Number
   },
