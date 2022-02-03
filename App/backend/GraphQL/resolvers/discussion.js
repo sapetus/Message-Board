@@ -20,6 +20,13 @@ const discussion = {
 
       const paginatedDiscussions = paginate(sortedAndFilteredDiscs, args.first, args.after)
 
+      //here to make sure that even old discussions have a description property (can be deleted later, after resetting db)
+      paginatedDiscussions.map(discussion => {
+        if (!discussion.description) {
+          discussion.description = ''
+        }
+      })
+
       return paginatedDiscussions
     },
     findDiscussion: async (root, args) => {

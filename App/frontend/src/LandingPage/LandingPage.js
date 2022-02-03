@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client';
-import { Link } from 'react-router-dom'
 
 import { ALL_DISCUSSIONS } from '../GraphQL/queries'
 
 import CreateDiscussionForm from './CreateDiscussionForm';
-import theme from '../theme'
+import Discussion from './Discussion'
 
 const LandingPage = ({ token }) => {
   const [discussions, setDiscussions] = useState(null)
@@ -80,33 +79,35 @@ const LandingPage = ({ token }) => {
 
   return (
     <div id="landingPage" >
-      <h1>Landing Page</h1>
-      <label>Search</label>
-      <input onChange={({ target }) => onSearchChange(target.value)} />
-      <br />
-      <label>Order</label>
-      <select name="order" onChange={({ target }) => changeOrder(target.value)}>
-        <option value="NEW">New</option>
-        <option value="OLD">Old</option>
-        <option value="MEMBERS">Most members</option>
-        <option value="ALPHABETICAL">Alphabetical</option>
-      </select>
-      <table id="discussions" >
-        <tbody>
-          <tr>
-            <th>Discussion</th>
-            <th>Members</th>
-          </tr>
-          {discussions?.map(discussion =>
-            <tr key={discussion.name} >
-              <td><Link to={`/discussion/${discussion.name}`} >{discussion.name}</Link></td>
-              <td>{discussion.members}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      <button onClick={fetchDiscussions}>Show More</button>
-      <button onClick={showLess}>Show Less</button>
+      <h1 className="pageTitle">Landing Page</h1>
+
+      <div className="filterOptions">
+        <div>
+          <label>Search</label>
+          <input onChange={({ target }) => onSearchChange(target.value)} />
+        </div>
+        <div>
+          <label>Order</label>
+          <select name="order" onChange={({ target }) => changeOrder(target.value)}>
+            <option value="NEW">New</option>
+            <option value="OLD">Old</option>
+            <option value="MEMBERS">Most members</option>
+            <option value="ALPHABETICAL">Alphabetical</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="discussions">
+        {discussions?.map(discussion =>
+          <Discussion key={discussion.id} discussion={discussion} />
+        )}
+      </div>
+
+      <div className="controlAmountButtons">
+        <button onClick={fetchDiscussions}>Show More</button>
+        <button onClick={showLess}>Show Less</button>
+      </div>
+
       {token && <CreateDiscussionForm />}
     </div>
   )

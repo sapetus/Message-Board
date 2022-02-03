@@ -34,13 +34,13 @@ const VoteButtons = ({
     <p className="vote_button">
       {token &&
         (hasLiked
-          ? <button onClick={() => vote(unlikeFunction)} style={{ backgroundColor: "orange" }}>Unlike</button>
-          : <button onClick={() => vote(likeFunction)}>Like</button>)
+          ? <button className="activeButton" onClick={() => vote(unlikeFunction)}>+</button>
+          : <button className="inactiveButton" onClick={() => vote(likeFunction)}>+</button>)
       }
       {token &&
         (hasDisliked
-          ? <button onClick={() => vote(undislikeFunction)} style={{ backgroundColor: "orange" }}>Undislike</button>
-          : <button onClick={() => vote(dislikeFunction)}>Dislike</button>)
+          ? <button className="activeButton" onClick={() => vote(undislikeFunction)}>-</button>
+          : <button className="inactiveButton" onClick={() => vote(dislikeFunction)}>-</button>)
       }
     </p>
   )

@@ -154,11 +154,11 @@ const DiscussionPage = ({ token }) => {
         <div id="subscription_selection">
           {userIsSubscribed
             ? //if is subscribed, show unsubscribe
-            <button onClick={() => unsubscribe(discussionName)} style={{ backgroundColor: 'orange' }}>
+            <button className='activeButton' onClick={() => unsubscribe(discussionName)}>
               Unsubscribe
             </button>
             : //if isn't subscribed, show subscribe
-            <button onClick={() => subscribe(discussionName)}>
+            <button className="inactiveButton" onClick={() => subscribe(discussionName)}>
               Subscribe
             </button>
           }

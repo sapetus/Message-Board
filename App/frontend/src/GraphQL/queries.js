@@ -5,7 +5,8 @@ export const ALL_DISCUSSIONS = gql`
     allDiscussions(first: $first, after: $after, order: $order, filter: $filter) {
       id,
       name,
-      members
+      members,
+      description
     }
   }
 `
