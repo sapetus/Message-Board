@@ -67,4 +67,5 @@
 |            | 2    | When creating a discussion, a description of the discussion is needed. Started designing frontend and working on styling, fixed hours.md (had one hour too much) |
 | 3.2.2022   | 4    | Worked on styling frontend |
 | 4.2.2022   | 3    | Worked on styling frontend. Landing page is now in acceptable condition. |
-| total      | 93   | |
+|            | 1    | Worked on userPage visuals, started to refactor code in userPage (started to break it down to smaller components) |
+| total      | 94   | |

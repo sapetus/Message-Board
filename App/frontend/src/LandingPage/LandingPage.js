@@ -83,7 +83,7 @@ const LandingPage = ({ token }) => {
 
       <div className="filterOptions">
         <div className="inputContainer">
-          <i className="material-icons">search</i>
+          <i className="material-icons search">search</i>
           <input className="search"
             type="text"
             placeholder='Search...'

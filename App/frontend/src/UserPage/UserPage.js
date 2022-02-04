@@ -8,17 +8,16 @@ import {
   GET_COMMENTS_BY_USER,
   GET_DISCUSSIONS_USER_SUBSCRIBED_TO
 } from '../GraphQL/queries'
+import Posts from './Posts'
 
 const UserPage = ({ token }) => {
   const [username, setUsername] = useState('')
-  const [posts, setPosts] = useState(null)
   const [comments, setComments] = useState(null)
   const [memberOf, setMemberOf] = useState(null)
   const [totalLikes, setTotalLikes] = useState(0)
   const [totalDislikes, setTotalDislikes] = useState(0)
   const [creationDate, setCreationDate] = useState('')
   //these allow to 'hide' data when user comes back to the page
-  const [postsFetched, setPostsFetched] = useState(0)
   const [commentsFetched, setCommentsFetched] = useState(0)
   const [subscriptionsFetched, setSubscriptionsFetched] = useState(0)
 
@@ -27,11 +26,6 @@ const UserPage = ({ token }) => {
 
   const [getUser, { data: getUserData }] = useLazyQuery(
     GET_USER_BY_NAME,
-    { fetchPolicy: 'cache-and-network' }
-  )
-
-  const [getPostsByUser, { data: getPostsByUserData, fetchMore: fetchMorePosts }] = useLazyQuery(
-    GET_POSTS_BY_USER,
     { fetchPolicy: 'cache-and-network' }
   )
 
@@ -48,12 +42,10 @@ const UserPage = ({ token }) => {
   )
 
   useEffect(() => {
-    setPostsFetched(amountToFetch)
     setCommentsFetched(amountToFetch)
     setSubscriptionsFetched(amountToFetch)
 
     getUser({ variables: { username: params.username } })
-    getPostsByUser({ variables: { username: params.username, first: amountToFetch, order: "NEW" } })
     getCommentsByUser({ variables: { username: params.username, first: amountToFetch, order: "NEW" } })
     getMemberOf({ variables: { username: params.username, first: amountToFetch, order: "ALPHABETICAL" } })
   }, [params.username]) //eslint-disable-line
@@ -70,12 +62,6 @@ const UserPage = ({ token }) => {
       }
     }
   }, [getUserData])
-
-  useEffect(() => {
-    if (getPostsByUserData?.findPostsByUser) {
-      setPosts(getPostsByUserData.findPostsByUser.slice(0, postsFetched))
-    }
-  }, [getPostsByUserData, postsFetched])
 
   useEffect(() => {
     if (getCommentsByUserData?.findCommentsByUser) {
@@ -113,22 +99,6 @@ const UserPage = ({ token }) => {
     }
   }
 
-  const fetchPosts = async (event) => {
-    event.preventDefault()
-
-    const { data } = await fetchMorePosts({
-      variables: {
-        username: params.username,
-        first: amountToFetch,
-        after: getPostsByUserData.findPostsByUser.length
-      }
-    })
-
-    if ((data?.findPostsByUser.length + getPostsByUserData.findPostsByUser.length) > postsFetched) {
-      setPostsFetched(postsFetched + amountToFetch)
-    }
-  }
-
   const fetchComments = async (event) => {
     event.preventDefault()
 
@@ -151,38 +121,34 @@ const UserPage = ({ token }) => {
     }
   }
 
+  const style = {
+    padding: "5px 0px",
+    margin: "0px"
+  }
+
   return (
     <div id="userPage">
-      <div id="userInfo">
-        <h1>User Page</h1>
-        <h3>User: {username}</h3>
-        <h4>Likes: {totalLikes} | Dislikes: {totalDislikes}</h4>
-        {creationDate && <h4>Created at: {creationDate}</h4>}
+      <div id="userInfoContainer">
+        <h3>{username}</h3>
+        <div className="userInfoSubcontainer">
+          <h4>
+            <i className="material-icons vote">thumb_up</i>{totalLikes}
+            <i className='material-icons vote'>thumb_down</i>{totalDislikes}
+          </h4>
+        </div>
+        {creationDate &&
+          <div className="userInfoSubcontainer">
+            <p style={style}>Creation Date</p>
+            <h4 style={style}>{creationDate}</h4>
+          </div>
+        }
       </div>
 
-      <div id="user_posts">
-        <h3>Posts</h3>
-        <table>
-          <tbody>
-            <tr>
-              <th>Discussion</th>
-              <th>Title</th>
-              <th>Likes</th>
-              <th>Dislike</th>
-            </tr>
-            {posts?.map(post =>
-              <tr key={post.id}>
-                <td><Link to={`/discussion/${post.discussion.name}`}>{post.discussion.name}</Link></td>
-                <td><Link to={`/post/${post.id}`}>{post.title}</Link></td>
-                <td>{post.likes}</td>
-                <td>{post.dislikes}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <button onClick={fetchPosts}>Show More</button>
-        <button onClick={() => showLess(postsFetched, setPostsFetched)}>Show Less</button>
-      </div>
+      <Posts
+        username={params.username}
+        amountToFetch={amountToFetch}
+        showLess={showLess}
+      />
 
       <div id="user_comments">
         <h3>Comments</h3>

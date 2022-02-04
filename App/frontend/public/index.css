@@ -65,7 +65,9 @@ textarea {
   border-radius: 15px;
   padding: 5px 10px;
   background-color: #22272A;
+  min-height: 100px;
   margin: 5px;
+  resize: vertical;
 }
 
 textarea:focus {
@@ -219,15 +221,22 @@ form {
   flex-direction: column;
   align-items: center;
   margin-top: 10px;
-  width: 100%;
 }
 
 .material-icons {
   font-size: 23px;
   position: relative;
   color: #FFFFF0;
+}
+
+.material-icons.search {
   left: 35px;
   top: 7px;
+}
+
+.material-icons.vote {
+  top: 5px;
+  padding: 10px;
 }
 
 #discussionForm {
@@ -243,12 +252,22 @@ form {
   width: 40%
 }
 
-#userInfo {
+#userInfoContainer {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 
-  background-color: black;
   padding: 10px 50px;
+  width: 80%;
+
+  border-bottom: solid 5px #111315;
+}
+
+.userInfoSubcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes inputFocus {
