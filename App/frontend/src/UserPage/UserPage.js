@@ -152,11 +152,13 @@ const UserPage = ({ token }) => {
   }
 
   return (
-    <div>
-      <h1>User Page</h1>
-      <h3>User: {username}</h3>
-      <h4>Likes: {totalLikes} | Dislikes: {totalDislikes}</h4>
-      {creationDate && <h4>Created at: {creationDate}</h4>}
+    <div id="userPage">
+      <div id="userInfo">
+        <h1>User Page</h1>
+        <h3>User: {username}</h3>
+        <h4>Likes: {totalLikes} | Dislikes: {totalDislikes}</h4>
+        {creationDate && <h4>Created at: {creationDate}</h4>}
+      </div>
 
       <div id="user_posts">
         <h3>Posts</h3>

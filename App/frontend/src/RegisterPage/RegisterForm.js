@@ -44,7 +44,7 @@ const RegisterForm = ({ setMessage }) => {
     event.preventDefault()
 
     if (password !== confirmPassword) {
-      setMessage('Password and Confirm Password need to match')
+      setTimeoutId(timeOutMessage('Passwords need to match', 5000))
       setPassword('')
       setConfirmPassword('')
     } else {
@@ -57,31 +57,25 @@ const RegisterForm = ({ setMessage }) => {
   }
 
   return (
-    <div className='form'>
-      <form onSubmit={submit}>
-        <div>
-          Username
-          <input
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          Password
-          <input
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-            type="password"
-          />
-        </div>
-        <div>
-          Confirm Password
-          <input
-            value={confirmPassword}
-            onChange={({ target }) => setConfirmPassword(target.value)}
-            type="password"
-          />
-        </div>
+    <div className='formContainer'>
+      <form id="registerForm" onSubmit={submit}>
+        <input
+          placeholder='Username'
+          value={username}
+          onChange={({ target }) => setUsername(target.value)}
+        />
+        <input
+          placeholder='Password'
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+          type="password"
+        />
+        <input
+          placeholder='Confirm Password'
+          value={confirmPassword}
+          onChange={({ target }) => setConfirmPassword(target.value)}
+          type="password"
+        />
         <button type="submit">Register</button>
       </form>
     </div>

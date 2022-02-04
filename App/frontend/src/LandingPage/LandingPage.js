@@ -73,7 +73,7 @@ const LandingPage = ({ token }) => {
     setTimeoutId(
       setTimeout(() => {
         setSearchString(filter)
-      }, 1000)
+      }, 700)
     )
   }
 
@@ -82,19 +82,21 @@ const LandingPage = ({ token }) => {
       <h1 className="pageTitle">Landing Page</h1>
 
       <div className="filterOptions">
-        <div>
-          <label>Search</label>
-          <input onChange={({ target }) => onSearchChange(target.value)} />
+        <div className="inputContainer">
+          <i className="material-icons">search</i>
+          <input className="search"
+            type="text"
+            placeholder='Search...'
+            onChange={({ target }) => onSearchChange(target.value)}
+          />
         </div>
-        <div>
-          <label>Order</label>
-          <select name="order" onChange={({ target }) => changeOrder(target.value)}>
-            <option value="NEW">New</option>
-            <option value="OLD">Old</option>
-            <option value="MEMBERS">Most members</option>
-            <option value="ALPHABETICAL">Alphabetical</option>
-          </select>
-        </div>
+        <select name="order" onChange={({ target }) => changeOrder(target.value)}>
+          <option value="" hidden>Order</option>
+          <option value="NEW">New</option>
+          <option value="OLD">Old</option>
+          <option value="MEMBERS">Most members</option>
+          <option value="ALPHABETICAL">Alphabetical</option>
+        </select>
       </div>
 
       <div id="discussions">

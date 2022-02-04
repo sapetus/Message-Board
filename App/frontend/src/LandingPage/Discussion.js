@@ -7,7 +7,7 @@ const Discussion = ({ discussion }) => {
     <Link className='discussion' to={`/discussion/${discussion.name}` }>
       <div>
         <h4>{discussion.name} | members: {discussion.members}</h4>
-        <p className='smallText'>{discussion?.description}</p>
+        <p className='discussionDescription'>{discussion?.description}</p>
       </div>
     </Link >
   )

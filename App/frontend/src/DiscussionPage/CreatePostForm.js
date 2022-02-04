@@ -56,6 +56,8 @@ const CreatePostForm = ({ discussionName, order }) => {
     //might be good idea to compress images?
     //encode image??
     //implement somekind of security here?
+    //best would be to allow only links to images or
+    //save image to a hosting site and serve the url
     reader.addEventListener("load", () => {
       if (file.type.includes('image')) {
         if (file.size < 1100000) {

@@ -6,7 +6,7 @@ const RegisterPage = (props) => {
   const [message, setMessage] = useState(null)
  
   return (
-    <div>
+    <div id="registerPage">
       <h1>Register</h1>
       <h3>{message}</h3>
       <RegisterForm setMessage={setMessage}/>

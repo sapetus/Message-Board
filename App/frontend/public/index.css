@@ -15,21 +15,21 @@ body {
 
 a {
   text-decoration: none;
-  padding: 0em 1em 0em 1em;
+  padding: 0px 10px 0px 10px;
 }
 
 a:not(.discussion):hover {
-  padding: 0em 1em 0em 1em;
+  padding: 0px 10px 0px 10px;
   background-color: #8C54F3;
-  border-radius: 1em;
+  border-radius: 10px;
 }
 
 button {
   color: #FFFFF0;
   background-color: #22272A;
-  border-radius: 3rem;
+  border-radius: 30px;
   border: solid;
-  height: 2.5rem;
+  height: 40px;
   border-color: #8C54F3;
 }
 
@@ -39,24 +39,66 @@ button:hover {
 
 select {
   background-color: #22272A;
-  color: #FFFFF0;
+  border-style: solid;
+  border-color: #8d8d8d;
+  border-width: 2px;
+  border-radius: 15px;
+  padding: 5px 10px;
+  margin: 5px;
+}
+
+select:focus {
+  outline: none;
+  animation-name: inputFocus;
+  animation-duration: 0.8s;
+  border-color: #FFFFF0;
 }
 
 option {
-  color: #FFFFF0;
+  border-radius: 15px;
+}
+
+textarea {
+  border-style: solid;
+  border-color: #8d8d8d;
+  border-width: 2px;
+  border-radius: 15px;
+  padding: 5px 10px;
+  background-color: #22272A;
+  margin: 5px;
+}
+
+textarea:focus {
+  outline:none;
+  animation-name: inputFocus;
+  animation-duration: 0.8s;
+  border-color: #FFFFF0
 }
 
 input {
   border-style: solid;
-  border-color: #FFFFF0;
-  border-width: 0.1em;
-  border-radius: 0.5em;
-  color: #FFFFF0;
-  padding: 0.2em 0.4em;
+  border-color: #8d8d8d;
+  border-width: 2px;
+  border-radius: 15px;
+  padding: 5px 10px;
   background-color: #22272A;
+  margin: 5px
+}
+
+input:focus {
+  outline:none;
+  animation-name: inputFocus;
+  animation-duration: 0.8s;
+  border-color: #FFFFF0
+}
+
+input[type=text].search {
+  padding-left: 30px;
 }
 
 nav {
+  z-index: 1;
+
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -66,12 +108,17 @@ nav {
   top: 0%;
 
   width: 100%;
-  height: 3em;
+  height: 60px;
   background-color: #22272A;
-  margin-top: -1em;
+  margin-top: -10px;
   border-style: solid;
   border-color: #111315;
-  border-width: 0.4em;
+  border-width: 6px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
 }
 
 #main {
@@ -79,13 +126,13 @@ nav {
   flex-direction: column;
   align-items: center;
 
-  width: 50em;
-  max-height: 1000em;
+  width: 800px;
   border-style: solid;
-  border-radius: 1.2em;
-  border-width: 0.4em;
+  border-radius: 30px;
+  border-width: 6px;
   border-color: #111315;
-  padding-bottom: 2em;
+  padding-bottom: 40px;
+  margin-bottom: 20px
 }
 
 .activeButton {
@@ -101,27 +148,53 @@ nav {
   display: flex;
   flex-direction: column;
   border-style: solid;
-  border-width: 0.2em;
-  border-radius: 0.5em;
+  border-width: 4px;
+  border-radius: 10px;
   border-color: #111315;
-  padding: 0.2em 3em 0.2em 3em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  width: 22em
+  padding: 0px 30px 10px 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 350px;
+  max-height: 150px;
 }
 
 .discussion:hover {
   border-color: #8C54F3;
 }
 
-.smallText {
+.discussionDescription {
   font-size: small;
-  overflow-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 #landingPage {
   display: flex;
   flex-direction: column;
+}
+
+#logInPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#registerPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#userPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .controlAmountButtons {
@@ -138,4 +211,47 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: center;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.material-icons {
+  font-size: 23px;
+  position: relative;
+  color: #FFFFF0;
+  left: 35px;
+  top: 7px;
+}
+
+#discussionForm {
+  width: 80%;
+  padding: 0px 10px 10px 10px;
+}
+
+#logInForm {
+  width: 40%;
+}
+
+#registerForm {
+  width: 40%
+}
+
+#userInfo {
+  display: flex;
+  flex-direction: row;
+
+  background-color: black;
+  padding: 10px 50px;
+}
+
+@keyframes inputFocus {
+  from {border-color: #8d8d8d;}
+  to {border-color: #FFFFF0;} 
 }

@@ -38,23 +38,21 @@ const CreateDiscussionForm = () => {
   }
 
   return (
-    <div>
-      <h3>Create Discussion Form</h3>
-      <form onSubmit={submit}>
-        <div className='formField'>
-          Name
-          <input
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
-        </div>
-        <div className='formField'>
-          Description
-          <input
-            value={description}
-            onChange={({ target }) => setDescription(target.value)}
-          />
-        </div>
+    <div className="formContainer">
+      <h3>Start a new discussion</h3>
+      <form id="discussionForm" onSubmit={submit}>
+        <input
+          type='text'
+          placeholder='Name'
+          value={name}
+          onChange={({ target }) => setName(target.value)}
+        />
+        <textarea
+          placeholder='Describe the discussion'
+          value={description}
+          rows="6"
+          onChange={({ target }) => setDescription(target.value)}
+        />
         <button type='submit'>Create Discussion</button>
       </form>
     </div>

@@ -63,9 +63,7 @@ const user = {
       try {
         await newUser.save()
       } catch (error) {
-        throw new UserInputError(error.message, {
-          invalidArgs: args
-        })
+        throw new UserInputError('Something went wrong, please try again.')
       }
 
       return newUser
@@ -74,7 +72,7 @@ const user = {
       const user = await User.findOne({ username: args.username }).select('+passwordHash')
 
       if (!user || !bcrypt.compareSync(args.password, user.passwordHash)) {
-        throw new UserInputError('Wrong Credentials')
+        throw new UserInputError('Wrong Credentials.')
       }
 
       const userForToken = {

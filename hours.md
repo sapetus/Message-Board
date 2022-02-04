@@ -66,4 +66,5 @@
 | 2.2.2022   | 1    | Post cannot be created if file being uploaded isn't valid (too large, isn't an image), log-in page now shows messages if credentials are wrong etc. |
 |            | 2    | When creating a discussion, a description of the discussion is needed. Started designing frontend and working on styling, fixed hours.md (had one hour too much) |
 | 3.2.2022   | 4    | Worked on styling frontend |
-| total      | 90   | |
+| 4.2.2022   | 3    | Worked on styling frontend. Landing page is now in acceptable condition. |
+| total      | 93   | |

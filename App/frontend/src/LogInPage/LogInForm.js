@@ -62,23 +62,19 @@ const LogInForm = ({ setToken, setMessage }) => {
   }
 
   return (
-    <div className='form'>
-      <form onSubmit={submit}>
-        <div className='formField'>
-          Username
-          <input
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div className='formField'>
-          Password
-          <input
-            type='password'
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
+    <div className='formContainer'>
+      <form id="logInForm" onSubmit={submit}>
+        <input
+          placeholder='Username'
+          value={username}
+          onChange={({ target }) => setUsername(target.value)}
+        />
+        <input
+          placeholder='Password'
+          type='password'
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+        />
         <button type="submit">Log In</button>
       </form>
     </div>
