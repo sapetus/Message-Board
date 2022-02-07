@@ -40,29 +40,37 @@ const Posts = ({ username, amountToFetch, showLess }) => {
     }
   }
 
+  const style = {
+    vote: {
+      padding: "0px 10px 15px 10px"
+    },
+    text: {
+      margin: "0px",
+      padding: "10px 0px"
+    }
+  }
+
   return (
-    <div id="user_posts">
-      <h3>Posts</h3>
-      <table>
-        <tbody>
-          <tr>
-            <th>Discussion</th>
-            <th>Title</th>
-            <th>Likes</th>
-            <th>Dislike</th>
-          </tr>
-          {posts?.map(post =>
-            <tr key={post.id}>
-              <td><Link to={`/discussion/${post.discussion.name}`}>{post.discussion.name}</Link></td>
-              <td><Link to={`/post/${post.id}`}>{post.title}</Link></td>
-              <td>{post.likes}</td>
-              <td>{post.dislikes}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      <button onClick={fetchPosts}>Show More</button>
-      <button onClick={() => showLess(postsFetched, setPostsFetched)}>Show Less</button>
+    <div id="userPosts">
+      {posts?.map(post =>
+        <Link key={post.id} className='post' to={`/post/${post.id}`}>
+          <p className='smallText' style={style.text}>{post.discussion.name}</p>
+          <h3 style={style.text}>{post.title}</h3>
+          <p className='longText'>{post.text}</p>
+          <div className='votes'>
+            <i className="material-icons" style={style.vote}>thumb_up</i>{post.likes}
+            <i className="material-icons" style={style.vote}>thumb_down</i>{post.dislikes}
+          </div>
+        </Link>
+      )}
+
+      {posts &&
+        <div className="controlAmountButtons">
+          <button onClick={fetchPosts}>Show More</button>
+          <button onClick={() => showLess(postsFetched, setPostsFetched)}>Show Less</button>
+        </div>
+      }
+
     </div>
   )
 }

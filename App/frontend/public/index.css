@@ -18,7 +18,7 @@ a {
   padding: 0px 10px 0px 10px;
 }
 
-a:not(.discussion):hover {
+a:not(.discussion):not(.post):not(.comment):not(.subscription):hover {
   padding: 0px 10px 0px 10px;
   background-color: #8C54F3;
   border-radius: 10px;
@@ -31,6 +31,7 @@ button {
   border: solid;
   height: 40px;
   border-color: #8C54F3;
+  min-width: 130px;
 }
 
 button:hover {
@@ -129,6 +130,7 @@ form {
   align-items: center;
 
   width: 800px;
+  min-height: 1000px;
   border-style: solid;
   border-radius: 30px;
   border-width: 6px;
@@ -156,21 +158,12 @@ form {
   padding: 0px 30px 10px 30px;
   margin-top: 10px;
   margin-bottom: 10px;
-  width: 350px;
+  width: 500px;
   max-height: 150px;
 }
 
 .discussion:hover {
   border-color: #8C54F3;
-}
-
-.discussionDescription {
-  font-size: small;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
 }
 
 #landingPage {
@@ -201,8 +194,10 @@ form {
 
 .controlAmountButtons {
   display: flex;
+  padding-top: 25px;
   flex-direction: row;
   justify-content: space-evenly;
+  width: 100%;
 }
 
 .pageTitle {
@@ -245,11 +240,11 @@ form {
 }
 
 #logInForm {
-  width: 40%;
+  width: 120%;
 }
 
 #registerForm {
-  width: 40%
+  width: 120%
 }
 
 #userInfoContainer {
@@ -268,6 +263,97 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#userDataSelection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  width: 100%;
+  padding: 25px 0px
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+
+  border: solid 4px #111315;
+  border-radius: 15px;
+  margin: 10px 0px;
+  padding: 10px;
+  width: 500px;
+}
+
+.post:hover {
+  border-color: #8C54F3;
+}
+
+.votes {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.smallText {
+  font-size: small;
+}
+
+.longText {
+  font-size: small;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+#userPosts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#userComments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+
+  border: solid 4px #111315;
+  border-radius: 15px;
+  margin: 10px 0px;
+  padding: 10px;
+  width: 500px;
+}
+
+.comment:hover {
+  border-color: #8C54F3;
+}
+
+.subscription {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+
+  border: solid 4px #111315;
+  border-radius: 15px;
+  margin: 10px 0px;
+  padding: 10px;
+  width: 500px;
+}
+
+.subscription:hover {
+  border-color: #8C54F3
+}
+
+.subscriptionSubContainer {
+  padding-right: 15px;
 }
 
 @keyframes inputFocus {

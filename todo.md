@@ -26,6 +26,7 @@
 - Search/Filter bar for users?
 - Compress images to be uploaded
 - in addition to uploading an image, allow the use of an URL
+- ONLY allow references to an image (URL), unsafe to save and send images to users without actually making sure the file is clean
 - **tests!**
 
 ## app:

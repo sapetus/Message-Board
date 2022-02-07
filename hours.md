@@ -68,4 +68,5 @@
 | 3.2.2022   | 4    | Worked on styling frontend |
 | 4.2.2022   | 3    | Worked on styling frontend. Landing page is now in acceptable condition. |
 |            | 1    | Worked on userPage visuals, started to refactor code in userPage (started to break it down to smaller components) |
-| total      | 94   | |
+| 7.2.2022   | 3    | Finished refactoring UserPage. UserPage is now in acceptable condition (visually) |
+| total      | 97   | |
