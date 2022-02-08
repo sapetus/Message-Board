@@ -16,7 +16,8 @@
 - ~~cleanup function for VoteButtons~~ (DONE)
 - Comment more!
 - MAKE IT LOOK BETTER!
-- styled components?
+- CSS is a MESS! Extremely unorganized.
+  - organize it! don't make a new class or id for everything
 - why does input field with password property give an error on submit?
   - 'Uncaught (in promise) Error: Something went wrong. Please check back shortly. at g (content.js:X:XXXXXXX)
   - error doesn't seem to break anything, as page keeps functioning normally

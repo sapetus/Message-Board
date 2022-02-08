@@ -6,7 +6,7 @@ const LogInPage = ({ setToken }) => {
   const [message, setMessage] = useState(null)
 
   return (
-    <div id="logInPage">
+    <div id="credentialPage">
       <h1>Log In</h1>
       <h3>{message}</h3>
       <LogInForm setToken={setToken} setMessage={setMessage}/>

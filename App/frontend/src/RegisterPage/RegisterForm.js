@@ -58,7 +58,7 @@ const RegisterForm = ({ setMessage }) => {
 
   return (
     <div className='formContainer'>
-      <form id="registerForm" onSubmit={submit}>
+      <form id="credentialForm" onSubmit={submit}>
         <input
           placeholder='Username'
           value={username}

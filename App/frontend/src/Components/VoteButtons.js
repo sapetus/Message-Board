@@ -31,7 +31,7 @@ const VoteButtons = ({
   }
 
   return (
-    <p className="vote_button">
+    <p className="voteButtons">
       {token &&
         (hasLiked
           ? <button className="activeButton" onClick={() => vote(unlikeFunction)}>+</button>

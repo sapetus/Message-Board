@@ -1,8 +1,8 @@
+/*Entire site-------------------------------------------------------*/
 * {
   font-family: Open Sans;
   color: #FFFFF0
 }
-
 body {
   display: flex;
   flex-direction: column;
@@ -12,12 +12,28 @@ body {
   padding: 0;
   background-color: #22272A;
 }
+/*------------------------------------------------------------------*/
 
+/*Text--------------------------------------------------------------*/
+.smallText {
+  font-size: small;
+}
+
+.longText {
+  font-size: small;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+/*------------------------------------------------------------------*/
+
+/*HTML elements-----------------------------------------------------*/
 a {
   text-decoration: none;
   padding: 0px 10px 0px 10px;
 }
-
 a:not(.discussion):not(.post):not(.comment):not(.subscription):hover {
   padding: 0px 10px 0px 10px;
   background-color: #8C54F3;
@@ -33,7 +49,6 @@ button {
   border-color: #8C54F3;
   min-width: 130px;
 }
-
 button:hover {
   background-color: #8C54F3;
 }
@@ -47,7 +62,6 @@ select {
   padding: 5px 10px;
   margin: 5px;
 }
-
 select:focus {
   outline: none;
   animation-name: inputFocus;
@@ -70,7 +84,6 @@ textarea {
   margin: 5px;
   resize: vertical;
 }
-
 textarea:focus {
   outline:none;
   animation-name: inputFocus;
@@ -87,14 +100,12 @@ input {
   background-color: #22272A;
   margin: 5px
 }
-
 input:focus {
   outline:none;
   animation-name: inputFocus;
   animation-duration: 0.8s;
   border-color: #FFFFF0
 }
-
 input[type=text].search {
   padding-left: 30px;
 }
@@ -123,7 +134,37 @@ form {
   display: flex;
   flex-direction: column;
 }
+/*------------------------------------------------------------------*/
 
+/*Forms-------------------------------------------------------------*/
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#discussionForm {
+  width: 80%;
+  padding: 0px 10px 10px 10px;
+}
+
+#credentialForm {
+  width: 120%;
+}
+/*------------------------------------------------------------------*/
+
+/*Universal---------------------------------------------------------*/
+.controlAmountButtons {
+  display: flex;
+  padding-top: 25px;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}
+/*------------------------------------------------------------------*/
+
+/*App.js------------------------------------------------------------*/
 #main {
   display: flex;
   flex-direction: column;
@@ -138,14 +179,22 @@ form {
   padding-bottom: 40px;
   margin-bottom: 20px
 }
+/*------------------------------------------------------------------*/
 
+/*VoteButtons.js----------------------------------------------------*/
 .activeButton {
   background-color: #8C54F3;
 }
-
 .activeButton:hover {
   background-color: #ae83ff;
   border-color: #ae83ff;
+}
+/*------------------------------------------------------------------*/
+
+/*LandingPage ------------------------------------------------------*/
+#landingPage {
+  display: flex;
+  flex-direction: column;
 }
 
 .discussion {
@@ -161,43 +210,8 @@ form {
   width: 500px;
   max-height: 150px;
 }
-
 .discussion:hover {
   border-color: #8C54F3;
-}
-
-#landingPage {
-  display: flex;
-  flex-direction: column;
-}
-
-#logInPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-#registerPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-#userPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.controlAmountButtons {
-  display: flex;
-  padding-top: 25px;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
 }
 
 .pageTitle {
@@ -210,41 +224,23 @@ form {
   justify-content: space-evenly;
   align-items: center;
 }
+/*------------------------------------------------------------------*/
 
-.formContainer {
+/*LogInPage & RegisterPage------------------------------------------*/
+#credentialPage {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+  width: 100%;
 }
+/*------------------------------------------------------------------*/
 
-.material-icons {
-  font-size: 23px;
-  position: relative;
-  color: #FFFFF0;
-}
-
-.material-icons.search {
-  left: 35px;
-  top: 7px;
-}
-
-.material-icons.vote {
-  top: 5px;
-  padding: 10px;
-}
-
-#discussionForm {
-  width: 80%;
-  padding: 0px 10px 10px 10px;
-}
-
-#logInForm {
-  width: 120%;
-}
-
-#registerForm {
-  width: 120%
+/*UserPage----------------------------------------------------------*/
+#userPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 #userInfoContainer {
@@ -274,6 +270,12 @@ form {
   padding: 25px 0px
 }
 
+#userPosts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .post {
   display: flex;
   flex-direction: column;
@@ -284,7 +286,6 @@ form {
   padding: 10px;
   width: 500px;
 }
-
 .post:hover {
   border-color: #8C54F3;
 }
@@ -293,25 +294,6 @@ form {
   display: flex;
   flex-direction: row;
   margin-top: 20px;
-}
-
-.smallText {
-  font-size: small;
-}
-
-.longText {
-  font-size: small;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-
-#userPosts {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 #userComments {
@@ -330,7 +312,6 @@ form {
   padding: 10px;
   width: 500px;
 }
-
 .comment:hover {
   border-color: #8C54F3;
 }
@@ -347,7 +328,6 @@ form {
   padding: 10px;
   width: 500px;
 }
-
 .subscription:hover {
   border-color: #8C54F3
 }
@@ -355,8 +335,29 @@ form {
 .subscriptionSubContainer {
   padding-right: 15px;
 }
+/*------------------------------------------------------------------*/
 
+/*Material Icons ---------------------------------------------------*/
+.material-icons {
+  font-size: 23px;
+  position: relative;
+  color: #FFFFF0;
+}
+
+.material-icons.search {
+  left: 35px;
+  top: 7px;
+}
+
+.material-icons.vote {
+  top: 5px;
+  padding: 10px;
+}
+/*------------------------------------------------------------------*/
+
+/*Animations--------------------------------------------------------*/
 @keyframes inputFocus {
   from {border-color: #8d8d8d;}
   to {border-color: #FFFFF0;} 
 }
+/*------------------------------------------------------------------*/

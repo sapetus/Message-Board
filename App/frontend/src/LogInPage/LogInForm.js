@@ -63,7 +63,7 @@ const LogInForm = ({ setToken, setMessage }) => {
 
   return (
     <div className='formContainer'>
-      <form id="logInForm" onSubmit={submit}>
+      <form id="credentialForm" onSubmit={submit}>
         <input
           placeholder='Username'
           value={username}
