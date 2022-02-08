@@ -58,8 +58,8 @@ const Posts = ({ username, amountToFetch, showLess }) => {
           <h3 style={style.text}>{post.title}</h3>
           <p className='longText'>{post.text}</p>
           <div className='votes'>
-            <i className="material-icons" style={style.vote}>thumb_up</i>{post.likes}
-            <i className="material-icons" style={style.vote}>thumb_down</i>{post.dislikes}
+            <i className="material-icons vote">thumb_up</i>{post.likes}
+            <i className="material-icons vote">thumb_down</i>{post.dislikes}
           </div>
         </Link>
       )}

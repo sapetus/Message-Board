@@ -40,8 +40,8 @@ const UserPage = ({ token }) => {
   }, [getUserData])
 
   useEffect(() => {
-    switch(selection) {
-      case "POSTS": 
+    switch (selection) {
+      case "POSTS":
         document.getElementById("selectionComment").style.backgroundColor = "transparent"
         document.getElementById("selectionSubscription").style.backgroundColor = "transparent"
         document.getElementById("selectionPost").style.backgroundColor = "#8C54F3"
@@ -56,7 +56,7 @@ const UserPage = ({ token }) => {
         document.getElementById("selectionComment").style.backgroundColor = "transparent"
         document.getElementById("selectionSubscription").style.backgroundColor = "#8C54F3"
         break
-      default: 
+      default:
         break
     }
   }, [selection]) //eslint-disable-line
@@ -83,14 +83,14 @@ const UserPage = ({ token }) => {
   }
 
   return (
-    <div id="userPage">
+    <div id="page">
       <div id="userInfoContainer">
         <h3>{username}</h3>
         <div className="userInfoSubcontainer">
-          <h4>
+          <div className='votes'>
             <i className="material-icons vote">thumb_up</i>{totalLikes}
             <i className='material-icons vote'>thumb_down</i>{totalDislikes}
-          </h4>
+          </div>
         </div>
         <div className="userInfoSubcontainer">
           <p style={style}>Creation Date</p>

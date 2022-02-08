@@ -9,6 +9,7 @@
 - ~~users total likes/dislikes across all posts and comments~~ (DONE)
 - possible to breakdown long functions in to reusable helper functions?
 - admin status for the creator of a discussion?
+- total amount of comments/post
 - ~~comments for comments? (as in, comment can reference another comment)~~ (DONE)
 - ~~**tests!**~~ (DONE, for now)
 
@@ -27,6 +28,7 @@
 - Search/Filter bar for users?
 - Compress images to be uploaded
 - in addition to uploading an image, allow the use of an URL
+- create a show more button for discussions description, if it is too long.
 - ONLY allow references to an image (URL), unsafe to save and send images to users without actually making sure the file is clean
 - **tests!**
 

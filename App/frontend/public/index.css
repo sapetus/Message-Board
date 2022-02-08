@@ -122,7 +122,7 @@ nav {
   top: 0%;
 
   width: 100%;
-  height: 60px;
+  height: 80px;
   background-color: #22272A;
   margin-top: -10px;
   border-style: solid;
@@ -145,22 +145,60 @@ form {
 }
 
 #discussionForm {
-  width: 80%;
+  width: 200%;
+  padding: 0px 10px 10px 10px;
+}
+
+#postForm {
+  width: 200%;
   padding: 0px 10px 10px 10px;
 }
 
 #credentialForm {
-  width: 120%;
+  width: 200%;
 }
 /*------------------------------------------------------------------*/
 
-/*Universal---------------------------------------------------------*/
+/*Reusable---------------------------------------------------------*/
+#page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .controlAmountButtons {
   display: flex;
   padding-top: 25px;
   flex-direction: row;
-  justify-content: space-evenly;
+  gap: 100px;
+  justify-content: center;
   width: 100%;
+}
+
+.inputContainer {
+  margin-left: -20px;
+}
+
+.filterOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+
+  border: solid 4px #111315;
+  border-radius: 15px;
+  margin: 10px 0px;
+  padding: 0px 10px 20px 10px;
+  width: 700px;
+}
+.post:hover {
+  border-color: #8C54F3;
 }
 /*------------------------------------------------------------------*/
 
@@ -170,7 +208,7 @@ form {
   flex-direction: column;
   align-items: center;
 
-  width: 800px;
+  width: 1000px;
   min-height: 1000px;
   border-style: solid;
   border-radius: 30px;
@@ -192,11 +230,6 @@ form {
 /*------------------------------------------------------------------*/
 
 /*LandingPage ------------------------------------------------------*/
-#landingPage {
-  display: flex;
-  flex-direction: column;
-}
-
 .discussion {
   display: flex;
   flex-direction: column;
@@ -207,7 +240,7 @@ form {
   padding: 0px 30px 10px 30px;
   margin-top: 10px;
   margin-bottom: 10px;
-  width: 500px;
+  width: 700px;
   max-height: 150px;
 }
 .discussion:hover {
@@ -217,40 +250,17 @@ form {
 .pageTitle {
   align-self: center;
 }
+/*------------------------------------------------------------------*/
 
-.filterOptions {
+/*UserPage----------------------------------------------------------*/
+#userInfoContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-}
-/*------------------------------------------------------------------*/
 
-/*LogInPage & RegisterPage------------------------------------------*/
-#credentialPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-/*------------------------------------------------------------------*/
-
-/*UserPage----------------------------------------------------------*/
-#userPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-#userInfoContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 10px 50px;
-  width: 80%;
+  padding: 10px 0px;
+  width: 90%;
 
   border-bottom: solid 5px #111315;
 }
@@ -266,7 +276,7 @@ form {
   flex-direction: row;
   justify-content: space-around;
 
-  width: 100%;
+  width: 80%;
   padding: 25px 0px
 }
 
@@ -274,20 +284,6 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.post {
-  display: flex;
-  flex-direction: column;
-
-  border: solid 4px #111315;
-  border-radius: 15px;
-  margin: 10px 0px;
-  padding: 10px;
-  width: 500px;
-}
-.post:hover {
-  border-color: #8C54F3;
 }
 
 .votes {
@@ -337,6 +333,43 @@ form {
 }
 /*------------------------------------------------------------------*/
 
+/*discussionPage----------------------------------------------------*/
+#discussionInfo {
+  display: flex;
+  flex-direction: row;
+  width: 800px;
+  height: auto;
+  padding: 20px 0px 40px 0px;
+  margin-bottom: 40px;
+  gap: 80px;
+  justify-content: space-around;
+  border-bottom: solid 4px #111315;
+}
+
+.columnContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 200px;
+  max-width: 400px;
+}
+
+.rowContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%
+}
+
+#discussionPosts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/*------------------------------------------------------------------*/
+
 /*Material Icons ---------------------------------------------------*/
 .material-icons {
   font-size: 23px;
@@ -350,8 +383,13 @@ form {
 }
 
 .material-icons.vote {
+  padding: 0px 6px;
+  top: -2px;
+}
+
+.material-icons.member {
   top: 5px;
-  padding: 10px;
+  right: 5px;
 }
 /*------------------------------------------------------------------*/
 

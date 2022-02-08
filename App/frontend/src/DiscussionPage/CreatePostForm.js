@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { CREATE_POST } from '../GraphQL/mutations'
 import { GET_POSTS_BY_DISCUSSION } from '../GraphQL/queries'
 
-const CreatePostForm = ({ discussionName, order }) => {
+const CreatePostForm = ({ discussionName }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [file, setFile] = useState(null)
@@ -18,10 +18,10 @@ const CreatePostForm = ({ discussionName, order }) => {
       console.log(error.graphQLErrors[0].message)
     },
     update: (store, response) => {
-      const dataInStore = store.readQuery({ query: GET_POSTS_BY_DISCUSSION, variables: { name: discussionName, order: order } })
+      const dataInStore = store.readQuery({ query: GET_POSTS_BY_DISCUSSION, variables: { name: discussionName } })
       store.writeQuery({
         query: GET_POSTS_BY_DISCUSSION,
-        variables: { name: discussionName, order: order },
+        variables: { name: discussionName },
         data: {
           ...dataInStore,
           findPostsByDiscussion: [...dataInStore.findPostsByDiscussion, response.data.createPost]
@@ -79,30 +79,26 @@ const CreatePostForm = ({ discussionName, order }) => {
   }
 
   return (
-    <div className="form">
+    <div className="formContainer">
       <h3>Create your own post</h3>
-      <form onSubmit={submit}>
-        <div className="formField">
-          Title
-          <input
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-        <div className='formField'>
-          Text
-          <input
-            value={text}
-            onChange={({ target }) => setText(target.value)}
-          />
-        </div>
-        <div className="formField">
-          Image
-          <input
-            type="file"
-            onChange={readFile}
-          />
-        </div>
+      <form id="postForm" onSubmit={submit}>
+        <input
+          type="text"
+          placeholder='Title'
+          value={title}
+          onChange={({ target }) => setTitle(target.value)}
+        />
+        <textarea
+          placeholder='Write your post here'
+          value={text}
+          rows="6"
+          onChange={({ target }) => setText(target.value)}
+        />
+        {/* Image
+        <input
+          type="file"
+          onChange={readFile}
+        /> */}
         <button type='submit'>Create Post</button>
       </form>
     </div>

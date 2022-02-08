@@ -58,7 +58,8 @@ const Subscriptions = ({ username, amountToFetch, showLess }) => {
         <Link key={subscription.id} className="subscription" to={`/discussion/${subscription.name}`}>
           <h4 style={style.text}>{subscription.name}</h4>
           <div className="subscriptionSubContainer">
-            <i className="material-icons" style={style.members}>group</i>{subscription.members}
+            <i className="material-icons member">group</i>
+            {subscription.members}
           </div>
         </Link>
       )}
