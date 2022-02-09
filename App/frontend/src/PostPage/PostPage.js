@@ -22,6 +22,7 @@ const PostPage = ({ token }) => {
   const [discussion, setDiscussion] = useState(null)
   const [postLikes, setPostLikes] = useState(0)
   const [postDislikes, setPostDislikes] = useState(0)
+  const [postCommentCount, setPostCommentCount] = useState(0)
   const [postText, setPostText] = useState('')
   const [postTitle, setPostTitle] = useState('')
   const [postImage, setPostImage] = useState(null)
@@ -100,6 +101,7 @@ const PostPage = ({ token }) => {
       setDiscussion(findPostData.discussion)
       setPostLikes(findPostData.likes)
       setPostDislikes(findPostData.dislikes)
+      setPostCommentCount(findPostData.amountOfComments)
       setPostText(findPostData.text)
       setPostTitle(findPostData.title)
       setPostUser(findPostData.user)
@@ -161,61 +163,66 @@ const PostPage = ({ token }) => {
   }
 
   return (
-    <div>
-      <h1>Post Page</h1>
-      <h2>
-        <Link to={`/discussion/${discussion?.name}`}>
-          {discussion?.name}
-        </Link>
-      </h2>
-
-      <div id='post_data'>
-        <h3>Title</h3>
-        <p>{postTitle}</p>
-        <p>Posted by <Link to={`/user/${postUser?.username}`}>{postUser?.username}</Link></p>
-        <h3>Text</h3>
-        <p>{postText}</p>
-        {postImage &&
-          <img alt="could not load content" src={postImage} style={{ maxWidth: 300, maxHeight: 300 }} />
-        }
+    <div id="page">
+      <div id="postInfo">
+        <p>
+          <Link to={`/discussion/${discussion?.name}`}>
+            {discussion?.name}
+          </Link>
+        </p>
+        <p>
+          <Link to={`/user/${postUser?.username}`}>
+            {postUser?.username}
+          </Link>
+        </p>
       </div>
 
-      <div id='likes_dislikes'>
-        <h3>Likes & Dislikes</h3>
-        {postLikes} | {postDislikes}
-        <div id="post_vote_buttons">
+      <div className='post'>
+        <h3>{postTitle}</h3>
+        <p>{postText}</p>
+        {/* enable this when images have been converted to show only urls
+        {postImage &&
+          <img alt="could not load content" src={postImage} style={{ maxWidth: 300, maxHeight: 300 }} />
+        } 
+        */}
+        <div className="postIcons">
           <VoteButtons
             id={postId} token={token}
+            likes={postLikes} dislikes={postDislikes}
             hasLiked={userHasLikedPost} hasDisliked={userHasDislikedPost}
             likeFunction={likePost} unlikeFunction={unlikePost}
             dislikeFunction={dislikePost} undislikeFunction={undislikePost}
           />
+          <div className="commentCountIcon">
+            <i className="material-icons" style={{ top: "7px", paddingRight: "10px"}}>message</i>{postCommentCount}
+          </div>
         </div>
       </div>
 
       <div id='comments'>
         <h3>Comments</h3>
-        <label>Order</label>
-        <select name="order" onChange={({ target }) => changeOrder(target.value)}>
-          <option value="NEW">New</option>
-          <option value="OLD">Old</option>
-          <option value="LIKES">Likes</option>
-          <option value="DISLIKES">Dislikes</option>
-        </select>
-        <ul>
-          {comments?.map(comment =>
-            <Comment
-              key={comment.id}
-              postId={params.id}
-              comment={comment}
-              token={token}
-              fetched={commentsFetched}
-              setFetched={setCommentsFetched}
-            />
-          )}
-        </ul>
-        <button onClick={fetchMoreComments}>Show More</button>
-        <button onClick={showLess}>Show Less</button>
+        <div className='filterOptions'>
+          <select name="order" onChange={({ target }) => changeOrder(target.value)}>
+            <option value="" hidden>Order</option>
+            <option value="NEW">New</option>
+            <option value="OLD">Old</option>
+            <option value="LIKES">Likes</option>
+            <option value="DISLIKES">Dislikes</option>
+          </select>
+        </div>
+
+        {comments?.map(comment =>
+          <Comment
+            key={comment.id} postId={params.id}
+            comment={comment} token={token}
+            fetched={commentsFetched} setFetched={setCommentsFetched}
+          />
+        )}
+
+        <div className="controlAmountButtons">
+          <button onClick={fetchMoreComments}>Show More</button>
+          <button onClick={showLess}>Show Less</button>
+        </div>
       </div>
 
       {token &&

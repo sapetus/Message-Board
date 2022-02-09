@@ -38,6 +38,9 @@ const App = () => {
   return (
     <div id="main" >
       <nav>
+        <Link to="/">
+          FAQ
+        </Link>
         <Link to="/" >
           Home
         </Link>

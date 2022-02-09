@@ -53,26 +53,31 @@ const Comment = ({ comment, token, postId, fetched, setFetched }) => {
   }, [comment?.listOfLikeUsers, comment?.listOfDislikeUsers, token])
 
   return (
-    <li className="comment">
+    <div className="comment">
       {comment.responseTo &&
         //Please, change this later. Here just to make things a bit clearer
-        <p style={{ color: "gray", paddingLeft: "20px" }}>{comment.responseTo.text}</p>
+        <p className='grayText'>- {comment.responseTo.text}</p>
       }
-      {comment.text} | Likes: {comment.likes} | Dislikes: {comment.dislikes} |
+
+      <p>{comment.text}</p>
+
       <VoteButtons
         id={comment.id} token={token}
+        likes={comment.likes} dislikes={comment.dislikes}
         hasLiked={userHasLikedComment} hasDisliked={userHasDislikedComment}
         likeFunction={likeComment} unlikeFunction={unlikeComment}
         dislikeFunction={dislikeComment} undislikeFunction={undislikeComment}
       />
+
       <p>Comment by <Link to={`/user/${comment.user.username}`}>{comment.user.username}</Link></p>
+
       <CreateCommentForm
         postId={postId}
         commentId={comment.id}
         fetched={fetched}
         setFetched={setFetched}
       />
-    </li >
+    </div >
   )
 }
 

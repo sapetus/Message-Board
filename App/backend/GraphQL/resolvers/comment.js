@@ -114,12 +114,12 @@ const comment = {
         { new: true }
       )
 
-      //update the specified post's list of comments
+      //update the specified post's list of comments and increment amount of comments
       let comments = post.comments ? post.comments : []
       comments.push(newComment.id)
       await Post.findOneAndUpdate(
         { _id: args.postId },
-        { comments: comments },
+        { comments: comments, $inc: { amountOfComments: 1 } },
         { new: true }
       )
 

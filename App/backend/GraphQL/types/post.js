@@ -13,8 +13,9 @@ const post = gql`
     title: String!
     text: String!
     likes: Int!
-    image: String
     dislikes: Int!
+    amountOfComments: Int!
+    image: String
     discussion: Discussion!
     comments: [Comment!]!
     user: User!

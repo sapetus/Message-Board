@@ -91,6 +91,7 @@ const post = {
         image: args.image,
         likes: 0,
         dislikes: 0,
+        amountOfComments: 0,
         discussion: discussion,
         user: currentUser
       })

@@ -27,6 +27,11 @@ body {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+
+.grayText {
+  padding-left: 20px;
+  color: #a5a5a5
+}
 /*------------------------------------------------------------------*/
 
 /*HTML elements-----------------------------------------------------*/
@@ -115,7 +120,7 @@ nav {
 
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
 
   position: sticky;
@@ -157,6 +162,13 @@ form {
 #credentialForm {
   width: 200%;
 }
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+
+  padding-top: 10px;
+}
 /*------------------------------------------------------------------*/
 
 /*Reusable---------------------------------------------------------*/
@@ -191,6 +203,7 @@ form {
   display: flex;
   flex-direction: column;
 
+  background-color: #2f3436;
   border: solid 4px #111315;
   border-radius: 15px;
   margin: 10px 0px;
@@ -199,6 +212,13 @@ form {
 }
 .post:hover {
   border-color: #8C54F3;
+}
+
+.dividerVertical {
+  width: 20px;
+  height: 100px;
+  margin-right: 20px;
+  border-right: solid 3px #111315;
 }
 /*------------------------------------------------------------------*/
 
@@ -219,18 +239,9 @@ form {
 }
 /*------------------------------------------------------------------*/
 
-/*VoteButtons.js----------------------------------------------------*/
-.activeButton {
-  background-color: #8C54F3;
-}
-.activeButton:hover {
-  background-color: #ae83ff;
-  border-color: #ae83ff;
-}
-/*------------------------------------------------------------------*/
-
 /*LandingPage ------------------------------------------------------*/
 .discussion {
+  background-color: #2f3436;
   display: flex;
   flex-direction: column;
   border-style: solid;
@@ -269,6 +280,7 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 #userDataSelection {
@@ -302,11 +314,12 @@ form {
   display: flex;
   flex-direction: column;
 
+  background-color: #2f3436;
   border: solid 4px #111315;
   border-radius: 15px;
   margin: 10px 0px;
   padding: 10px;
-  width: 500px;
+  width: 700px;
 }
 .comment:hover {
   border-color: #8C54F3;
@@ -318,11 +331,12 @@ form {
   align-items: baseline;
   justify-content: space-between;
 
+  background-color: #2f3436;
   border: solid 4px #111315;
   border-radius: 15px;
   margin: 10px 0px;
   padding: 10px;
-  width: 500px;
+  width: 700px;
 }
 .subscription:hover {
   border-color: #8C54F3
@@ -330,6 +344,24 @@ form {
 
 .subscriptionSubContainer {
   padding-right: 15px;
+}
+/*------------------------------------------------------------------*/
+
+/*Vote buttons------------------------------------------------------*/
+.voteButtons {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0px;
+}
+
+.like {
+  display: flex;
+  flex-direction: row;
+}
+
+.dislike {
+  display: flex;
+  flex-direction: row;
 }
 /*------------------------------------------------------------------*/
 
@@ -341,7 +373,6 @@ form {
   height: auto;
   padding: 20px 0px 40px 0px;
   margin-bottom: 40px;
-  gap: 80px;
   justify-content: space-around;
   border-bottom: solid 4px #111315;
 }
@@ -353,6 +384,9 @@ form {
   justify-content: flex-start;
   min-width: 200px;
   max-width: 400px;
+  padding-right: 40px;
+  margin-right: 40px;
+  border-right: solid 4px #111315;
 }
 
 .rowContainer {
@@ -367,6 +401,35 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+/*------------------------------------------------------------------*/
+
+/*Post Page---------------------------------------------------------*/
+#postInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+
+  width: 90%;
+  padding: 10px 0px;
+  margin-bottom: 20px;
+  border-bottom: solid 4px #111315
+}
+
+#comments {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.postIcons {
+  display: flex;
+  flex-direction: row;
+}
+
+.commentCountIcon {
+  margin-top: 8px;
 }
 /*------------------------------------------------------------------*/
 
@@ -390,6 +453,26 @@ form {
 .material-icons.member {
   top: 5px;
   right: 5px;
+}
+
+.material-icons.message {
+  top: -2px;
+  padding: 0px 6px;
+}
+
+.material-icons.activeButton {
+  color: #8C54F3;
+  cursor: pointer;
+}
+.material-icons.activeButton:hover {
+  color: #ae83ff;
+}
+
+.material-icons.inactiveButton {
+  cursor: pointer;
+}
+.material-icons.inactiveButton:hover {
+  color:#8C54F3
 }
 /*------------------------------------------------------------------*/
 

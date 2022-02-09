@@ -6,11 +6,13 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    minlength: 2
+    minlength: 2,
+    maxlength: 25
   },
   description: {
     type: String,
-    required: true
+    required: true,
+    maxlength: 250
   },
   members: {
     type: Number

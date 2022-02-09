@@ -22,6 +22,9 @@ const schema = new mongoose.Schema({
   dislikes: {
     type: Number
   },
+  amountOfComments: {
+    type: Number
+  },
   discussion: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Discussion'

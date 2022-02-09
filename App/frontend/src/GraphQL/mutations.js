@@ -13,6 +13,7 @@ export const CREATE_POST = gql`
       text,
       likes,
       dislikes,
+      amountOfComments,
       discussion {
         id,
         name
@@ -29,7 +30,8 @@ export const CREATE_DISCUSSION = gql`
     ) {
       id,
       name,
-      members
+      members,
+      description
     }
   }
 `

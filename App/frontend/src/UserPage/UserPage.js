@@ -74,27 +74,34 @@ const UserPage = ({ token }) => {
       setAmount(amount - amountToFetch)
     }
   }
-
-  const style = {
+  
+  const styles = {
+    votes: {
+      marginTop: "10px"
+    },
     text: {
-      padding: "5px 0px",
-      margin: "0px"
+      marginTop: "2px",
+      marginBottom: "2px"
     }
   }
 
   return (
     <div id="page">
       <div id="userInfoContainer">
-        <h3>{username}</h3>
         <div className="userInfoSubcontainer">
-          <div className='votes'>
-            <i className="material-icons vote">thumb_up</i>{totalLikes}
+          <h3>{username}</h3>
+        </div>
+        <p className='dividerVertical' />
+        <div className="userInfoSubcontainer">
+          <div className='votes' style={styles.votes}>
+            <i className="material-icons vote">thumb_up</i>{totalLikes} &nbsp;
             <i className='material-icons vote'>thumb_down</i>{totalDislikes}
           </div>
         </div>
+        <p className="dividerVertical" />
         <div className="userInfoSubcontainer">
-          <p style={style}>Creation Date</p>
-          <h4 style={style}>{creationDate}</h4>
+          <p style={styles.text}>Creation Date</p>
+          <h4 style={styles.text}>{creationDate}</h4>
         </div>
       </div>
 

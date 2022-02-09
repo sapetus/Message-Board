@@ -40,6 +40,7 @@ export const FIND_POST = gql`
       text,
       likes,
       dislikes,
+      amountOfComments,
       image
       discussion {
         name
@@ -129,6 +130,7 @@ export const GET_POSTS_BY_USER = gql`
       text
       likes
       dislikes
+      amountOfComments
       discussion {
         id
         name
@@ -174,6 +176,7 @@ export const GET_POSTS_BY_DISCUSSION = gql`
       text
       likes
       dislikes
+      amountOfComments
     }
   }
 `

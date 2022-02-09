@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 const VoteButtons = ({
   id, token,
+  likes, dislikes,
   hasLiked, hasDisliked,
   likeFunction, unlikeFunction,
   dislikeFunction, undislikeFunction
@@ -11,7 +12,7 @@ const VoteButtons = ({
   let currentTimeoutId = null
   const waitTime = 1000
 
-  //this appears get rid of the 'Can't perform state update on an unmounted componen' -error
+  //this appears get rid of the 'Can't perform state update on an unmounted component' -error
   useEffect(() => {
     let timeoutId = currentTimeoutId
 
@@ -30,19 +31,46 @@ const VoteButtons = ({
     }
   }
 
+  const styles = {
+    icon: {
+      top: "4px",
+      paddingRight: "8px"
+    }
+  }
+
   return (
-    <p className="voteButtons">
+    <div className="voteButtons">
       {token &&
         (hasLiked
-          ? <button className="activeButton" onClick={() => vote(unlikeFunction)}>+</button>
-          : <button className="inactiveButton" onClick={() => vote(likeFunction)}>+</button>)
+          ? <div>
+            <i className="material-icons activeButton" onClick={() => vote(unlikeFunction)} style={styles.icon}>
+              thumb_up
+            </i>
+            {likes} &nbsp;&nbsp;
+          </div>
+          : <div>
+            <i className="material-icons inactiveButton" onClick={() => vote(likeFunction)} style={styles.icon}>
+              thumb_up
+            </i>
+            {likes} &nbsp;&nbsp;
+          </div>)
       }
       {token &&
         (hasDisliked
-          ? <button className="activeButton" onClick={() => vote(undislikeFunction)}>-</button>
-          : <button className="inactiveButton" onClick={() => vote(dislikeFunction)}>-</button>)
+          ? <div>
+            <i className="material-icons activeButton" onClick={() => vote(undislikeFunction)} style={styles.icon}>
+              thumb_down
+            </i>
+            {dislikes} &nbsp;&nbsp;
+          </div>
+          : <div>
+            <i className="material-icons inactiveButton" onClick={() => vote(dislikeFunction)} style={styles.icon}>
+              thumb_down
+            </i>
+            {dislikes} &nbsp;&nbsp;
+          </div>)
       }
-    </p>
+    </div>
   )
 }
 

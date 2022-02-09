@@ -71,4 +71,5 @@
 | 7.2.2022   | 3    | Finished refactoring UserPage. UserPage is now in acceptable condition (visually) |
 | 8.2.2022   | 1    | Organized index.css (Still quite a mess) |
 |            | 3    | Worked on frontend. Discussion page is now in an acceptable condition. |
-| total      | 101  | |
+| 9.2.2022   | 4    | Still working on styling the app. Posts now keep count of the amount of comments in them. |
+| total      | 105  | |

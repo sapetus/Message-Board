@@ -102,6 +102,7 @@ const Posts = ({ name }) => {
           <div className="votes">
             <i className="material-icons vote">thumb_up</i>{post.likes}
             <i className="material-icons vote">thumb_down</i>{post.dislikes}
+            <i className="material-icons message">message</i>{post.amountOfComments}
           </div>
         </Link>
       )}
