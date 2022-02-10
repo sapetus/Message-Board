@@ -99,14 +99,14 @@ const filter = (list, filter) => {
 
   if (filter) {
     //for discussions
-    if (list[0]?.name) {
+    if (list[0].name) {
       listCopy = list.filter(
         item => item.name.toLowerCase()
           .includes(filter.toLowerCase())
       )
     }
     //for posts
-    if (list[0]?.title) {
+    if (list[0].title) {
       listCopy = list.filter(
         item => item.title.toLowerCase()
           .includes(filter.toLowerCase())
