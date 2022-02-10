@@ -152,7 +152,7 @@ describe('User', () => {
         .send(data)
         .expect(200)
 
-      expect(response.body.errors[0].message).toContain(`expected \`username\` to be unique`)
+      expect(response.body.errors[0].message).toEqual('Something went wrong, please try again.')
     })
 
     test('login works with correct credentials', async () => {

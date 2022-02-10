@@ -71,12 +71,14 @@ Discussion[1] {
 const initialDiscussions = [
   {
     name: "Movies",
+    description: "A discussion about movies",
     members: 0,
     posts: [],
     listOfMembers: []
   },
   {
     name: "Books",
+    description: "A discussion about books",
     members: 0,
     posts: [],
     listOfMembers: []

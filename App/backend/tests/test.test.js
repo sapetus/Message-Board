@@ -5,6 +5,7 @@ const resolvers = require('../GraphQL/resolvers/mergedResolvers')
 
 describe("Test queries and mutations", () => {
   let tester
+
   beforeAll(() => {
     tester = new EasyGraphQLTester(typeDefs, resolvers)
   })
@@ -54,17 +55,19 @@ describe("Test queries and mutations", () => {
     })
     test("Valid mutation returns true", () => {
       const validMutation = `
-        mutation CreateDiscussion($name: String!) {
-          createDiscussion(name: $name) {
+        mutation CreateDiscussion($name: String!, $description: String!) {
+          createDiscussion(name: $name, description: $description) {
             id
             name
+            description
             members
           }
         }
       `
 
       tester.test(true, validMutation, {
-        name: "Discussion"
+        name: "Discussion",
+        description: "Description of the discussion"
       })
     })
   })

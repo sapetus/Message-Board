@@ -110,8 +110,8 @@ describe('Discussion', () => {
   describe('Mutations', () => {
     const queries = {
       createDiscussion: `
-        mutation createDiscussion($name: String!) {
-          createDiscussion(name: $name) {
+        mutation createDiscussion($name: String!, $description: String!) {
+          createDiscussion(name: $name, description: $description) {
             id
             name
             members
@@ -143,7 +143,8 @@ describe('Discussion', () => {
         query: queries.createDiscussion,
         operationName: "createDiscussion",
         variables: {
-          name: "Pets"
+          name: "Pets",
+          description: "A discussion about pets"
         }
       }
 
@@ -169,7 +170,8 @@ describe('Discussion', () => {
         query: queries.createDiscussion,
         operationName: "createDiscussion",
         variables: {
-          "invalid": "invalid"
+          "name": "a",
+          "description": "b"
         }
       }
 
@@ -177,10 +179,10 @@ describe('Discussion', () => {
         .post('/graphql')
         .set({ 'Authorization': token })
         .send(data)
-        .expect(400)
+        .expect(200)
 
       expect(response.body.errors[0].message)
-        .toEqual(`Variable "$name" of required type "String!" was not provided.`)
+        .toContain('is shorter than the minimum allowed length')
     })
 
     test('trying to create a discussion with already existing name doesnt work', async () => {
@@ -190,7 +192,8 @@ describe('Discussion', () => {
         query: queries.createDiscussion,
         operationName: "createDiscussion",
         variables: {
-          "name": "Movies"
+          "name": "Movies",
+          "description": "A discussion about movies"
         }
       }
 

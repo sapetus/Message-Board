@@ -12,6 +12,7 @@ const schema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
+    minlength: 10,
     maxlength: 250
   },
   members: {
