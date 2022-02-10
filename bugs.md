@@ -9,4 +9,7 @@ This is because VoteButtons component sets a timeout, and if user leaves before 
 	- switched to useQuery from useLazyQuery 31.1.2022
 - ~~After visiting a post, and then trying to change order in discussion page, the first 5 posts remain in the default order~~ FIXED
 	- switched to useQuery from useLazyQuery 31.1.2022
-- Backend tests stopped working, fix them
+- ~~Backend tests stopped working, fix them~~ FIXED
+	- changes in schema broke some of the tests 10.2.2022
+- ~~when user is logged out and user is visiting a specific post, that posts votes do not show~~ FIXED
+	- VoteButtons component didn't render when no token was provided 10.2.2022

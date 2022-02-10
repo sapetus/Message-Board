@@ -54,12 +54,9 @@ const Comment = ({ comment, token, postId, fetched, setFetched }) => {
 
   return (
     <div className="comment">
-      {comment.responseTo &&
-        //Please, change this later. Here just to make things a bit clearer
-        <p className='grayText'>- {comment.responseTo.text}</p>
-      }
+      {comment.responseTo && <p className='grayText'>— {comment.responseTo.text}</p>}
 
-      <p>{comment.text}</p>
+      <p className="commentText">{comment.text}</p>
 
       <VoteButtons
         id={comment.id} token={token}
@@ -71,12 +68,14 @@ const Comment = ({ comment, token, postId, fetched, setFetched }) => {
 
       <p>Comment by <Link to={`/user/${comment.user.username}`}>{comment.user.username}</Link></p>
 
-      <CreateCommentForm
-        postId={postId}
-        commentId={comment.id}
-        fetched={fetched}
-        setFetched={setFetched}
-      />
+      {token &&
+        <CreateCommentForm
+          postId={postId}
+          commentId={comment.id}
+          fetched={fetched}
+          setFetched={setFetched}
+        />
+      }
     </div >
   )
 }

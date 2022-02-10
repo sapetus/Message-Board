@@ -119,6 +119,8 @@ const DiscussionPage = ({ token }) => {
 
       <Posts name={params.name} />
 
+      <p className="dividerHorizontal"/>
+
       {token &&
         <CreatePostForm
           discussionName={params.name}

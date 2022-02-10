@@ -33,6 +33,8 @@
 - ONLY allow references to an image (URL), unsafe to save and send images to users without actually making sure the file is clean
 - Send an alert to user when someone comments their post or comment
 - Implement FAQ page
+- Hide 'show more' and 'show less' buttons when nothing can be fetched anymore
+	- or implement infinite scroll
 - **tests!**
 
 ## app:

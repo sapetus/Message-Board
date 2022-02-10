@@ -91,9 +91,8 @@ const LandingPage = ({ token }) => {
           />
         </div>
         <select name="order" onChange={({ target }) => changeOrder(target.value)}>
-          <option value="" hidden>Order</option>
-          <option value="NEW">New</option>
-          <option value="OLD">Old</option>
+          <option value="NEW">New Discussions</option>
+          <option value="OLD">Old Discussions</option>
           <option value="MEMBERS">Most members</option>
           <option value="ALPHABETICAL">Alphabetical</option>
         </select>
@@ -109,6 +108,8 @@ const LandingPage = ({ token }) => {
         <button onClick={fetchDiscussions}>Show More</button>
         <button onClick={showLess}>Show Less</button>
       </div>
+
+      <p className="dividerHorizontal"/>
 
       {token && <CreateDiscussionForm />}
     </div>

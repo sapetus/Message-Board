@@ -19,6 +19,11 @@ body {
   font-size: small;
 }
 
+.largeText {
+  font-size: large;
+  font-weight: 1000;
+}
+
 .longText {
   font-size: small;
   overflow: hidden;
@@ -166,8 +171,17 @@ form {
 .commentForm {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-  padding-top: 10px;
+  padding-top: 20px;
+}
+
+.commentFormArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px
 }
 /*------------------------------------------------------------------*/
 
@@ -216,12 +230,34 @@ form {
 
 .dividerVertical {
   width: 20px;
-  height: 100px;
+  height: 6em;
   margin-right: 20px;
   border-right: solid 3px #111315;
 }
-/*------------------------------------------------------------------*/
 
+.dividerHorizontal {
+  width: 80%;
+  height: 20px;
+  border-bottom: solid 3px #111315;
+}
+
+.activeButton:not(.material-icons) {
+  background-color: #8C54F3;
+}
+.activeButton:not(.material-icons):hover {
+  background-color: #ae83ff;
+  border-color: #ae83ff;
+}
+
+.toggleButton {
+  width: 200px
+}
+
+.noHover {
+  pointer-events: none;
+}
+/*------------------------------------------------------------------*/
+ 
 /*App.js------------------------------------------------------------*/
 #main {
   display: flex;
@@ -319,7 +355,7 @@ form {
   border-radius: 15px;
   margin: 10px 0px;
   padding: 10px;
-  width: 700px;
+  width: 600px;
 }
 .comment:hover {
   border-color: #8C54F3;
@@ -409,7 +445,7 @@ form {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 
   width: 90%;
   padding: 10px 0px;
@@ -421,6 +457,10 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.commentText {
+  margin-bottom: 10px;
 }
 
 .postIcons {

@@ -165,14 +165,15 @@ const PostPage = ({ token }) => {
   return (
     <div id="page">
       <div id="postInfo">
-        <p>
+        <p className='largeText'>
           <Link to={`/discussion/${discussion?.name}`}>
-            {discussion?.name}
+            In {discussion?.name}
           </Link>
         </p>
-        <p>
+        <p className='dividerVertical'/>
+        <p className="largeText">
           <Link to={`/user/${postUser?.username}`}>
-            {postUser?.username}
+            By {postUser?.username}
           </Link>
         </p>
       </div>
@@ -194,20 +195,18 @@ const PostPage = ({ token }) => {
             dislikeFunction={dislikePost} undislikeFunction={undislikePost}
           />
           <div className="commentCountIcon">
-            <i className="material-icons" style={{ top: "7px", paddingRight: "10px"}}>message</i>{postCommentCount}
+            <i className="material-icons noHover" style={{ top: "7px", paddingRight: "10px"}}>message</i>{postCommentCount}
           </div>
         </div>
       </div>
 
       <div id='comments'>
-        <h3>Comments</h3>
         <div className='filterOptions'>
           <select name="order" onChange={({ target }) => changeOrder(target.value)}>
-            <option value="" hidden>Order</option>
-            <option value="NEW">New</option>
-            <option value="OLD">Old</option>
-            <option value="LIKES">Likes</option>
-            <option value="DISLIKES">Dislikes</option>
+            <option value="NEW">New Comments</option>
+            <option value="OLD">Old Comments</option>
+            <option value="LIKES">Most Likes</option>
+            <option value="DISLIKES">Most Dislikes</option>
           </select>
         </div>
 
@@ -224,6 +223,8 @@ const PostPage = ({ token }) => {
           <button onClick={showLess}>Show Less</button>
         </div>
       </div>
+
+      <p className='dividerHorizontal'/>
 
       {token &&
         <CreateCommentForm

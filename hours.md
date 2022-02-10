@@ -73,4 +73,5 @@
 |            | 3    | Worked on frontend. Discussion page is now in an acceptable condition. |
 | 9.2.2022   | 4    | Still working on styling the app. Posts now keep count of the amount of comments in them. |
 | 10.2.2022  | 1    | Fixed backend tests. |
-| total      | 106  | |
+|            | 2    | Kept working on frontend. (Everything is now in acceptable condition visually, some work to be done later) |
+| total      | 108  | |

@@ -39,18 +39,20 @@ const CreateCommentForm = ({ postId, commentId, fetched, setFetched }) => {
 
   return (
     <div className='commentForm'>
-      <button onClick={() => setShowForm(!showForm)}>
+      <button className="toggleButton" onClick={() => setShowForm(!showForm)}>
         {showForm ? 'Hide' : 'Reply'}
       </button>
 
       {showForm &&
-        <form onSubmit={submit}>
-          <input
+        <form onSubmit={submit} className="commentFormArea">
+          <textarea
+            style={{ width: "80%" }}
             placeholder='Comment here...'
+            columns="6"
             value={text}
             onChange={({ target }) => setText(target.value)}
           />
-          <button type="submit">Create Comment</button>
+          <button className="toggleButton" type="submit">Create Comment</button>
         </form>
       }
     </div>
