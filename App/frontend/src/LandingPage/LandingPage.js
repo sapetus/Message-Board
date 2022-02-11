@@ -79,7 +79,7 @@ const LandingPage = ({ token }) => {
 
   return (
     <div id="page" >
-      <h1 className="pageTitle">Landing Page</h1>
+      <h1 className="pageTitle">Discussions</h1>
 
       <div className="filterOptions">
         <div className="inputContainer">
@@ -109,7 +109,7 @@ const LandingPage = ({ token }) => {
         <button onClick={showLess}>Show Less</button>
       </div>
 
-      <p className="dividerHorizontal"/>
+      <p className="dividerHorizontal" />
 
       {token && <CreateDiscussionForm />}
     </div>

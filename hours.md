@@ -74,4 +74,5 @@
 | 9.2.2022   | 4    | Still working on styling the app. Posts now keep count of the amount of comments in them. |
 | 10.2.2022  | 1    | Fixed backend tests. |
 |            | 2    | Kept working on frontend. (Everything is now in acceptable condition visually, some work to be done later) |
-| total      | 108  | |
+| 11.2.2022  | 3    | Small fixes to frontends visuals. Started to write tests for frontend |
+| total      | 111  | |

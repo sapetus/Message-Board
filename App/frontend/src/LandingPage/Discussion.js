@@ -5,13 +5,11 @@ import { Link } from 'react-router-dom'
 const Discussion = ({ discussion }) => {
   return (
     <Link className='discussion' to={`/discussion/${discussion.name}`}>
-      <div>
-        <h4>
-          {discussion.name} &nbsp;&nbsp;&nbsp;
-          <i className='material-icons member'>group</i>{discussion.members}
-        </h4>
-        <p className='longText'>{discussion?.description}</p>
+      <div className='discussionSubContainer'>
+        <h4>{discussion.name}</h4>
+        <h4><i className='material-icons member'>group</i>{discussion.members}</h4>
       </div>
+      <p className='longText'>{discussion?.description}</p>
     </Link >
   )
 }

@@ -55,7 +55,7 @@ const Comments = ({ username, amountToFetch, showLess }) => {
       {comments?.map(comment =>
         <Link key={comment.id} className="comment" to={`/post/${comment.post.id}`}>
           <p className='smallText' style={style.text}>{comment.post.discussion.name}</p>
-          <h5  style={style.text}>{comment.post.title}</h5>
+          <p className='smallText' style={style.text}>{comment.post.title}</p>
           <h3 style={style.text}>{comment.text}</h3>
           <div className='votes'>
             <i className="material-icons" style={style.vote}>thumb_up</i>{comment.likes}
