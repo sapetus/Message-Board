@@ -23,7 +23,6 @@ const UserPage = ({ token }) => {
   )
 
   useEffect(() => {
-    console.log(params.username)
     getUser({ variables: { username: params.username } })
   }, [params.username]) //eslint-disable-line
 

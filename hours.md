@@ -76,4 +76,5 @@
 |            | 2    | Kept working on frontend. (Everything is now in acceptable condition visually, some work to be done later) |
 | 11.2.2022  | 3    | Small fixes to frontends visuals. Started to write tests for frontend |
 | 14.2.2022  | 4    | Continued writing tests for frontend (got queries working with MockedProvider) |
-| total      | 115  | |
+| 15.2.2022  | 2    | Writing tests for frontend, pipeline changes |
+| total      | 117  | |
