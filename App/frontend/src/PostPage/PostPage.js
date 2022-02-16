@@ -170,7 +170,7 @@ const PostPage = ({ token }) => {
             In {discussion?.name}
           </Link>
         </p>
-        <p className='dividerVertical'/>
+        <p className='dividerVertical' />
         <p className="largeText">
           <Link to={`/user/${postUser?.username}`}>
             By {postUser?.username}
@@ -195,7 +195,7 @@ const PostPage = ({ token }) => {
             dislikeFunction={dislikePost} undislikeFunction={undislikePost}
           />
           <div className="commentCountIcon">
-            <i className="material-icons noHover" style={{ top: "7px", paddingRight: "10px"}}>message</i>{postCommentCount}
+            <i className="material-icons noHover" style={{ top: "7px", paddingRight: "10px" }}>message</i>{postCommentCount}
           </div>
         </div>
       </div>
@@ -224,7 +224,7 @@ const PostPage = ({ token }) => {
         </div>
       </div>
 
-      <p className='dividerHorizontal'/>
+      <p className='dividerHorizontal' />
 
       {token &&
         <CreateCommentForm
