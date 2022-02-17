@@ -3,11 +3,11 @@ import '@testing-library/jest-dom/extend-expect'
 import { MockedProvider } from '@apollo/client/testing'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { InMemoryCache } from '@apollo/client'
 
 import { FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 import { CREATE_COMMENT } from '../GraphQL/mutations'
 import CreateCommentForm from './CreateCommentForm'
-import { InMemoryCache } from '@apollo/client'
 
 test('creation of a comment is successful', async () => {
   const createCommentMock = {
@@ -45,9 +45,7 @@ test('creation of a comment is successful', async () => {
   cache.writeQuery({
     query: FIND_COMMENTS_BY_POST,
     variables: { id: "123abc" },
-    data: {
-      findCommentsByPost: []
-    }
+    data: { findCommentsByPost: [] }
   })
 
   //this will increment on succesful creation

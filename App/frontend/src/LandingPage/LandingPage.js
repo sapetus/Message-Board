@@ -93,7 +93,7 @@ const LandingPage = ({ token }) => {
         <select name="order" onChange={({ target }) => changeOrder(target.value)}>
           <option value="NEW">New Discussions</option>
           <option value="OLD">Old Discussions</option>
-          <option value="MEMBERS">Most members</option>
+          <option value="MEMBERS">Most Members</option>
           <option value="ALPHABETICAL">Alphabetical</option>
         </select>
       </div>

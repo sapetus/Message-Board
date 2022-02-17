@@ -78,4 +78,5 @@
 | 14.2.2022  | 4    | Continued writing tests for frontend (got queries working with MockedProvider) |
 | 15.2.2022  | 2    | Writing tests for frontend, pipeline changes |
 | 16.2.2022  | 3    | Working on tests for frontend |
-| total      | 120  | |
+| 17.2.2022  | 4    | Wrote tests for frontend (almost done) |
+| total      | 124  | |
