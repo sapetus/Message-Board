@@ -13,7 +13,7 @@ const resolvers = require('./GraphQL/resolvers/mergedResolvers')
 const User = require('./models/User')
 
 const JWT_SECRET = process.env.JWT_SECRET
-let URI = ''
+let URI = process.env.MONGODB_URI
 const node_env = process.env.NODE_ENV
 switch (node_env) {
   case 'test':
@@ -21,9 +21,6 @@ switch (node_env) {
     break
   case 'development':
     URI = process.env.DEV_MONGODB_URI
-    break
-  case 'production':
-    URI = process.env.MONGODB_URI
     break
   default:
     break
@@ -40,10 +37,10 @@ mongoose.connect(URI)
 
 const app = express()
 
-app.use(express.static(path.join(__dirname, '../frontend/build')))
+app.use(express.static(path.join(__dirname, '/build')))
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/../frontend/build/index.html'))
+  res.sendFile(path.join(__dirname + '/build/index.html'))
 })
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })

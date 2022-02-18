@@ -9,6 +9,17 @@ on:
     types: [opened, synchronize]
   
 jobs:
+  deploy_frontend:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: install npm frontend
+        run: cd App/frontend && npm install
+      - name: test
+        run: cd App/frontend && CI=true npm run test
   deploy_backend:
     runs-on: ubuntu-18.04
     steps:
@@ -23,14 +34,3 @@ jobs:
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-  deploy_frontend:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - name: install npm frontend
-        run: cd App/frontend && npm install
-      - name: test
-        run: cd App/frontend && CI=true npm run test
