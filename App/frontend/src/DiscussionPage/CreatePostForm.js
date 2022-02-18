@@ -15,7 +15,8 @@ const CreatePostForm = ({ discussionName }) => {
 
   const [createPost] = useMutation(CREATE_POST, {
     onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
+      console.log(error)
+      //console.log(error.graphQLErrors[0].message)
     },
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: GET_POSTS_BY_DISCUSSION, variables: { name: discussionName } })

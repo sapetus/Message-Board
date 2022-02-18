@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
-import { Link } from 'react-router-dom'
 
 import { GET_POSTS_BY_DISCUSSION } from '../GraphQL/queries'
 import Post from './Post'
@@ -97,7 +96,7 @@ const Posts = ({ name }) => {
       </div>
 
       {posts?.map(post =>
-        <Post post={post} />
+        <Post key={post.id} post={post} />
       )}
 
       {posts &&

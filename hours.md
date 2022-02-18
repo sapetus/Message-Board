@@ -79,4 +79,5 @@
 | 15.2.2022  | 2    | Writing tests for frontend, pipeline changes |
 | 16.2.2022  | 3    | Working on tests for frontend |
 | 17.2.2022  | 4    | Wrote tests for frontend (almost done) |
-| total      | 124  | |
+| 18.2.2022  | 3    | Tests for frontend done. Backend now serves static files when started |
+| total      | 127  | |

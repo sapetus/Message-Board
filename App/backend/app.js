@@ -5,6 +5,7 @@ const { ApolloServer } = require('apollo-server-express')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const express = require('express')
+const path = require('path')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
 
 const typeDefs = require('./GraphQL/types/mergedTypes')
@@ -38,6 +39,13 @@ mongoose.connect(URI)
   })
 
 const app = express()
+
+app.use(express.static(path.join(__dirname, '../frontend/build')))
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/../frontend/build/index.html'))
+})
+
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 
 const server = new ApolloServer({
