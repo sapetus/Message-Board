@@ -39,9 +39,12 @@ const app = express()
 
 //if in production mode, serve static files from frontend
 if (URI === process.env.MONGODB_URI) {
-  app.use(express.static(path.join(__dirname, '/build')))
+  app.use(express.static(path.join(__dirname, '../frontend/build')))
+  app.get('/healthcheck', (req, res) => {
+    res.send('ok')
+  })
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/build/index.html'))
+    res.sendFile(path.join(__dirname + '/../frontend/build/index.html'))
   })
 }
 

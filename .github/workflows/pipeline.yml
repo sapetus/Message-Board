@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
   
 jobs:
-  deploy_frontend:
+  frontend:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -18,9 +18,11 @@ jobs:
           node-version: '12.x'
       - name: install npm frontend
         run: npm run install:frontend
+      - name: build
+        run: npm run build:frontend
       - name: test
         run: npm run test:frontend
-  deploy_backend:
+  backend:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -34,3 +36,16 @@ jobs:
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  deploy:
+    needs: [frontend, backend]
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: amazing-message-board
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          healthcheck: "https://amazing-message-board.herokuapp.com/healthcheck"
+          checkstring: "ok",
+          rollbackonhealthcheckfailed: true
