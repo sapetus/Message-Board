@@ -10,13 +10,14 @@ const CreatePostForm = ({ discussionName }) => {
   const [text, setText] = useState('')
   const [file, setFile] = useState(null)
   const [failedToLoadFile, setFailedToLoadFile] = useState(false)
+  //this is here only temporary, as file uploading is not supported currently
+  setFailedToLoadFile(false)
 
   const navigate = useNavigate()
 
   const [createPost] = useMutation(CREATE_POST, {
     onError: (error) => {
-      console.log(error)
-      //console.log(error.graphQLErrors[0].message)
+      console.log(error.graphQLErrors[0].message)
     },
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: GET_POSTS_BY_DISCUSSION, variables: { name: discussionName } })
