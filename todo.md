@@ -40,5 +40,5 @@
 ## app:
 - start using branches!
 - CI/CD pipeline
-- push to heroku or somewhere similar
-  - backend and frontend to separate places?
+- ~~push to heroku or somewhere similar~~ (DONE, app deployed to heroku)
+  - ~~backend and frontend to separate places?~~ (DONE, backend serves static files from frontend)
