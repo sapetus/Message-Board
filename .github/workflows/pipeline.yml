@@ -17,9 +17,9 @@ jobs:
         with:
           node-version: '12.x'
       - name: install npm frontend
-        run: cd App/frontend && npm install
+        run: npm run install:frontend
       - name: test
-        run: cd App/frontend && CI=true npm run test
+        run: npm run test:frontend
   deploy_backend:
     runs-on: ubuntu-18.04
     steps:
@@ -28,9 +28,9 @@ jobs:
         with:
           node-version: '12.x'
       - name: install npm backend
-        run: cd App/backend && npm install
+        run: npm run install:backend
       - name: test
-        run: cd App/backend && npm run test
+        run: npm run test:backend
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}

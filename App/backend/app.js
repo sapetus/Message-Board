@@ -37,11 +37,13 @@ mongoose.connect(URI)
 
 const app = express()
 
-app.use(express.static(path.join(__dirname, '/build')))
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/build/index.html'))
-})
+//if in production mode, serve static files from frontend
+if (URI === process.env.MONGODB_URI) {
+  app.use(express.static(path.join(__dirname, '/build')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/build/index.html'))
+  })
+}
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 
