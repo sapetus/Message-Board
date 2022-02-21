@@ -8,7 +8,8 @@
     "test:backend": "cd App/backend && npm run test",
     "start:prod": "cd App/backend && npm run start",
     "install:frontend": "cd App/frontend && npm install",
-    "install:backend": "cd App/backend && npm install"
+    "install:backend": "cd App/backend && npm install",
+    "heroku-postbuild": "cd App/frontend && npm install && npm run build"
   },
   "dependencies": {
     "apollo-server": "^3.5.0",
