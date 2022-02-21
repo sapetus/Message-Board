@@ -9,38 +9,28 @@ on:
     types: [opened, synchronize]
   
 jobs:
-  frontend:
+  deployment:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: install npm frontend
+      - name: install
+        run: npm install
+      - name: install frontend
         run: npm run install:frontend
+      - name: install backend
+        run: npm run install:backend
       - name: build
         run: npm run build:frontend
-      - name: test
-        run: npm run test:frontend
-  backend:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - name: install npm backend
-        run: npm install && npm run install:backend
-      - name: test
+      - name: test backend
         run: npm run test:backend
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-  deploy:
-    needs: [frontend, backend]
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
+      - name: test frontend
+        run: npm run test:frontend
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
