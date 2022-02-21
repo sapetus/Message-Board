@@ -21,7 +21,8 @@ const authenticationLink = setContext((__, { headers }) => {
   }
 })
 
-const httpLink = new HttpLink({ uri: 'http://localhost:4000/graphql' })
+//this needs to be changed to work in heroku
+const httpLink = new HttpLink({ uri: '/graphql' })
 
 const mergeFunction = (existing, incoming, after, filter) => {
   let merged = existing ? existing.slice(0) : []
