@@ -49,35 +49,35 @@ const CreatePostForm = ({ discussionName }) => {
     }
   }
 
-  const readFile = () => {
-    const file = document.querySelector('input[type=file]').files[0]
+  // const readFile = () => {
+  //   const file = document.querySelector('input[type=file]').files[0]
 
-    const reader = new FileReader()
+  //   const reader = new FileReader()
 
-    //might be good idea to compress images?
-    //encode image??
-    //implement somekind of security here?
-    //best would be to allow only links to images or
-    //save image to a hosting site and serve the url
-    reader.addEventListener("load", () => {
-      if (file.type.includes('image')) {
-        if (file.size < 1100000) {
-          setFailedToLoadFile(false)
-          setFile(reader.result)
-        } else {
-          setFailedToLoadFile(true)
-          console.log("size needs to be less than 1MB")
-        }
-      } else {
-        setFailedToLoadFile(true)
-        console.log("file needs to be an image")
-      }
-    }, false)
+  //   //might be good idea to compress images?
+  //   //encode image??
+  //   //implement somekind of security here?
+  //   //best would be to allow only links to images or
+  //   //save image to a hosting site and serve the url
+  //   reader.addEventListener("load", () => {
+  //     if (file.type.includes('image')) {
+  //       if (file.size < 1100000) {
+  //         setFailedToLoadFile(false)
+  //         setFile(reader.result)
+  //       } else {
+  //         setFailedToLoadFile(true)
+  //         console.log("size needs to be less than 1MB")
+  //       }
+  //     } else {
+  //       setFailedToLoadFile(true)
+  //       console.log("file needs to be an image")
+  //     }
+  //   }, false)
 
-    if (file) {
-      reader.readAsDataURL(file)
-    }
-  }
+  //   if (file) {
+  //     reader.readAsDataURL(file)
+  //   }
+  // }
 
   return (
     <div className="formContainer">

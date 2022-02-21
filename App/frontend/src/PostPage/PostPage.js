@@ -25,7 +25,7 @@ const PostPage = ({ token }) => {
   const [postCommentCount, setPostCommentCount] = useState(0)
   const [postText, setPostText] = useState('')
   const [postTitle, setPostTitle] = useState('')
-  const [postImage, setPostImage] = useState(null)
+  //const [postImage, setPostImage] = useState(null)
   const [postUser, setPostUser] = useState('')
   const [postId, setPostId] = useState('')
   const [listOfLikeUsers, setListOfLikeUsers] = useState(null)
@@ -97,7 +97,7 @@ const PostPage = ({ token }) => {
   useEffect(() => {
     if (getPostData?.findPost) {
       const findPostData = getPostData.findPost
-      setPostImage(findPostData.image)
+      //setPostImage(findPostData.image)
       setDiscussion(findPostData.discussion)
       setPostLikes(findPostData.likes)
       setPostDislikes(findPostData.dislikes)
