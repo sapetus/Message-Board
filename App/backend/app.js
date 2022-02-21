@@ -38,6 +38,7 @@ mongoose.connect(URI)
 const app = express()
 
 //if in production mode, serve static files from frontend
+//and a healthcheck page for workflows
 if (URI === process.env.MONGODB_URI) {
   app.use(express.static(path.join(__dirname, '../frontend/build')))
   app.get('/healthcheck', (req, res) => {
