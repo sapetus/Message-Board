@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: '12.x'
       - name: install npm backend
-        run: npm run install:backend
+        run: npm install && npm run install:backend
       - name: test
         run: npm run test:backend
         env:
