@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +11,9 @@ const CreatePostForm = ({ discussionName }) => {
   const [file, setFile] = useState(null)
   const [failedToLoadFile, setFailedToLoadFile] = useState(false)
   //this is here only temporary, as file uploading is not supported currently
-  setFailedToLoadFile(false)
+  useEffect(() => {
+    setFailedToLoadFile(false)
+  }, [])
 
   const navigate = useNavigate()
 
