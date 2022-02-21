@@ -47,5 +47,5 @@ jobs:
           heroku_app_name: amazing-message-board
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           healthcheck: "https://amazing-message-board.herokuapp.com/healthcheck"
-          checkstring: "ok",
+          checkstring: "ok"
           rollbackonhealthcheckfailed: true
