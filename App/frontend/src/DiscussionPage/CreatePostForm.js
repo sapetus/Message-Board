@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,12 +8,8 @@ import { GET_POSTS_BY_DISCUSSION } from '../GraphQL/queries'
 const CreatePostForm = ({ discussionName }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
-  const [file, setFile] = useState(null)
-  const [failedToLoadFile, setFailedToLoadFile] = useState(false)
-  //this is here only temporary, as file uploading is not supported currently
-  useEffect(() => {
-    setFailedToLoadFile(false)
-  }, [])
+  const [imageInput, setImageInput] = useState("")
+  const [image, setImage] = useState(null)
 
   const navigate = useNavigate()
 
@@ -37,50 +33,26 @@ const CreatePostForm = ({ discussionName }) => {
   const submit = async (event) => {
     event.preventDefault()
 
-    if (failedToLoadFile) {
-      console.log("File is not valid")
-    } else {
-      const { data } = await createPost({
-        variables: { title, text, discussionName, image: file }
-      })
+    const { data } = await createPost({
+      variables: { title, text, discussionName, image }
+    })
 
-      setTitle('')
-      setText('')
-      setFile(null)
+    setTitle('')
+    setText('')
+    setImage(null)
 
-      navigate(`/post/${data.createPost.id}`)
-    }
+    navigate(`/post/${data.createPost.id}`)
   }
 
-  // const readFile = () => {
-  //   const file = document.querySelector('input[type=file]').files[0]
+  const checkImage = (url) => {
+    setImageInput(url)
 
-  //   const reader = new FileReader()
-
-  //   //might be good idea to compress images?
-  //   //encode image??
-  //   //implement somekind of security here?
-  //   //best would be to allow only links to images or
-  //   //save image to a hosting site and serve the url
-  //   reader.addEventListener("load", () => {
-  //     if (file.type.includes('image')) {
-  //       if (file.size < 1100000) {
-  //         setFailedToLoadFile(false)
-  //         setFile(reader.result)
-  //       } else {
-  //         setFailedToLoadFile(true)
-  //         console.log("size needs to be less than 1MB")
-  //       }
-  //     } else {
-  //       setFailedToLoadFile(true)
-  //       console.log("file needs to be an image")
-  //     }
-  //   }, false)
-
-  //   if (file) {
-  //     reader.readAsDataURL(file)
-  //   }
-  // }
+    if (url.match(/\.(jpeg|jpg|gif|png)$/) !== null) {
+      setImage(url)
+    } else {
+      setImage(null)
+    }
+  }
 
   return (
     <div className="formContainer">
@@ -98,11 +70,15 @@ const CreatePostForm = ({ discussionName }) => {
           rows="6"
           onChange={({ target }) => setText(target.value)}
         />
-        {/* Image
         <input
-          type="file"
-          onChange={readFile}
-        /> */}
+          type="text"
+          placeholder="URL of an image"
+          value={imageInput}
+          onChange={({ target }) => checkImage(target.value)}
+        />
+        {image &&
+          <img src={image} alt="Nothing found with url"/>
+        }
         <button type='submit'>Create Post</button>
       </form>
     </div>

@@ -25,7 +25,7 @@ const PostPage = ({ token }) => {
   const [postCommentCount, setPostCommentCount] = useState(0)
   const [postText, setPostText] = useState('')
   const [postTitle, setPostTitle] = useState('')
-  //const [postImage, setPostImage] = useState(null)
+  const [postImage, setPostImage] = useState(null)
   const [postUser, setPostUser] = useState('')
   const [postId, setPostId] = useState('')
   const [listOfLikeUsers, setListOfLikeUsers] = useState(null)
@@ -97,7 +97,7 @@ const PostPage = ({ token }) => {
   useEffect(() => {
     if (getPostData?.findPost) {
       const findPostData = getPostData.findPost
-      //setPostImage(findPostData.image)
+      setPostImage(findPostData.image)
       setDiscussion(findPostData.discussion)
       setPostLikes(findPostData.likes)
       setPostDislikes(findPostData.dislikes)
@@ -181,11 +181,9 @@ const PostPage = ({ token }) => {
       <div className='post'>
         <h3>{postTitle}</h3>
         <p>{postText}</p>
-        {/* enable this when images have been converted to show only urls
         {postImage &&
-          <img alt="could not load content" src={postImage} style={{ maxWidth: 300, maxHeight: 300 }} />
+          <img className='start' alt="could not load content" src={postImage} style={{ maxWidth: 300, maxHeight: 300 }} />
         } 
-        */}
         <div className="postIcons">
           <VoteButtons
             id={postId} token={token}

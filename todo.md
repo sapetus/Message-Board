@@ -27,10 +27,8 @@
 - ~~Search/Filter bar for discussions~~ (DONE)
 - ~~Search/Filter bar for posts~~ (DONE)
 - Search/Filter bar for users?
-- Compress images to be uploaded
-- in addition to uploading an image, allow the use of an URL
 - create a show more button for discussions description, if it is too long.
-- ONLY allow references to an image (URL), unsafe to save and send images to users without actually making sure the file is clean
+- ~~ONLY allow references to an image (URL), unsafe to save and send images to users without actually making sure the file is clean~~ (DONE)
 - Send an alert to user when someone comments their post or comment
 - Implement FAQ page
 - Hide 'show more' and 'show less' buttons when nothing can be fetched anymore

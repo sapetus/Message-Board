@@ -144,10 +144,24 @@ form {
   display: flex;
   flex-direction: column;
 }
+
+img {
+  align-self: center;
+  max-width: 420px;
+  height: auto;
+  border: solid 3px #8d8d8d;
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+img.start {
+  align-self: flex-start;
+}
 /*------------------------------------------------------------------*/
 
 /*Forms-------------------------------------------------------------*/
 .formContainer {
+  width: 22%;
   display: flex;
   flex-direction: column;
   align-items: center;
