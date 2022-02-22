@@ -99,15 +99,20 @@ const LandingPage = ({ token }) => {
       </div>
 
       <div id="discussions">
-        {discussions?.map(discussion =>
-          <Discussion key={discussion.id} discussion={discussion} />
-        )}
+        {discussions?.length > 0
+          ? discussions?.map(discussion =>
+            <Discussion key={discussion.id} discussion={discussion} />
+          )
+          : <p className="nothingFound">Found nothing matching search</p>
+        }
       </div>
 
-      <div className="controlAmountButtons">
-        <button onClick={fetchDiscussions}>Show More</button>
-        <button onClick={showLess}>Show Less</button>
-      </div>
+      {discussions?.length > 0 &&
+        <div className="controlAmountButtons">
+          <button onClick={fetchDiscussions}>Show More</button>
+          <button onClick={showLess}>Show Less</button>
+        </div>
+      }
 
       <p className="dividerHorizontal" />
 

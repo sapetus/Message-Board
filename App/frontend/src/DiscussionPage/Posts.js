@@ -94,11 +94,14 @@ const Posts = ({ name }) => {
         </select>
       </div>
 
-      {posts?.map(post =>
-        <Post key={post.id} post={post} />
-      )}
+      {posts?.length > 0
+        ? posts?.map(post =>
+          <Post key={post.id} post={post} />
+        )
+        : <p className="nothingFound">Found nothing matching search</p>
+      }
 
-      {posts &&
+      {posts?.length > 0 &&
         <div className="controlAmountButtons">
           <button onClick={fetchPosts}>Show More</button>
           <button onClick={showLess}>Show Less</button>

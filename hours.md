@@ -84,4 +84,5 @@
 | 21.2.2022  | 4    | Created workflow to deploy app to Heroku on successful push. Made required changes to the app for this to work. Created readme.md |
 | 22.2.2022  | 1    | Added the possibility to upload image URLs when creating a post |
 |            | 1    | Fixed image showing too small in posts, small fixes to css, created FAQ-page |
-| total      | 134  | |
+|            | 1    | Fixed frontend tests, small css tweaks, when filtering and nothing is found, show nothing found message, tweaks to FAQ, changing pages resets scroll |
+| total      | 135  | |

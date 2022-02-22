@@ -1,1 +1,1 @@
-Visit [app](https://amazing-message-board.herokuapp.com/)
+App can be visited [here](https://amazing-message-board.herokuapp.com/)

@@ -284,8 +284,8 @@ describe('Functionality', () => {
     userEvent.selectOptions(screen.getByRole('combobox'), ['LIKES'])
     await wait()
 
-    expect(screen.getByRole('option', { name: "Likes" }).selected).toBe(true)
-    expect(screen.getByRole('option', { name: "New" }).selected).toBe(false)
+    expect(screen.getByRole('option', { name: "Most Likes" }).selected).toBe(true)
+    expect(screen.getByRole('option', { name: "New Posts" }).selected).toBe(false)
   })
 
   test('Search works', async () => {

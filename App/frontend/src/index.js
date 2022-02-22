@@ -10,6 +10,7 @@ import { setContext } from 'apollo-link-context'
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
+import ScrollToTop from './Components/ScrollToTop';
 
 const authenticationLink = setContext((__, { headers }) => {
   const token = localStorage.getItem('message_board_user_token')
@@ -105,9 +106,11 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <BrowserRouter >
-    <ApolloProvider client={client} >
-      <App />
-    </ApolloProvider>
+    <ScrollToTop>
+      <ApolloProvider client={client} >
+        <App />
+      </ApolloProvider>
+    </ScrollToTop>
   </BrowserRouter>,
   document.getElementById('root')
 );

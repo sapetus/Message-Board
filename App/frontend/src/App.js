@@ -5,7 +5,7 @@ import {
   Link
 } from 'react-router-dom'
 import { useApolloClient } from '@apollo/client'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import LandingPage from './LandingPage/LandingPage';
 import DiscussionPage from './DiscussionPage/DiscussionPage';
@@ -39,11 +39,11 @@ const App = () => {
   return (
     <div id="main" >
       <nav>
-        <Link to="/faq">
-          FAQ
-        </Link>
         <Link to="/" >
           Home
+        </Link>
+        <Link to="/faq">
+          FAQ
         </Link>
         {token &&
           <Link to={`/user/${localStorage.getItem('username')}`} >
