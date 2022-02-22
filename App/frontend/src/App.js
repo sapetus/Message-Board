@@ -5,7 +5,7 @@ import {
   Link
 } from 'react-router-dom'
 import { useApolloClient } from '@apollo/client'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import LandingPage from './LandingPage/LandingPage';
 import DiscussionPage from './DiscussionPage/DiscussionPage';
