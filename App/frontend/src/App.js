@@ -13,6 +13,7 @@ import PostPage from './PostPage/PostPage';
 import RegisterPage from './RegisterPage/RegisterPage';
 import LogInPage from './LogInPage/LogInPage';
 import UserPage from './UserPage/UserPage'
+import FaqPage from './FaqPage/FaqPage';
 
 const App = () => {
   const [token, setToken] = useState(null)
@@ -38,7 +39,7 @@ const App = () => {
   return (
     <div id="main" >
       <nav>
-        <Link to="/">
+        <Link to="/faq">
           FAQ
         </Link>
         <Link to="/" >
@@ -61,6 +62,7 @@ const App = () => {
       </nav>
 
       <Routes>
+        <Route path={`/faq`} element={<FaqPage />} />
         <Route path="/" element={<LandingPage token={token} />} />
         <Route path={`/discussion/:name`} element={<DiscussionPage token={token} />} />
         <Route path={`/log-in`} element={<LogInPage setToken={setToken} />} />

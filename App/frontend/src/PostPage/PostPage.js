@@ -182,8 +182,8 @@ const PostPage = ({ token }) => {
         <h3>{postTitle}</h3>
         <p>{postText}</p>
         {postImage &&
-          <img className='start' alt="could not load content" src={postImage} style={{ maxWidth: 300, maxHeight: 300 }} />
-        } 
+          <img className='start' alt="could not load content" src={postImage} />
+        }
         <div className="postIcons">
           <VoteButtons
             id={postId} token={token}

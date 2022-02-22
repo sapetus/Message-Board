@@ -87,11 +87,10 @@ const Posts = ({ name }) => {
           />
         </div>
         <select name="order" onChange={({ target }) => changeOrder(target.value)}>
-          <option value="" hidden>Order</option>
-          <option value="NEW">New</option>
-          <option value="OLD">Old</option>
-          <option value="LIKES">Likes</option>
-          <option value="DISLIKES">Dislikes</option>
+          <option value="NEW">New Posts</option>
+          <option value="OLD">Old Posts</option>
+          <option value="LIKES">Most Likes</option>
+          <option value="DISLIKES">Most Dislikes</option>
         </select>
       </div>
 

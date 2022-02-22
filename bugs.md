@@ -13,3 +13,5 @@ This is because VoteButtons component sets a timeout, and if user leaves before 
 	- changes in schema broke some of the tests 10.2.2022
 - ~~when user is logged out and user is visiting a specific post, that posts votes do not show~~ FIXED
 	- VoteButtons component didn't render when no token was provided 10.2.2022
+- ~~Images appear small in posts~~ FIXED
+	- element had some inline style, deleted those

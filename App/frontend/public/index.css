@@ -154,8 +154,14 @@ img {
   margin-top: 5px;
   margin-bottom: 10px;
 }
-img.start {
+
+ul {
   align-self: flex-start;
+  padding: 0px 70px 0px 70px;
+}
+
+li {
+  padding-bottom: 5px;
 }
 /*------------------------------------------------------------------*/
 
@@ -235,7 +241,7 @@ img.start {
   border: solid 4px #111315;
   border-radius: 15px;
   margin: 10px 0px;
-  padding: 0px 10px 20px 10px;
+  padding: 0px 20px 20px 20px;
   width: 700px;
 }
 .post:hover {
@@ -280,12 +286,10 @@ img.start {
 
   width: 1000px;
   min-height: 1000px;
-  border-style: solid;
-  border-radius: 30px;
-  border-width: 6px;
-  border-color: #111315;
-  padding-bottom: 40px;
-  margin-bottom: 20px
+  padding-bottom: 50px;
+
+  border-right: solid 6px #111315;
+  border-left: solid 6px #111315;
 }
 /*------------------------------------------------------------------*/
 
