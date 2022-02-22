@@ -82,4 +82,5 @@
 | 18.2.2022  | 3    | Tests for frontend done. Backend now serves static files when started |
 |            | 1    | Started working on getting the app online |
 | 21.2.2022  | 4    | Created workflow to deploy app to Heroku on successful push. Made required changes to the app for this to work. Created readme.md |
-| total      | 132  | |
+| 22.2.2022  | 1    | Added the possibility to upload image URLs when creating a post |
+| total      | 133  | |
