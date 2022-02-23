@@ -39,9 +39,9 @@ const message = {
       }
 
       const newMessage = new Message({
-        user: user.id,
-        comment: comment?.id,
-        postId: post?.id,
+        user: args.userId,
+        comment: args.commentId,
+        post: args.postId,
         content: args.content
       })
 
