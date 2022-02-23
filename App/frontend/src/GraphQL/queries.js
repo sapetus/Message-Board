@@ -180,3 +180,30 @@ export const GET_POSTS_BY_DISCUSSION = gql`
     }
   }
 `
+
+export const USER_MESSAGES_AMOUNT = gql`
+  query UserMessagesAmount($userId: ID!) {
+    userMessagesAmount(userId: $userId)
+  }
+`
+
+export const USER_MESSAGES = gql`
+  query UserMessages($userId: ID!) {
+    userMessages(userId: $userId) {
+      id
+      user {
+        id
+        username
+      }
+      comment {
+        id
+        text
+      }
+      post {
+        id
+        title
+      }
+      content
+    }
+  }
+`

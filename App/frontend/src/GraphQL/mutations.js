@@ -217,3 +217,19 @@ export const UNSUBSCRIBE_FROM_DISCUSSION = gql`
     }
   }
 `
+
+export const CREATE_MESSAGE = gql`
+  mutation CreateMessage($userId: ID!, $commentId: ID, $postId: ID, $content: String!) {
+    createMessage(userId: $userId, commentId: $commentId, postId: $postId, content: $content) {
+      id
+    }
+  }
+`
+
+export const DELETE_MESSAGE = gql`
+  mutation DeleteMessage($id: ID!) {
+    deleteMessage(id: $id) {
+      id
+    }
+  }
+`
