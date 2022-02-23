@@ -13,8 +13,8 @@ const schema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
   },
-  content: {
-    type: String
+  seen: {
+    type: Boolean
   }
 })
 

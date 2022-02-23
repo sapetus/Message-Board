@@ -182,14 +182,14 @@ export const GET_POSTS_BY_DISCUSSION = gql`
 `
 
 export const USER_MESSAGES_AMOUNT = gql`
-  query UserMessagesAmount($userId: ID!) {
-    userMessagesAmount(userId: $userId)
+  query UserMessagesAmount($username: String!) {
+    userMessagesAmount(username: $username)
   }
 `
 
 export const USER_MESSAGES = gql`
-  query UserMessages($userId: ID!) {
-    userMessages(userId: $userId) {
+  query UserMessages($username: String!) {
+    userMessages(username: $username) {
       id
       user {
         id

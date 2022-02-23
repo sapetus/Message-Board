@@ -229,6 +229,7 @@ const PostPage = ({ token }) => {
           postId={params.id}
           fetched={commentsFetched}
           setFetched={setCommentsFetched}
+          creatorId={postUser.id}
         />
       }
     </div>

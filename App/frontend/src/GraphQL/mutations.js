@@ -219,8 +219,8 @@ export const UNSUBSCRIBE_FROM_DISCUSSION = gql`
 `
 
 export const CREATE_MESSAGE = gql`
-  mutation CreateMessage($userId: ID!, $commentId: ID, $postId: ID, $content: String!) {
-    createMessage(userId: $userId, commentId: $commentId, postId: $postId, content: $content) {
+  mutation CreateMessage($userId: ID!, $commentId: ID, $postId: ID) {
+    createMessage(userId: $userId, commentId: $commentId, postId: $postId) {
       id
     }
   }
@@ -229,6 +229,14 @@ export const CREATE_MESSAGE = gql`
 export const DELETE_MESSAGE = gql`
   mutation DeleteMessage($id: ID!) {
     deleteMessage(id: $id) {
+      id
+    }
+  }
+`
+
+export const MESSAGE_ACKNOWLEDGED = gql`
+  mutation MessageAcknowledged($id: ID!) {
+    messageAcknowledged(id: $id) {
       id
     }
   }

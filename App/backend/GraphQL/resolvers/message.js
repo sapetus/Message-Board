@@ -8,11 +8,13 @@ const { UserInputError } = require('apollo-server-express')
 const message = {
   Query: {
     userMessagesAmount: async (root, args) => {
-      const messages = await Message.find({ user: args.userId })
+      const user = await User.findOne({ username: args.username })
+      const messages = await Message.find({ user: user.id })
       return messages.length
     },
     userMessages: async (root, args) => {
-      const messages = await Message.find({ user: args.userId })
+      const user = await User.findOne({ username: args.username })
+      const messages = await Message.find({ user: user.id })
         .populate({ path: 'user', model: 'User' })
         .populate({ path: 'comment', model: 'Comment' })
         .populate({ path: 'post', model: 'Post' })
@@ -42,7 +44,7 @@ const message = {
         user: args.userId,
         comment: args.commentId,
         post: args.postId,
-        content: args.content
+        seen: false
       })
 
       try {
@@ -57,6 +59,10 @@ const message = {
     },
     deleteMessage: async (root, args) => {
       const message = await Message.findOneAndRemove({ _id: args.id })
+      return message
+    },
+    messageAcknowledged: async (root, args) => {
+      const message = await Message.findOneAndUpdate({ _id: args.id }, { seen: true }, { new: true })
       return message
     }
   }

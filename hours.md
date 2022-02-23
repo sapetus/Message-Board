@@ -86,4 +86,5 @@
 |            | 1    | Fixed image showing too small in posts, small fixes to css, created FAQ-page |
 |            | 1    | Fixed frontend tests, small css tweaks, when filtering and nothing is found, show nothing found message, tweaks to FAQ, changing pages resets scroll |
 | 23.2.2022  | 2    | Started working on messages (alert user when someone comments their comment/post) |
-| total      | 137  | |
+|            | 1    | Working on messages |
+| total      | 138  | |

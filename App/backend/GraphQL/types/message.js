@@ -6,12 +6,12 @@ const message = gql`
     user: User!
     comment: Comment
     post: Post
-    content: String!
+    seen: Boolean!
   }
 
   type Query {
-    userMessagesAmount(userId: ID!): Int
-    userMessages(userId: ID!): [Message!]!
+    userMessagesAmount(username: String!): Int
+    userMessages(username: String!): [Message!]!
   }
 
   type Mutation {
@@ -19,9 +19,11 @@ const message = gql`
       userId: ID!
       commentId: ID
       postId: ID
-      content: String!
     ): Message
     deleteMessage (
+      id: ID!
+    ): Message
+    messageAcknowledged (
       id: ID!
     ): Message
   }

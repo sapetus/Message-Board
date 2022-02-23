@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
-import { CREATE_COMMENT } from '../GraphQL/mutations'
+import { CREATE_COMMENT, CREATE_MESSAGE } from '../GraphQL/mutations'
 import { FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 
-const CreateCommentForm = ({ postId, commentId, fetched, setFetched }) => {
+const CreateCommentForm = ({ postId, commentId, creatorId, fetched, setFetched }) => {
   const [text, setText] = useState('')
   const [showForm, setShowForm] = useState(false)
 
@@ -28,10 +28,21 @@ const CreateCommentForm = ({ postId, commentId, fetched, setFetched }) => {
       }
     })
 
+  const [createMessage] = useMutation(
+    CREATE_MESSAGE,
+    {
+      onError: (error) => {
+        console.log(error.graphQLErrors[0].message)
+      }
+    }
+  )
+
   const submit = async (event) => {
     event.preventDefault()
 
     await createComment({ variables: { text, postId, commentId } })
+    await createMessage({ variables: { userId: creatorId, commentId, postId } })
+
     setText('')
     setShowForm(false)
     setFetched(fetched + 1)

@@ -13,6 +13,7 @@
 - enable alerts for users
 - ~~comments for comments? (as in, comment can reference another comment)~~ (DONE)
 - ~~**tests!**~~ (DONE, for now)
+- Make different messages for post and comment replies!
 
 ## frontend:
 - ~~cleanup function for VoteButtons~~ (DONE)

@@ -26,7 +26,7 @@ const App = () => {
     if (localStorage.getItem('message_board_user_token')) {
       setToken(localStorage.getItem('message_board_user_token'))
     }
-  }, [])
+  }, []) //eslint-disable-line
 
   const logout = () => {
     setToken(null)

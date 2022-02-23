@@ -74,6 +74,7 @@ const Comment = ({ comment, token, postId, fetched, setFetched }) => {
           commentId={comment.id}
           fetched={fetched}
           setFetched={setFetched}
+          creatorId={comment.user.id}
         />
       }
     </div >
