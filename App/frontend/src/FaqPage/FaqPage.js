@@ -20,15 +20,15 @@ const FaqPage = () => {
             in your profile by pressing the 'Profile' -button at the top of the page.
           </p>
         </li>
-        <p className="dividerHorizontal" />
+        <p className="dividerHorizontal" style={{ width: "100%" }} />
         <li>
           <h1>What is this page?</h1>
           <p>This page was created as a student project by Sampo Pitkänen for Full Stack open 2021.</p>
         </li>
-        <p className='dividerHorizontal'/>
+        <p className='dividerHorizontal' style={{ width: "100%" }} />
         <li>
           <h1>With what was this page made with?</h1>
-          <p>This page was made with React, and it uses a GraphQL backend made with Apollo.</p>
+          <p>This page was made with React, and it uses a GraphQL backend made with Apollo that connects to a MongoDB database.</p>
         </li>
       </ul>
     </div >
