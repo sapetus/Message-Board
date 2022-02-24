@@ -9,11 +9,25 @@ const message = {
   Query: {
     userMessagesAmount: async (root, args) => {
       const user = await User.findOne({ username: args.username })
+
+      if (!user) {
+        throw new UserInputError('No user found with given name', {
+          invalidArgs: args.username
+        })
+      }
+
       const messages = await Message.find({ user: user.id })
       return messages.length
     },
     userMessages: async (root, args) => {
       const user = await User.findOne({ username: args.username })
+
+      if (!user) {
+        throw new UserInputError('No user found with given name', {
+          invalidArgs: args.username
+        })
+      }
+
       const messages = await Message.find({ user: user.id })
         .populate({ path: 'user', model: 'User' })
         .populate({ path: 'comment', model: 'Comment' })
@@ -60,6 +74,18 @@ const message = {
     deleteMessage: async (root, args) => {
       const message = await Message.findOneAndRemove({ _id: args.id })
       return message
+    },
+    deleteAllMessagesForUser: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+
+      if (!user) {
+        throw new UserInputError('User must exist to be able to delete their messages', {
+          invalidArgs: args.username
+        })
+      }
+
+      const { deletedCount } = await Message.deleteMany({ user: user.id })
+      return deletedCount
     },
     messageAcknowledged: async (root, args) => {
       const message = await Message.findOneAndUpdate({ _id: args.id }, { seen: true }, { new: true })

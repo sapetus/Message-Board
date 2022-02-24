@@ -211,6 +211,7 @@ const PostPage = ({ token }) => {
         {comments?.map(comment =>
           <Comment
             key={comment.id} postId={params.id}
+            postCreatorId={postUser.id}
             comment={comment} token={token}
             fetched={commentsFetched} setFetched={setCommentsFetched}
           />
@@ -229,7 +230,7 @@ const PostPage = ({ token }) => {
           postId={params.id}
           fetched={commentsFetched}
           setFetched={setCommentsFetched}
-          creatorId={postUser.id}
+          postCreatorId={postUser.id}
         />
       }
     </div>

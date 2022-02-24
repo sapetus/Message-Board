@@ -52,24 +52,32 @@ const Subscriptions = ({ username, amountToFetch, showLess }) => {
     }
   }
 
+  if (subscriptions?.length > 0) {
+    return (
+      <div id="user_subscriptions">
+        {subscriptions?.map(subscription =>
+          <Link key={subscription.id} className="subscription" to={`/discussion/${subscription.name}`}>
+            <h4 style={style.text}>{subscription.name}</h4>
+            <div className="subscriptionSubContainer">
+              <i className="material-icons member">group</i>
+              {subscription.members}
+            </div>
+          </Link>
+        )}
+
+        {subscriptions &&
+          <div className="controlAmountButtons">
+            <button onClick={fetchSubscriptions}>Show More</button>
+            <button onClick={() => showLess(subscriptionsFetched, setSubscriptionsFetched)}>Show Less</button>
+          </div>
+        }
+      </div>
+    )
+  }
+
   return (
     <div id="user_subscriptions">
-      {subscriptions?.map(subscription =>
-        <Link key={subscription.id} className="subscription" to={`/discussion/${subscription.name}`}>
-          <h4 style={style.text}>{subscription.name}</h4>
-          <div className="subscriptionSubContainer">
-            <i className="material-icons member">group</i>
-            {subscription.members}
-          </div>
-        </Link>
-      )}
-
-      {subscriptions &&
-        <div className="controlAmountButtons">
-          <button onClick={fetchSubscriptions}>Show More</button>
-          <button onClick={() => showLess(subscriptionsFetched, setSubscriptionsFetched)}>Show Less</button>
-        </div>
-      }
+      <p>This user has not subscribed anywhere, yet!</p>
     </div>
   )
 }

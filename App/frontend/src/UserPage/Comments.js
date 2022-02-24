@@ -50,26 +50,34 @@ const Comments = ({ username, amountToFetch, showLess }) => {
     }
   }
 
+  if (comments?.length > 0) {
+    return (
+      <div id="userComments">
+        {comments?.map(comment =>
+          <Link key={comment.id} className="comment" to={`/post/${comment.post.id}`}>
+            <p className='smallText' style={style.text}>{comment.post.discussion.name}</p>
+            <p className='smallText' style={style.text}>{comment.post.title}</p>
+            <h3 style={style.text}>{comment.text}</h3>
+            <div className='votes'>
+              <i className="material-icons" style={style.vote}>thumb_up</i>{comment.likes}
+              <i className="material-icons" style={style.vote}>thumb_down</i>{comment.dislikes}
+            </div>
+          </Link>
+        )}
+
+        {comments &&
+          <div className="controlAmountButtons">
+            <button onClick={fetchComments}>Show More</button>
+            <button onClick={() => showLess(commentsFetched, setCommentsFetched)}>Show less</button>
+          </div>
+        }
+      </div>
+    )
+  }
+
   return (
     <div id="userComments">
-      {comments?.map(comment =>
-        <Link key={comment.id} className="comment" to={`/post/${comment.post.id}`}>
-          <p className='smallText' style={style.text}>{comment.post.discussion.name}</p>
-          <p className='smallText' style={style.text}>{comment.post.title}</p>
-          <h3 style={style.text}>{comment.text}</h3>
-          <div className='votes'>
-            <i className="material-icons" style={style.vote}>thumb_up</i>{comment.likes}
-            <i className="material-icons" style={style.vote}>thumb_down</i>{comment.dislikes}
-          </div>
-        </Link>
-      )}
-
-      {comments &&
-        <div className="controlAmountButtons">
-          <button onClick={fetchComments}>Show More</button>
-          <button onClick={() => showLess(commentsFetched, setCommentsFetched)}>Show less</button>
-        </div>
-      }
+      <p>This user has no comments, yet!</p>
     </div>
   )
 }

@@ -35,6 +35,7 @@
 - Hide 'show more' and 'show less' buttons when nothing can be fetched anymore
 	- or implement infinite scroll
 - **tests!**
+- fix tests!
 
 ## app:
 - start using branches!

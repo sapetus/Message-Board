@@ -74,7 +74,7 @@ const UserPage = ({ token }) => {
       setAmount(amount - amountToFetch)
     }
   }
-  
+
   const styles = {
     votes: {
       marginTop: "10px"

@@ -110,6 +110,15 @@ export const FIND_COMMENTS_BY_POST = gql`
   }
 `
 
+export const GET_CURRENT_USER = gql`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      username
+    }
+  }
+`
+
 export const GET_USER_BY_NAME = gql`
   query getUserByName($username: String!) {
     getUserByName(username: $username) {
@@ -203,7 +212,6 @@ export const USER_MESSAGES = gql`
         id
         title
       }
-      content
     }
   }
 `

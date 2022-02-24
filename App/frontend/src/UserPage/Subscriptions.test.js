@@ -26,7 +26,8 @@ test('renders properly', async () => {
             members: 10
           }
         ]
-      }
+      },
+      fetchMore: () => console.log('fetching more')
     }
   }
 

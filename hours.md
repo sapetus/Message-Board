@@ -87,4 +87,5 @@
 |            | 1    | Fixed frontend tests, small css tweaks, when filtering and nothing is found, show nothing found message, tweaks to FAQ, changing pages resets scroll |
 | 23.2.2022  | 2    | Started working on messages (alert user when someone comments their comment/post) |
 |            | 1    | Working on messages |
-| total      | 138  | |
+| 24.2.2022  | 4    | Got messages partially working, fixed tests, small visual changes associated with messages, separate messages page created |
+| total      | 142  | |

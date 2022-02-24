@@ -163,6 +163,15 @@ ul {
 li {
   padding-bottom: 5px;
 }
+
+footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+  gap: 40px
+}
 /*------------------------------------------------------------------*/
 
 /*Forms-------------------------------------------------------------*/
@@ -294,6 +303,14 @@ li {
 
   border-right: solid 6px #111315;
   border-left: solid 6px #111315;
+}
+
+#userAlert {
+  animation: userAlert 3s ease-out infinite;
+  transform-origin: top;
+  position: absolute;
+  color: #f38c54;
+  left: 405px;
 }
 /*------------------------------------------------------------------*/
 
@@ -549,5 +566,16 @@ li {
 @keyframes inputFocus {
   from {border-color: #8d8d8d;}
   to {border-color: #FFFFF0;} 
+}
+
+@keyframes userAlert {
+  0% { transform: rotate(0); }
+  10% { transform: rotate(6deg); }
+  20% { transform: rotate(-6deg); }
+  30% { transform: rotate(4deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(2deg); }
+  60% { transform: rotate(-2deg); }
+  70% { transform: rotate(0deg); }
 }
 /*------------------------------------------------------------------*/

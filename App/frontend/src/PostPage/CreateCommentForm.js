@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client'
 import { CREATE_COMMENT, CREATE_MESSAGE } from '../GraphQL/mutations'
 import { FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 
-const CreateCommentForm = ({ postId, commentId, creatorId, fetched, setFetched }) => {
+const CreateCommentForm = ({ postId, commentId, postCreatorId, commentCreatorId, fetched, setFetched }) => {
   const [text, setText] = useState('')
   const [showForm, setShowForm] = useState(false)
 
@@ -41,7 +41,15 @@ const CreateCommentForm = ({ postId, commentId, creatorId, fetched, setFetched }
     event.preventDefault()
 
     await createComment({ variables: { text, postId, commentId } })
-    await createMessage({ variables: { userId: creatorId, commentId, postId } })
+
+    if (commentId) {
+      //message to the creator of a comment that someone commented on their comment
+      await createMessage({ variables: { userId: commentCreatorId, commentId } })
+      //message to the creator of the post that someone commented on their post
+      await createMessage({ variables: { userId: postCreatorId, postId } })
+    } else {
+      await createMessage({ variables: { userId: postCreatorId, postId } })
+    }
 
     setText('')
     setShowForm(false)

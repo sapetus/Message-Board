@@ -241,3 +241,9 @@ export const MESSAGE_ACKNOWLEDGED = gql`
     }
   }
 `
+
+export const DELETE_ALL_MESSAGES_FOR_USER = gql`
+  mutation DeleteAllMessagesForUser($username: String!) {
+    deleteAllMessagesForUser(username: $username)
+  }
+`

@@ -15,3 +15,4 @@ This is because VoteButtons component sets a timeout, and if user leaves before 
 	- VoteButtons component didn't render when no token was provided 10.2.2022
 - ~~Images appear small in posts~~ FIXED
 	- element had some inline style, deleted those
+- New messages are not being queried if user is logged in, they are only fetched when user logs in

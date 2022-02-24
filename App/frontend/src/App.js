@@ -4,8 +4,10 @@ import {
   Route,
   Link
 } from 'react-router-dom'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient, useLazyQuery } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
+
+import { USER_MESSAGES_AMOUNT } from './GraphQL/queries'
 
 import LandingPage from './LandingPage/LandingPage';
 import DiscussionPage from './DiscussionPage/DiscussionPage';
@@ -14,19 +16,38 @@ import RegisterPage from './RegisterPage/RegisterPage';
 import LogInPage from './LogInPage/LogInPage';
 import UserPage from './UserPage/UserPage'
 import FaqPage from './FaqPage/FaqPage';
+import MessagePage from './MessagePage/MessagePage'
 
 const App = () => {
   const [token, setToken] = useState(null)
+  const [usernameInStorage, setUsernameInStorage] = useState(null)
 
   const navigate = useNavigate()
   const client = useApolloClient()
+
+  const [userMessagesAmount, { data }] = useLazyQuery(
+    USER_MESSAGES_AMOUNT,
+    {
+      fetchPolicy: "cache-and-network"
+    }
+  )
+
+  useEffect(() => {
+    setUsernameInStorage(localStorage.getItem('username'))
+  }, [localStorage.getItem('username')]) //eslint-disable-line
+
+  useEffect(() => {
+    if (usernameInStorage) {
+      userMessagesAmount({ variables: { username: usernameInStorage } })
+    }
+  }, [usernameInStorage]) //eslint-disable-line
 
   //check if the token is still in localstorage after last session
   useEffect(() => {
     if (localStorage.getItem('message_board_user_token')) {
       setToken(localStorage.getItem('message_board_user_token'))
     }
-  }, []) //eslint-disable-line
+  }, [])
 
   const logout = () => {
     setToken(null)
@@ -42,11 +63,16 @@ const App = () => {
         <Link to="/" >
           Home
         </Link>
-        <Link to="/faq">
-          FAQ
-        </Link>
+        {token &&
+          <Link to={`/messages`}>
+            Messages
+          </Link>
+        }
         {token &&
           <Link to={`/user/${localStorage.getItem('username')}`} >
+            {data?.userMessagesAmount > 0 &&
+              <i id="userAlert" className="material-icons">notifications</i>
+            }
             Profile
           </Link>}
         {!token &&
@@ -62,19 +88,25 @@ const App = () => {
       </nav>
 
       <Routes>
-        <Route path={`/faq`} element={<FaqPage />} />
         <Route path="/" element={<LandingPage token={token} />} />
         <Route path={`/discussion/:name`} element={<DiscussionPage token={token} />} />
+        <Route path={`/faq`} element={<FaqPage />} />
         <Route path={`/log-in`} element={<LogInPage setToken={setToken} />} />
+        <Route path={`/messages`} element={<MessagePage token={token} />} />
         <Route path={`/post/:id`} element={<PostPage token={token} />} />
         <Route path={`/register`} element={<RegisterPage />} />
         <Route path={`/user/:username`} element={<UserPage />} />
-        <Route path="*" element={
-          <div>
+        <Route path="*" element=
+          {<div>
             <p>Are you lost?</p>
-          </div>
-        } />
+          </div>}
+        />
       </Routes>
+
+      <footer>
+        <p className='dividerHorizontal' />
+        <Link to="/faq">FAQ</Link>
+      </footer>
     </div>
   )
 }

@@ -23,6 +23,9 @@ const message = gql`
     deleteMessage (
       id: ID!
     ): Message
+    deleteAllMessagesForUser(
+      username: String!
+    ): Int
     messageAcknowledged (
       id: ID!
     ): Message

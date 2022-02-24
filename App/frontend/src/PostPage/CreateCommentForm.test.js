@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import { InMemoryCache } from '@apollo/client'
 
 import { FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
-import { CREATE_COMMENT } from '../GraphQL/mutations'
+import { CREATE_COMMENT, CREATE_MESSAGE } from '../GraphQL/mutations'
 import CreateCommentForm from './CreateCommentForm'
 
 test('creation of a comment is successful', async () => {
@@ -38,6 +38,38 @@ test('creation of a comment is successful', async () => {
       }
     }
   }
+  const createMessageMock_1 = {
+    request: {
+       query: CREATE_MESSAGE,
+       variables: {
+         userId: "zyx987",
+         commentId: "abc123"
+       }
+    },
+    result: {
+      data: {
+        createMessage: {
+          id: "aaabbb"
+        }
+      }
+    }
+  }
+  const createMessageMock_2 = {
+    request: {
+      query: CREATE_MESSAGE,
+      variables: {
+        userId: "xyz789",
+        postId: "123abc"
+      }
+    },
+    result: {
+      data: {
+        createMessage: {
+          id: "bbbaaa"
+        }
+      }
+    }
+  }
 
   //initialize the cache with a query that the CreateCommentForm updates,
   //without this, there is nothing to update, and the update function fails
@@ -52,9 +84,10 @@ test('creation of a comment is successful', async () => {
   let amount = 0
 
   render(
-    <MockedProvider mocks={[createCommentMock]} cache={cache}>
+    <MockedProvider mocks={[createCommentMock, createMessageMock_1, createMessageMock_2]} cache={cache}>
       <CreateCommentForm
         postId={"123abc"} commentId={"abc123"}
+        postCreatorId={"xyz789"} commentCreatorId={"zyx987"}
         fetched={amount} setFetched={() => amount++}
       />
     </MockedProvider>

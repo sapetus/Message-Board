@@ -8,7 +8,6 @@ import Posts from './Posts'
 import { GET_POSTS_BY_USER } from '../GraphQL/queries'
 
 test('renders properly', async () => {
-  //this mock doesn't work, can't find a problem in it though...
   const postsByUserMock = {
     request: {
       query: GET_POSTS_BY_USER,
