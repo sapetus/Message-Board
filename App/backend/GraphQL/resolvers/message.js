@@ -30,7 +30,12 @@ const message = {
 
       const messages = await Message.find({ user: user.id })
         .populate({ path: 'user', model: 'User' })
-        .populate({ path: 'comment', model: 'Comment' })
+        .populate({
+          path: 'comment', model: 'Comment',
+          populate: {
+            path: "post", model: "Post"
+          }
+        })
         .populate({ path: 'post', model: 'Post' })
 
       return messages

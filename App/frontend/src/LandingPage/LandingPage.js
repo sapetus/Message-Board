@@ -80,6 +80,7 @@ const LandingPage = ({ token }) => {
   return (
     <div id="page" >
       <h1 className="pageTitle">Discussions</h1>
+      <p className='dividerHorizontal'/>
 
       <div className="filterOptions">
         <div className="inputContainer">

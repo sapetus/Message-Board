@@ -13,8 +13,7 @@ const CreateDiscussionForm = () => {
 
   const [createDiscussion] = useMutation(CREATE_DISCUSSION, {
     onError: (error) => {
-      console.log(error)
-      //console.log(error.graphQLErrors[0].message)
+      console.log(error.graphQLErrors[0].message)
     },
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: ALL_DISCUSSIONS })

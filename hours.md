@@ -88,4 +88,5 @@
 | 23.2.2022  | 2    | Started working on messages (alert user when someone comments their comment/post) |
 |            | 1    | Working on messages |
 | 24.2.2022  | 4    | Got messages partially working, fixed tests, small visual changes associated with messages, separate messages page created |
-| total      | 142  | |
+|            | 2    | working on getting messages working |
+| total      | 144  | |

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 
 import Message from './Message'
 
 import { USER_MESSAGES, GET_CURRENT_USER } from '../GraphQL/queries'
+import { DELETE_ALL_MESSAGES_FOR_USER } from '../GraphQL/mutations'
 
 const MessagePage = ({ token }) => {
   const [messages, setMessages] = useState(null)
@@ -22,6 +23,23 @@ const MessagePage = ({ token }) => {
     }
   )
 
+  const [deleteAllMessages] = useMutation(DELETE_ALL_MESSAGES_FOR_USER, {
+    onError: (error) => {
+      console.log(error.graphQLErrors[0].message)
+    },
+    update: (store, response) => {
+      store.writeQuery({
+        query: USER_MESSAGES,
+        variables: {
+          username: currentUserData.getCurrentUser.username
+        },
+        data: {
+          userMessages: []
+        }
+      })
+    }
+  })
+
   useEffect(() => {
     if (currentUserData?.getCurrentUser.username === localStorage.getItem('username')) {
       getUserMessages({ variables: { username: currentUserData.getCurrentUser.username } })
@@ -31,6 +49,10 @@ const MessagePage = ({ token }) => {
   useEffect(() => {
     setMessages(userMessagesData?.userMessages)
   }, [userMessagesData])
+
+  const deleteAll = () => {
+    deleteAllMessages({ variables: { username: currentUserData.getCurrentUser.username } })
+  }
 
   //when loading
   if (loading) {
@@ -43,17 +65,22 @@ const MessagePage = ({ token }) => {
 
   //actual contents
   if (token && currentUserData.getCurrentUser.username === localStorage.getItem('username')) {
-    if (messages) {
+    if (messages?.length > 0) {
       return (
         <div id="page">
+          <h1 className='pageTitle'>Messages</h1>
+          <p className="dividerHorizontal" />
+          <button onClick={deleteAll}>Delete All</button>
           {messages.map(message =>
-            <Message key={message.id} message={message} />
+            <Message key={message.id} message={message} username={currentUserData.getCurrentUser.username} />
           )}
         </div>
       )
     } else {
       return (
         <div id="page">
+          <h1 className='pageTitle'>Messages</h1>
+          <p className="dividerHorizontal" />
           <p>You have no messages</p>
         </div>
       )

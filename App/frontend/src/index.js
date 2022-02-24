@@ -82,6 +82,12 @@ const client = new ApolloClient({
             merge(existing, incoming, { args: { after = 0 } }) {
               return mergeFunction(existing, incoming, after)
             }
+          },
+          userMessages: {
+            keyArgs: ["username"],
+            merge(existing, incoming, { args: { after = 0 } }) {
+              return mergeFunction(existing, incoming, after)
+            }
           }
         }
       },

@@ -20,7 +20,6 @@ import MessagePage from './MessagePage/MessagePage'
 
 const App = () => {
   const [token, setToken] = useState(null)
-  const [usernameInStorage, setUsernameInStorage] = useState(null)
 
   const navigate = useNavigate()
   const client = useApolloClient()
@@ -32,15 +31,13 @@ const App = () => {
     }
   )
 
+  //now this works each time user navigates through the site
   useEffect(() => {
-    setUsernameInStorage(localStorage.getItem('username'))
-  }, [localStorage.getItem('username')]) //eslint-disable-line
-
-  useEffect(() => {
-    if (usernameInStorage) {
-      userMessagesAmount({ variables: { username: usernameInStorage } })
+    const nameInStore = localStorage.getItem('username')
+    if (nameInStore) {
+      userMessagesAmount({ variables: { username: nameInStore}})
     }
-  }, [usernameInStorage]) //eslint-disable-line
+  }, [navigate]) //eslint-disable-line
 
   //check if the token is still in localstorage after last session
   useEffect(() => {

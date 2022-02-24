@@ -341,6 +341,7 @@ footer {
 
 .pageTitle {
   padding-top: 20px;
+  margin-bottom: -10px;
   align-self: center;
 }
 /*------------------------------------------------------------------*/
@@ -516,6 +517,22 @@ footer {
 
 .commentCountIcon {
   margin-top: 8px;
+}
+/*------------------------------------------------------------------*/
+
+/*Message Page------------------------------------------------------*/
+.userMessage {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: #2f3436;
+  border: solid 4px #111315;
+  border-radius: 15px;
+  margin: 10px 0px;
+  padding: 0px 20px;
+  width: 700px;
 }
 /*------------------------------------------------------------------*/
 
