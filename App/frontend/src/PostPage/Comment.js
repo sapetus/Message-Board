@@ -53,7 +53,7 @@ const Comment = ({ comment, token, postId, postCreatorId, fetched, setFetched })
   }, [comment?.listOfLikeUsers, comment?.listOfDislikeUsers, token])
 
   return (
-    <div className="comment">
+    <div id={comment.id} className="comment">
       {comment.responseTo && <p className='grayText'>— {comment.responseTo.text}</p>}
 
       <p className="commentText">{comment.text}</p>

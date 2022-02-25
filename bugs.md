@@ -15,4 +15,7 @@ This is because VoteButtons component sets a timeout, and if user leaves before 
 	- VoteButtons component didn't render when no token was provided 10.2.2022
 - ~~Images appear small in posts~~ FIXED
 	- element had some inline style, deleted those
-- New messages are not being queried if user is logged in, they are only fetched when user logs in
+- ~~New messages are not being queried if user is logged in, they are only fetched when user logs in~~ FIXED
+	- each time the page changes, query for new messages
+- ~~Redirecting from a message to a post should scroll to a comment the message was about, if comment is NOT in view (too old etc.), scroll will not happen~~ FIXED	
+	- will fetch new comments until the comment is found (slow)

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useLocation } from 'react-router-dom'
 import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 
 import {
@@ -36,6 +36,7 @@ const PostPage = ({ token }) => {
   const [commentOrder, setCommentOrder] = useState('NEW')
 
   let params = useParams()
+  const location = useLocation()
   const amountToFetch = 5
 
   const [getPost, { data: getPostData }] = useLazyQuery(
@@ -130,6 +131,28 @@ const PostPage = ({ token }) => {
     }
   }, [listOfLikeUsers, listOfDislikeUsers, token])
 
+  //this will focus to a specific comment when user directs here from a message
+  useEffect(() => {
+    if (location.hash) {
+      scrollToComment()
+    }
+  }, [location]) //eslint-disable-line
+
+  const scrollToComment = () => {
+    setTimeout(() => {
+      document.getElementById('fetchMoreButton').click()
+      if (document.getElementById(location.hash.slice(1)) === null) {
+        scrollToComment()
+      } else {
+        const element = document.getElementById(location.hash.slice(1))
+        window.scrollTo({
+          top: element.getBoundingClientRect().top + window.scrollY - 100,
+          behavior: "smooth"
+        })
+      }
+    }, 100)
+  }
+
   const fetchMoreComments = async () => {
     const { data } = await fetchMore({
       variables: {
@@ -218,7 +241,7 @@ const PostPage = ({ token }) => {
         )}
 
         <div className="controlAmountButtons">
-          <button onClick={fetchMoreComments}>Show More</button>
+          <button id="fetchMoreButton" onClick={() => fetchMoreComments()}>Show More</button>
           <button onClick={showLess}>Show Less</button>
         </div>
       </div>

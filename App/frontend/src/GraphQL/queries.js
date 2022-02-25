@@ -207,6 +207,9 @@ export const USER_MESSAGES = gql`
       comment {
         id
         text
+        post {
+          id
+        }
       }
       post {
         id

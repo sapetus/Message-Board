@@ -38,7 +38,7 @@ const message = {
         })
         .populate({ path: 'post', model: 'Post' })
 
-      return messages
+      return messages.reverse()
     }
   },
   Mutation: {

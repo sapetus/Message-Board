@@ -40,11 +40,11 @@ const CreateCommentForm = ({ postId, commentId, postCreatorId, commentCreatorId,
   const submit = async (event) => {
     event.preventDefault()
 
-    await createComment({ variables: { text, postId, commentId } })
+    const { data } = await createComment({ variables: { text, postId, commentId } })
 
     if (commentId) {
       //message to the creator of a comment that someone commented on their comment
-      await createMessage({ variables: { userId: commentCreatorId, commentId } })
+      await createMessage({ variables: { userId: commentCreatorId, commentId: data.createComment.id } })
       //message to the creator of the post that someone commented on their post
       await createMessage({ variables: { userId: postCreatorId, postId } })
     } else {
