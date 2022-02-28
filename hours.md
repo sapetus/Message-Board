@@ -91,4 +91,5 @@
 |            | 2    | working on getting messages working |
 | 25.2.2022  | 2    | Messages now redirect correctly (redirecting to a comment scrolls to that comment) |
 | 28.2.2022  | 1    | MessagePage now have show more/less buttons, fixed test |
-| total      | 147  | |
+|            | 3    | Wrote tests for MessagePage, started writing backend tests for message |
+| total      | 150  | |

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const Discussion = require('../models/Discussion')
+const Message = require('../models/Message')
 const Comment = require('../models/Comment')
 const Post = require('../models/Post')
 const User = require('../models/User')
@@ -65,6 +66,18 @@ Discussion[1] {
   posts: [Post[1]],
   members: 1,
   listOfMembers: [User[1]]
+}
+
+MESSAGES-------------------------
+Message[0] {
+  user: User[0]
+  comment: Comment[0]
+  seen: false
+}
+Message[1] {
+  user: User[0]
+  post: Post[0]
+  seen: false
 }
 */
 
@@ -165,6 +178,15 @@ const initialUsers = [
   }
 ]
 
+const initialMessages = [
+  {
+    seen: false
+  },
+  {
+    seen: false
+  }
+]
+
 //Create token for a user in initialUsers with index
 const createToken = async (index) => {
   const user = await User.findOne({ username: initialUsers[index].username })
@@ -186,18 +208,21 @@ const initializeDatabase = async () => {
   const posts = await initPosts()
   const comments = await initComments()
   const users = await initUsers()
+  const messages = await initMessages()
 
   //update each with associated data (post gets an user, discussion gets posts, posts get comments etc.)
   const updatedDiscussions = await updateDiscussions(discussions, posts, users)
   const updatedComments = await updateComments(comments, users, posts)
   const updatedPosts = await updatePosts(posts, users, comments, discussions)
   const updatedUsers = await updateUsers(users, posts, comments, discussions)
+  const updatedMessages = await updateMessages()
 
   return {
     discussions: updatedDiscussions,
     posts: updatedPosts,
     comments: updatedComments,
-    users: updatedUsers
+    users: updatedUsers,
+    messages: updatedMessages
   }
 }
 
@@ -335,6 +360,17 @@ const updateUsers = async (users, posts, comments, discussions) => {
   const updatedUsers = await User.find({})
 
   return updatedUsers
+}
+
+const initMessages = async () => {
+  await Message.insertMany(initialMessages)
+  const messages = await Message.find({})
+
+  return messages
+}
+
+const updateMessages = async () => {
+  return []
 }
 
 module.exports = {
