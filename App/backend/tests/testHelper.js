@@ -68,7 +68,8 @@ Discussion[1] {
   listOfMembers: [User[1]]
 }
 
-MESSAGES-------------------------
+MESSAGES------------------------- 
+(BACKEND RETURNS THESE IN REVERSE ORDER)
 Message[0] {
   user: User[0]
   comment: Comment[0]
@@ -215,7 +216,7 @@ const initializeDatabase = async () => {
   const updatedComments = await updateComments(comments, users, posts)
   const updatedPosts = await updatePosts(posts, users, comments, discussions)
   const updatedUsers = await updateUsers(users, posts, comments, discussions)
-  const updatedMessages = await updateMessages()
+  const updatedMessages = await updateMessages(messages, users, comments, posts)
 
   return {
     discussions: updatedDiscussions,
@@ -231,6 +232,7 @@ const clearDb = async () => {
   await Comment.deleteMany({})
   await Post.deleteMany({})
   await User.deleteMany({})
+  await Message.deleteMany({})
 }
 
 const initDiscussions = async () => {
@@ -369,8 +371,21 @@ const initMessages = async () => {
   return messages
 }
 
-const updateMessages = async () => {
-  return []
+const updateMessages = async (messages, users, comments, posts) => {
+  await Message.findOneAndUpdate(
+    { _id: messages[0].id },
+    { user: users[0].id, comment: comments[0].id },
+    { new: true }
+  )
+  await Message.findOneAndUpdate(
+    { _id: messages[1].id },
+    { user: users[0].id, post: posts[0].id },
+    { new: true }
+  )
+
+  const updatedMessages = await Message.find({})
+
+  return updatedMessages
 }
 
 module.exports = {
@@ -378,6 +393,7 @@ module.exports = {
   initialPosts,
   initialComments,
   initialUsers,
+  initialMessages,
   initializeDatabase,
   createToken
 }
