@@ -197,8 +197,8 @@ export const USER_MESSAGES_AMOUNT = gql`
 `
 
 export const USER_MESSAGES = gql`
-  query UserMessages($username: String!) {
-    userMessages(username: $username) {
+  query UserMessages($username: String!, $first: Int, $after: Int) {
+    userMessages(username: $username, first: $first, after: $after) {
       id
       user {
         id

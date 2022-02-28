@@ -14,7 +14,6 @@
 - ~~comments for comments? (as in, comment can reference another comment)~~ (DONE)
 - ~~**tests!**~~ (DONE, for now)
 - ~~Make different messages for post and comment replies!~~ (DONE)
-- Control amount buttons for messages (show more, show less)
 
 ## frontend:
 - ~~cleanup function for VoteButtons~~ (DONE)
@@ -31,16 +30,18 @@
 - Search/Filter bar for users?
 - create a show more button for discussions description, if it is too long.
 - ~~ONLY allow references to an image (URL), unsafe to save and send images to users without actually making sure the file is clean~~ (DONE)
-- Send an alert to user when someone comments their post or comment
-- Implement FAQ page
+- ~~Send an alert to user when someone comments their post or comment~~ (DONE)
+- ~~Implement FAQ page~~ (DONE)
 - Hide 'show more' and 'show less' buttons when nothing can be fetched anymore
 	- or implement infinite scroll
-- Clicking a message should take to the NEW comment
+- ~~Clicking a message should take to the NEW comment~~ (DONE)
+-  ~~Control amount buttons for messages (show more, show less)~~ (DONE)
 - **tests!**
 - fix tests!
 
 ## app:
 - start using branches!
-- CI/CD pipeline
+- e2e tests
+- ~~CI/CD pipeline~~(DONE)
 - ~~push to heroku or somewhere similar~~ (DONE, app deployed to heroku)
   - ~~backend and frontend to separate places?~~ (DONE, backend serves static files from frontend)

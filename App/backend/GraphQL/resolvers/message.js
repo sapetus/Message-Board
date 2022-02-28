@@ -1,9 +1,10 @@
+const { UserInputError } = require('apollo-server-express')
+
 const Message = require('../../models/Message')
 const Comment = require('../../models/Comment')
 const Post = require('../../models/Post')
 const User = require('../../models/User')
-
-const { UserInputError } = require('apollo-server-express')
+const { paginate } = require('../utils')
 
 const message = {
   Query: {
@@ -38,7 +39,10 @@ const message = {
         })
         .populate({ path: 'post', model: 'Post' })
 
-      return messages.reverse()
+      const paginatedMessages = paginate(messages, args.first, args.after)
+
+      //return messages in order of creation (new first)
+      return paginatedMessages.reverse()
     }
   },
   Mutation: {

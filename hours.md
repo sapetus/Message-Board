@@ -90,4 +90,5 @@
 | 24.2.2022  | 4    | Got messages partially working, fixed tests, small visual changes associated with messages, separate messages page created |
 |            | 2    | working on getting messages working |
 | 25.2.2022  | 2    | Messages now redirect correctly (redirecting to a comment scrolls to that comment) |
-| total      | 146  | |
+| 28.2.2022  | 1    | MessagePage now have show more/less buttons, fixed test |
+| total      | 147  | |

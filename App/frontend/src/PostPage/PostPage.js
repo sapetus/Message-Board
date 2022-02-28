@@ -140,9 +140,10 @@ const PostPage = ({ token }) => {
 
   const scrollToComment = () => {
     setTimeout(() => {
-      document.getElementById('fetchMoreButton').click()
       if (document.getElementById(location.hash.slice(1)) === null) {
         scrollToComment()
+        //for some reason, calling the fetchMore function doesn't work here
+        document.getElementById('fetchMoreButton').click()
       } else {
         const element = document.getElementById(location.hash.slice(1))
         window.scrollTo({

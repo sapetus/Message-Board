@@ -11,7 +11,7 @@ const message = gql`
 
   type Query {
     userMessagesAmount(username: String!): Int
-    userMessages(username: String!): [Message!]!
+    userMessages(username: String!, first: Int, after: Int): [Message!]!
   }
 
   type Mutation {

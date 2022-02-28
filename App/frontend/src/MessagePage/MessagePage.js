@@ -8,6 +8,9 @@ import { DELETE_ALL_MESSAGES_FOR_USER } from '../GraphQL/mutations'
 
 const MessagePage = ({ token }) => {
   const [messages, setMessages] = useState(null)
+  const [messagesFetched, setMessagesFetched] = useState(0)
+
+  const amountToFetch = 5
 
   const { loading, data: currentUserData } = useQuery(
     GET_CURRENT_USER,
@@ -16,7 +19,7 @@ const MessagePage = ({ token }) => {
     }
   )
 
-  const [getUserMessages, { data: userMessagesData }] = useLazyQuery(
+  const [getUserMessages, { data: userMessagesData, fetchMore }] = useLazyQuery(
     USER_MESSAGES,
     {
       fetchPolicy: "cache-and-network"
@@ -42,16 +45,42 @@ const MessagePage = ({ token }) => {
 
   useEffect(() => {
     if (currentUserData?.getCurrentUser.username === localStorage.getItem('username')) {
-      getUserMessages({ variables: { username: currentUserData.getCurrentUser.username } })
+      getUserMessages({
+        variables: {
+          username: currentUserData.getCurrentUser.username,
+          first: amountToFetch
+        }
+      })
+      setMessagesFetched(amountToFetch)
     }
   }, [currentUserData]) //eslint-disable-line
 
   useEffect(() => {
-    setMessages(userMessagesData?.userMessages)
-  }, [userMessagesData])
+    setMessages(userMessagesData?.userMessages.slice(0, messagesFetched))
+  }, [userMessagesData, messagesFetched])
 
   const deleteAll = () => {
     deleteAllMessages({ variables: { username: currentUserData.getCurrentUser.username } })
+  }
+
+  const fetchMoreMessages = async () => {
+    const { data } = await fetchMore({
+      variables: {
+        username: currentUserData.getCurrentUser.username,
+        first: amountToFetch,
+        after: messagesFetched
+      }
+    })
+
+    if (data.userMessages.length + userMessagesData.userMessages.length > messagesFetched) {
+      setMessagesFetched(messagesFetched + amountToFetch)
+    }
+  }
+
+  const showLess = () => {
+    if (messagesFetched - amountToFetch >= amountToFetch) {
+      setMessagesFetched(messagesFetched - amountToFetch)
+    }
   }
 
   //when loading
@@ -74,6 +103,10 @@ const MessagePage = ({ token }) => {
           {messages.map(message =>
             <Message key={message.id} message={message} username={currentUserData.getCurrentUser.username} />
           )}
+          <div className='controlAmountButtons'>
+            <button onClick={fetchMoreMessages}>Show More</button>
+            <button onClick={showLess}>Show Less</button>
+          </div>
         </div>
       )
     } else {
