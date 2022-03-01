@@ -222,6 +222,16 @@ const PostPage = ({ token }) => {
         </div>
       </div>
 
+      {token &&
+        <CreateCommentForm
+          postId={params.id}
+          fetched={commentsFetched}
+          setFetched={setCommentsFetched}
+          postCreatorId={postUser.id}
+        />
+      }
+      <p className='dividerHorizontal' />
+
       <div id='comments'>
         <div className='filterOptions'>
           <select name="order" onChange={({ target }) => changeOrder(target.value)}>
@@ -246,17 +256,6 @@ const PostPage = ({ token }) => {
           <button onClick={showLess}>Show Less</button>
         </div>
       </div>
-
-      <p className='dividerHorizontal' />
-
-      {token &&
-        <CreateCommentForm
-          postId={params.id}
-          fetched={commentsFetched}
-          setFetched={setCommentsFetched}
-          postCreatorId={postUser.id}
-        />
-      }
     </div>
   )
 }

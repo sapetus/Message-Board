@@ -129,7 +129,7 @@ describe('renders properly', () => {
 
     await wait(500)
 
-    expect(screen.getAllByText(/commented your/).length).toEqual(2)
+    expect(screen.getAllByText(/Someone/).length).toEqual(2)
   })
 })
 
@@ -183,12 +183,12 @@ describe('functionality', () => {
     )
 
     await wait(500)
-    expect(screen.getAllByText(/commented your/).length).toEqual(2)
+    expect(screen.getAllByText(/Someone/).length).toEqual(2)
 
     userEvent.click(screen.getByText('Delete All'))
 
     await wait()
-    expect(screen.queryByText(/commented your/)).toBeNull()
+    expect(screen.queryByText(/Someone/)).toBeNull()
   })
 })
 

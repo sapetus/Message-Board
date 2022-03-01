@@ -17,6 +17,7 @@ const DiscussionPage = ({ token }) => {
   const [discussionMembers, setDiscussionMembers] = useState(null)
   const [listOfMembers, setListOfMembers] = useState(null)
   const [userIsSubscribed, setUserIsSubscribed] = useState(false)
+  const [showPostForm, setShowPostForm] = useState(false)
 
   let params = useParams()
 
@@ -44,6 +45,20 @@ const DiscussionPage = ({ token }) => {
       refetchQueries: [{ query: FIND_DISCUSSION, variables: { name: params.name } }]
     }
   )
+
+  useEffect(() => {
+    const element = document.getElementById('showPostForm')
+    switch (showPostForm) {
+      case false:
+        if (element) element.style.backgroundColor = "transparent"
+        break
+      case true:
+        if (element) element.style.backgroundColor = "#8C54F3"
+        break
+      default:
+        break
+    }
+  }, [showPostForm])
 
   useEffect(() => {
     getDiscussion({ variables: { name: params.name } })
@@ -117,14 +132,18 @@ const DiscussionPage = ({ token }) => {
         }
       </div>
 
-      <Posts name={params.name} />
-
-      <p className="dividerHorizontal"/>
-
       {token &&
+        <button id="showPostForm" onClick={() => setShowPostForm(!showPostForm)}>
+          Create Post
+        </button>}
+
+      {showPostForm &&
         <CreatePostForm
           discussionName={params.name}
         />}
+      <p className="dividerHorizontal" />
+
+      <Posts name={params.name} />
     </div>
   )
 }

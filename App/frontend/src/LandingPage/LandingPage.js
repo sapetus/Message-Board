@@ -12,6 +12,7 @@ const LandingPage = ({ token }) => {
   const [discussionOrder, setDiscussionOrder] = useState('NEW')
   const [searchString, setSearchString] = useState("")
   const [timeoutId, setTimeoutId] = useState(null)
+  const [showDiscussionForm, setShowDiscussionForm] = useState(false)
 
   const amountToFetch = 5
 
@@ -22,6 +23,20 @@ const LandingPage = ({ token }) => {
       variables: { first: amountToFetch, order: discussionOrder, filter: searchString }
     }
   )
+
+  useEffect(() => {
+    const element = document.getElementById('showDiscussionForm')
+    switch (showDiscussionForm) {
+      case false:
+        if (element) element.style.backgroundColor = "transparent"
+        break
+      case true:
+        if (element) element.style.backgroundColor = "#8C54F3"
+        break
+      default:
+        break
+    }
+  }, [showDiscussionForm])
 
   useEffect(() => {
     setDiscussionsFetched(amountToFetch)
@@ -80,7 +95,15 @@ const LandingPage = ({ token }) => {
   return (
     <div id="page" >
       <h1 className="pageTitle">Discussions</h1>
-      <p className='dividerHorizontal'/>
+      <p className='dividerHorizontal' />
+
+      {token &&
+        <button id="showDiscussionForm" onClick={() => setShowDiscussionForm(!showDiscussionForm)} style={{ marginTop: "20px"}}>
+          Create Discussion
+        </button>}
+
+      {showDiscussionForm && <CreateDiscussionForm />}
+      <p className="dividerHorizontal" />
 
       <div className="filterOptions">
         <div className="inputContainer">
@@ -114,10 +137,6 @@ const LandingPage = ({ token }) => {
           <button onClick={showLess}>Show Less</button>
         </div>
       }
-
-      <p className="dividerHorizontal" />
-
-      {token && <CreateDiscussionForm />}
     </div>
   )
 }
