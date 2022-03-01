@@ -253,7 +253,7 @@ footer {
   padding: 0px 20px 20px 20px;
   width: 700px;
 }
-.post:hover {
+.post:not(.content):hover {
   border-color: #8C54F3;
 }
 
@@ -305,12 +305,27 @@ footer {
   border-left: solid 6px #111315;
 }
 
-#userAlert {
+#userAlertBell {
   animation: userAlert 3s ease-out infinite;
   transform-origin: top;
   position: absolute;
   color: #f38c54;
   left: 405px;
+}
+
+#userAlertBubble {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f38c54;
+  font-size: large;
+  font-weight: bold;
+  position: absolute;
+  left: 410px;
+  top: -5px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50px 50px 50px 5px;
 }
 /*------------------------------------------------------------------*/
 

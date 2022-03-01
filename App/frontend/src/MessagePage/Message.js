@@ -2,7 +2,7 @@ import React from 'react'
 import { useMutation } from '@apollo/client'
 import { Link } from 'react-router-dom'
 
-import { USER_MESSAGES } from '../GraphQL/queries'
+import { USER_MESSAGES, USER_MESSAGES_AMOUNT } from '../GraphQL/queries'
 import { DELETE_MESSAGE } from '../GraphQL/mutations'
 
 const Message = ({ message, username }) => {
@@ -22,6 +22,13 @@ const Message = ({ message, username }) => {
           userMessages: updatedData
         }
       })
+      store.writeQuery({
+        query: USER_MESSAGES_AMOUNT,
+        variables: { username },
+        data: {
+          userMessagesAmount: dataInStore.userMessagesAmount - 1
+        }
+      })
     }
   })
 
@@ -29,31 +36,37 @@ const Message = ({ message, username }) => {
     deleteMessage({ variables: { id: message.id } })
   }
 
-  return (
-    <div className="userMessage">
-      {message.post
-        ? <p>
-          <Link to={`/user/${message.user.username}`}>
-            {message.user.username}
-          </Link>
-          commented your post
+  if (message.post) {
+    const postText = message.post.title.length > 25
+      ? message.post.title.slice(0, 22) + '...'
+      : message.post.title
+    return (
+      <div className="userMessage">
+        <p>
+          Someone commented on your post:
           <Link to={`/post/${message.post.id}`}>
-            {message.post.title}
+            '{postText}'
           </Link>
         </p>
-        : <p>
-          <Link to={`/user/${message.user.username}`}>
-            {message.user.username}
-          </Link>
-          commented your
+        <button onClick={deleteThisMessage}>Delete</button>
+      </div>
+    )
+  } else {
+    const commentText = message.comment.text.length > 25
+      ? message.comment.text.slice(0, 22) + '...'
+      : message.comment.text
+    return (
+      <div className="userMessage">
+        <p>
+          Someone commented your comment:
           <Link to={`/post/${message.comment.post.id}/#${message.comment.id}`}>
-            comment
+            '{commentText}'
           </Link>
         </p>
-      }
-      <button onClick={deleteThisMessage}>Delete</button>
-    </div>
-  )
+        <button onClick={deleteThisMessage}>Delete</button>
+      </div>
+    )
+  }
 }
 
 export default Message

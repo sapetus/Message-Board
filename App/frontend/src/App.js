@@ -35,7 +35,7 @@ const App = () => {
   useEffect(() => {
     const nameInStore = localStorage.getItem('username')
     if (nameInStore) {
-      userMessagesAmount({ variables: { username: nameInStore}})
+      userMessagesAmount({ variables: { username: nameInStore } })
     }
   }, [navigate]) //eslint-disable-line
 
@@ -62,14 +62,20 @@ const App = () => {
         </Link>
         {token &&
           <Link to={`/messages`}>
+            {/* {data?.userMessagesAmount > 0 &&
+              <i id="userAlertBell" className="material-icons">notifications</i>
+            } */}
+            {(data?.userMessagesAmount > 0 && data?.userMessagesAmount < 10) &&
+              <p id="userAlertBubble">{data.userMessagesAmount}</p>
+            }
+            {data?.userMessagesAmount >= 10 &&
+              <p id="userAlertBubble">+9</p>
+            }
             Messages
           </Link>
         }
         {token &&
           <Link to={`/user/${localStorage.getItem('username')}`} >
-            {data?.userMessagesAmount > 0 &&
-              <i id="userAlert" className="material-icons">notifications</i>
-            }
             Profile
           </Link>}
         {!token &&

@@ -202,7 +202,7 @@ const PostPage = ({ token }) => {
         </p>
       </div>
 
-      <div className='post'>
+      <div className='post content'>
         <h3>{postTitle}</h3>
         <p>{postText}</p>
         {postImage &&

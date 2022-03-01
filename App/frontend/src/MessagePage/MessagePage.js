@@ -3,7 +3,7 @@ import { useLazyQuery, useQuery, useMutation } from '@apollo/client'
 
 import Message from './Message'
 
-import { USER_MESSAGES, GET_CURRENT_USER } from '../GraphQL/queries'
+import { USER_MESSAGES, GET_CURRENT_USER, USER_MESSAGES_AMOUNT } from '../GraphQL/queries'
 import { DELETE_ALL_MESSAGES_FOR_USER } from '../GraphQL/mutations'
 
 const MessagePage = ({ token }) => {
@@ -38,6 +38,13 @@ const MessagePage = ({ token }) => {
         },
         data: {
           userMessages: []
+        }
+      })
+      store.writeQuery({
+        query: USER_MESSAGES_AMOUNT,
+        variables: { username: currentUserData.getCurrentUser.username },
+        data: {
+          userMessagesAmount: 0
         }
       })
     }

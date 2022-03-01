@@ -94,4 +94,5 @@
 |            | 3    | Wrote tests for MessagePage, started writing backend tests for message |
 |            | 1    | continued to write tests |
 | 1.3.2022   | 1.5  | Finished writing tests |
-| total      | 152.5| |
+|            | 2    | Visual changes to site, changed how messages look |
+| total      | 154.5| |
