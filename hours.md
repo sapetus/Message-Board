@@ -93,4 +93,5 @@
 | 28.2.2022  | 1    | MessagePage now have show more/less buttons, fixed test |
 |            | 3    | Wrote tests for MessagePage, started writing backend tests for message |
 |            | 1    | continued to write tests |
-| total      | 151  | |
+| 1.3.2022   | 1.5  | Finished writing tests |
+| total      | 152.5| |

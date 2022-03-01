@@ -106,12 +106,85 @@ describe('Message', () => {
       `
     }
 
-    // test('message can be created', async () => {
+    test('message can be created for post', async () => {
+      const data = {
+        query: mutations.createMessage,
+        operationName: "CreateMessage",
+        variables: {
+          "userId": helperData.users[0].id,
+          "postId": helperData.posts[0].id
+        }
+      }
 
-    // })
+      const response = await api
+        .post('/graphql')
+        .send(data)
+        .expect(200)
 
-    test('dummy test', () => {
-      expect(true).toEqual(true)
+      expect(response.body.data.createMessage).toHaveProperty("id")
+    })
+
+    test('message can be created for comment', async () => {
+      const data = {
+        query: mutations.createMessage,
+        operationName: "CreateMessage",
+        variables: {
+          "userId": helperData.users[0].id,
+          "commentId": helperData.comments[0].id
+        }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .send(data)
+        .expect(200)
+
+      expect(response.body.data.createMessage).toHaveProperty("id")
+    })
+
+    test('deletion of a message works', async () => {
+      const data = {
+        query: mutations.deleteMessage,
+        operationName: "DeleteMessage",
+        variables: { "id": helperData.messages[0].id }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .send(data)
+        .expect(200)
+
+      expect(response.body.data.deleteMessage).toHaveProperty('id')
+    })
+
+    test('delete all of users messages', async () => {
+      const data = {
+        query: mutations.deleteAllMessagesForUser,
+        operationName: "DeleteAllMessagesForUser",
+        variables: { "username": helperData.users[0].username }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .send(data)
+        .expect(200)
+
+      expect(response.body.data.deleteAllMessagesForUser).toEqual(2)
+    })
+
+    test('acknowledge message', async () => {
+      const data = {
+        query: mutations.messageAcknowledged,
+        operationName: "MessageAcknowledged",
+        variables: { "id": helperData.messages[0].id }
+      }
+
+      const response = await api
+        .post('/graphql')
+        .send(data)
+        .expect(200)
+
+      expect(response.body.data.messageAcknowledged).toHaveProperty("id")
     })
   })
 })

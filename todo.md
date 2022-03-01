@@ -35,7 +35,7 @@
 - Hide 'show more' and 'show less' buttons when nothing can be fetched anymore
 	- or implement infinite scroll
 - ~~Clicking a message should take to the NEW comment~~ (DONE)
--  ~~Control amount buttons for messages (show more, show less)~~ (DONE)
+- ~~Control amount buttons for messages (show more, show less)~~ (DONE)
 - **tests!**
 - fix tests!
 
