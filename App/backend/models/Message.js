@@ -13,6 +13,11 @@ const schema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Post'
   },
+  responseTo: {
+    type: String,
+    enum: ['POST', 'COMMENT'],
+    default: 'POST'
+  },
   seen: {
     type: Boolean
   }

@@ -4,7 +4,9 @@ import { useMutation } from '@apollo/client'
 import { CREATE_COMMENT, CREATE_MESSAGE } from '../GraphQL/mutations'
 import { FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 
-const CreateCommentForm = ({ postId, commentId, postCreatorId, commentCreatorId, fetched, setFetched }) => {
+const CreateCommentForm = ({
+  postId, commentId, postCreatorId, commentCreatorId, fetched, setFetched, responseToComment
+}) => {
   const [text, setText] = useState('')
   const [showForm, setShowForm] = useState(false)
 
@@ -32,7 +34,8 @@ const CreateCommentForm = ({ postId, commentId, postCreatorId, commentCreatorId,
     CREATE_MESSAGE,
     {
       onError: (error) => {
-        console.log(error.graphQLErrors[0].message)
+        console.log(error)
+        //console.log(error.graphQLErrors[0].message)
       }
     }
   )
@@ -42,18 +45,20 @@ const CreateCommentForm = ({ postId, commentId, postCreatorId, commentCreatorId,
 
     const { data } = await createComment({ variables: { text, postId, commentId } })
 
-    if (commentId) {
-      //message to the creator of a comment that someone commented on their comment
-      await createMessage({ variables: { userId: commentCreatorId, commentId: data.createComment.id } })
-      //message to the creator of the post that someone commented on their post
-      await createMessage({ variables: { userId: postCreatorId, postId } })
-    } else {
-      await createMessage({ variables: { userId: postCreatorId, postId } })
-    }
+    if (data) {
+      if (responseToComment) {
+        //message to the creator of a comment that someone commented on their comment
+        await createMessage({ variables: { userId: commentCreatorId, commentId: data.createComment.id, responseTo: "COMMENT" } })
+        //message to the creator of the post that someone commented on their post
+        await createMessage({ variables: { userId: postCreatorId, postId, commentId: data.createComment.id, responseTo: "POST" } })
+      } else {
+        await createMessage({ variables: { userId: postCreatorId, postId, commentId: data.createComment.id, responseTo: "POST" } })
+      }
 
-    setText('')
-    setShowForm(false)
-    setFetched(fetched + 1)
+      setText('')
+      setShowForm(false)
+      setFetched(fetched + 1)
+    }
   }
 
   return (

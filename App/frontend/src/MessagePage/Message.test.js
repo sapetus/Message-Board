@@ -21,6 +21,10 @@ describe('renders correctly', () => {
       post: {
         id: "3",
         title: "title"
+      },
+      comment: {
+        id: "4",
+        text: "text"
       }
     }
 
@@ -74,7 +78,14 @@ test('deleting a message works', async () => {
       id: "3",
       title: "title"
     },
-    comment: null
+    comment: {
+      id: "4",
+      text: "text",
+      post: {
+        id: "5",
+        title: "another title"
+      }
+    }
   }
 
   const deleteMessageMock = {

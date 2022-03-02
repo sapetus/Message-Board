@@ -228,6 +228,7 @@ const PostPage = ({ token }) => {
           fetched={commentsFetched}
           setFetched={setCommentsFetched}
           postCreatorId={postUser.id}
+          responseToComment={false}
         />
       }
       <p className='dividerHorizontal' />

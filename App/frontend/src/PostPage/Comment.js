@@ -73,6 +73,7 @@ const Comment = ({ comment, token, postId, postCreatorId, fetched, setFetched })
           postId={postId} commentId={comment.id}
           fetched={fetched} setFetched={setFetched}
           commentCreatorId={comment.user.id} postCreatorId={postCreatorId}
+          responseToComment={true}
         />
       }
     </div >

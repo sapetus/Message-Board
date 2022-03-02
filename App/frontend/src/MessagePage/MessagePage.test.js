@@ -46,11 +46,13 @@ const userMessagesMock = {
             id: "111",
             text: "comment text",
             post: {
-              id: "1111",
-
+              id: "1111"
             }
           },
-          post: null
+          post: {
+            id: "11111",
+            title: "post title"
+          }
         },
         {
           id: "2",
@@ -58,9 +60,15 @@ const userMessagesMock = {
             id: "22",
             username: "username2"
           },
-          comment: null,
-          post: {
+          comment: {
             id: "222",
+            text: "comment text",
+            post: {
+              id: "2222"
+            }
+          },
+          post: {
+            id: "22222",
             title: "post title"
           }
         }

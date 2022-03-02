@@ -219,8 +219,8 @@ export const UNSUBSCRIBE_FROM_DISCUSSION = gql`
 `
 
 export const CREATE_MESSAGE = gql`
-  mutation CreateMessage($userId: ID!, $commentId: ID, $postId: ID) {
-    createMessage(userId: $userId, commentId: $commentId, postId: $postId) {
+  mutation CreateMessage($userId: ID!, $commentId: ID, $postId: ID, $responseTo: String!) {
+    createMessage(userId: $userId, commentId: $commentId, postId: $postId, responseTo: $responseTo) {
       id
     }
   }

@@ -43,7 +43,8 @@ test('creation of a comment is successful', async () => {
        query: CREATE_MESSAGE,
        variables: {
          userId: "zyx987",
-         commentId: "112233"
+         commentId: "112233",
+         responseTo: "COMMENT"
        }
     },
     result: {
@@ -59,7 +60,9 @@ test('creation of a comment is successful', async () => {
       query: CREATE_MESSAGE,
       variables: {
         userId: "xyz789",
-        postId: "123abc"
+        postId: "123abc",
+        commentId: "112233",
+        responseTo: "POST"
       }
     },
     result: {

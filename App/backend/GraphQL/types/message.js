@@ -7,6 +7,7 @@ const message = gql`
     comment: Comment
     post: Post
     seen: Boolean!
+    responseTo: String!
   }
 
   type Query {
@@ -19,6 +20,7 @@ const message = gql`
       userId: ID!
       commentId: ID
       postId: ID
+      responseTo: String
     ): Message
     deleteMessage (
       id: ID!

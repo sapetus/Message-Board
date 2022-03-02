@@ -42,7 +42,7 @@ const Message = ({ message, username }) => {
       : message.post.title
     return (
       <div className="messageContainer">
-        <Link className='userMessage' to={`/post/${message.post.id}`}>
+        <Link className='userMessage' to={`/post/${message.post.id}/#${message.comment.id}`}>
           Someone commented on your post: '{postText}'
         </Link>
         <button onClick={deleteThisMessage}>Delete</button>

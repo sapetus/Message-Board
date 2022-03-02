@@ -97,4 +97,5 @@
 |            | 2    | Visual changes to site, changed how messages look |
 |            | 0.5  | Fixed tests, changed form placement across the site |
 | 2.3.2022   | 1    | Visual changes to messages (can't seem to figure out a good look...) |
-| total      | 156  | |
+|            | 1    | Messages now redirect correctly, some changes to message schema, fixed tests |
+| total      | 157  | |

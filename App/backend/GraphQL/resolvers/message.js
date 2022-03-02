@@ -67,7 +67,8 @@ const message = {
         user: args.userId,
         comment: args.commentId,
         post: args.postId,
-        seen: false
+        seen: false,
+        responseTo: args.responseTo
       })
 
       try {
