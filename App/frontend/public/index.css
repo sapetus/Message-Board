@@ -44,7 +44,7 @@ a {
   text-decoration: none;
   padding: 0px 10px 0px 10px;
 }
-a:not(.discussion):not(.post):not(.comment):not(.subscription):hover {
+a:not(.discussion):not(.post):not(.comment):not(.subscription):not(.userMessage):hover {
   padding: 0px 10px 0px 10px;
   background-color: #8C54F3;
   border-radius: 10px;
@@ -318,13 +318,13 @@ footer {
   align-items: center;
   justify-content: center;
   background-color: #f38c54;
-  font-size: large;
+  font-size: medium;
   font-weight: bold;
   position: absolute;
   left: 410px;
-  top: -5px;
-  width: 28px;
-  height: 28px;
+  top: 0px;
+  width: 24px;
+  height: 24px;
   border-radius: 50px 50px 50px 5px;
 }
 /*------------------------------------------------------------------*/
@@ -536,18 +536,30 @@ footer {
 /*------------------------------------------------------------------*/
 
 /*Message Page------------------------------------------------------*/
+.messageContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 700px;
+}
+
 .userMessage {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  height: 50px;
+  width: 100%;
 
   background-color: #2f3436;
   border: solid 4px #111315;
   border-radius: 15px;
-  margin: 10px 0px;
+  margin: 10px 10px;
   padding: 0px 20px;
-  width: 700px;
+}
+.userMessage:hover {
+  border-color: #8C54F3;
 }
 /*------------------------------------------------------------------*/
 

@@ -96,4 +96,5 @@
 | 1.3.2022   | 1.5  | Finished writing tests |
 |            | 2    | Visual changes to site, changed how messages look |
 |            | 0.5  | Fixed tests, changed form placement across the site |
-| total      | 155  | |
+| 2.3.2022   | 1    | Visual changes to messages (can't seem to figure out a good look...) |
+| total      | 156  | |

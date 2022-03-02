@@ -37,17 +37,14 @@ const Message = ({ message, username }) => {
   }
 
   if (message.post) {
-    const postText = message.post.title.length > 25
-      ? message.post.title.slice(0, 22) + '...'
+    const postText = message.post.title.length > 23
+      ? message.post.title.slice(0, 20) + '...'
       : message.post.title
     return (
-      <div className="userMessage">
-        <p>
-          Someone commented on your post:
-          <Link to={`/post/${message.post.id}`}>
-            '{postText}'
-          </Link>
-        </p>
+      <div className="messageContainer">
+        <Link className='userMessage' to={`/post/${message.post.id}`}>
+          Someone commented on your post: '{postText}'
+        </Link>
         <button onClick={deleteThisMessage}>Delete</button>
       </div>
     )
@@ -56,13 +53,10 @@ const Message = ({ message, username }) => {
       ? message.comment.text.slice(0, 22) + '...'
       : message.comment.text
     return (
-      <div className="userMessage">
-        <p>
-          Someone commented your comment:
-          <Link to={`/post/${message.comment.post.id}/#${message.comment.id}`}>
-            '{commentText}'
-          </Link>
-        </p>
+      <div className="messageContainer">
+        <Link className="userMessage" to={`/post/${message.comment.post.id}/#${message.comment.id}`}>
+          Someone commented your comment with: '{commentText}'
+        </Link>
         <button onClick={deleteThisMessage}>Delete</button>
       </div>
     )

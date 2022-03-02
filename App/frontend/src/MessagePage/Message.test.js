@@ -32,8 +32,7 @@ describe('renders correctly', () => {
       </MockedProvider>
     )
 
-    expect(screen.getByText(message.user.username)).toBeDefined()
-    expect(screen.getByText(message.post.title)).toBeDefined()
+    expect(screen.getByText(/Someone commented on your post:/)).toBeDefined()
   })
 
   test('when comment is provided', () => {
@@ -45,6 +44,7 @@ describe('renders correctly', () => {
       },
       comment: {
         id: "4",
+        text: "an example comment text",
         post: {
           id: "5"
         }
@@ -59,8 +59,7 @@ describe('renders correctly', () => {
       </MockedProvider>
     )
 
-    expect(screen.getByText(message.user.username)).toBeDefined()
-    expect(screen.getByText("comment")).toBeDefined()
+    expect(screen.getByText(/Someone commented your comment with:/)).toBeDefined()
   })
 })
 

@@ -32,8 +32,7 @@ const CreateCommentForm = ({ postId, commentId, postCreatorId, commentCreatorId,
     CREATE_MESSAGE,
     {
       onError: (error) => {
-        console.log(error)
-        //console.log(error.graphQLErrors[0].message)
+        console.log(error.graphQLErrors[0].message)
       }
     }
   )
