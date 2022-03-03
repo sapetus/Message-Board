@@ -18,7 +18,7 @@ const LandingPage = ({ token }) => {
 
   const amountToFetch = 5
 
-  const { data: discussionData, loading, fetchMore } = useQuery(
+  const { data: discussionData, fetchMore } = useQuery(
     ALL_DISCUSSIONS,
     {
       fetchPolicy: "cache-and-network",
