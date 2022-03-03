@@ -85,6 +85,24 @@ const post = {
         })
       }
 
+      if (!args.title) {
+        return new UserInputError('Title is required.', {
+          invalidArgs: args.title
+        })
+      } else if (args.title.length < 5) {
+        return new UserInputError('Title has a minimum length of 5.', {
+          invalidArgs: args.title
+        })
+      } else if (!args.text) {
+        return new UserInputError('Text is required.', {
+          invalidArgs: args.text
+        })
+      } else if (args.text.length < 5) {
+        return new UserInputError('Text has a minimum length of 5.', {
+          invalidArgs: args.text
+        })
+      }
+
       const newPost = new Post({
         title: args.title,
         text: args.text,

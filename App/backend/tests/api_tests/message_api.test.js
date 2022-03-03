@@ -79,8 +79,8 @@ describe('Message', () => {
   describe('Mutations', () => {
     const mutations = {
       createMessage: `
-        mutation CreateMessage($userId: ID!, $commentId: ID, $postId: ID) {
-          createMessage(userId: $userId, commentId: $commentId, postId: $postId) {
+        mutation CreateMessage($userId: ID!, $responderId: ID!, $commentId: ID, $postId: ID, $responseTo: String!) {
+          createMessage(userId: $userId, responderId: $responderId, commentId: $commentId, postId: $postId, responseTo: $responseTo) {
             id
           }
         }
@@ -112,7 +112,9 @@ describe('Message', () => {
         operationName: "CreateMessage",
         variables: {
           "userId": helperData.users[0].id,
-          "postId": helperData.posts[0].id
+          "responderId": helperData.users[1].id,
+          "postId": helperData.posts[0].id,
+          "responseTo": "POST"
         }
       }
 
@@ -130,7 +132,9 @@ describe('Message', () => {
         operationName: "CreateMessage",
         variables: {
           "userId": helperData.users[0].id,
-          "commentId": helperData.comments[0].id
+          "responderId": helperData.users[1].id,
+          "commentId": helperData.comments[0].id,
+          "responseTo": "COMMENT"
         }
       }
 

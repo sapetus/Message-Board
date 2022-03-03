@@ -204,16 +204,26 @@ export const USER_MESSAGES = gql`
         id
         username
       }
+      responder {
+        id
+        username
+      }
       comment {
         id
         text
         post {
           id
+          discussion {
+            name
+          }
         }
       }
       post {
         id
         title
+        discussion {
+          name
+        }
       }
     }
   }

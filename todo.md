@@ -37,7 +37,7 @@
 - ~~Clicking a message should take to the NEW comment~~ (DONE)
 - ~~Control amount buttons for messages (show more, show less)~~ (DONE)
 - **tests!**
-- fix tests!
+- ~~Error messages when creating: post, comment, discussion~~ (DONE)
 
 ## app:
 - start using branches!

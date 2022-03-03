@@ -42,16 +42,26 @@ const userMessagesMock = {
             id: "11",
             username: "username1"
           },
-          comment: {
+          responder: {
             id: "111",
+            username: "responder1"
+          },
+          comment: {
+            id: "1111",
             text: "comment text",
             post: {
-              id: "1111"
+              id: "11111",
+              discussion: {
+                name: "discussion"
+              }
             }
           },
           post: {
-            id: "11111",
-            title: "post title"
+            id: "111111",
+            title: "post title",
+            discussion: {
+              name: "discussion"
+            }
           }
         },
         {
@@ -60,16 +70,26 @@ const userMessagesMock = {
             id: "22",
             username: "username2"
           },
-          comment: {
+          responder: {
             id: "222",
+            username: "responder2"
+          },
+          comment: {
+            id: "2222",
             text: "comment text",
             post: {
-              id: "2222"
+              id: "22222",
+              discussion: {
+                name: "discussion"
+              }
             }
           },
           post: {
-            id: "22222",
-            title: "post title"
+            id: "222222",
+            title: "post title",
+            discussion: {
+              name: "discussion"
+            }
           }
         }
       ]
@@ -137,7 +157,7 @@ describe('renders properly', () => {
 
     await wait(500)
 
-    expect(screen.getAllByText(/Someone/).length).toEqual(2)
+    expect(screen.getAllByText(/responded to your/).length).toEqual(2)
   })
 })
 
@@ -191,12 +211,12 @@ describe('functionality', () => {
     )
 
     await wait(500)
-    expect(screen.getAllByText(/Someone/).length).toEqual(2)
+    expect(screen.getAllByText(/responded to your/).length).toEqual(2)
 
     userEvent.click(screen.getByText('Delete All'))
 
     await wait()
-    expect(screen.queryByText(/Someone/)).toBeNull()
+    expect(screen.queryByText(/responded to your/)).toBeNull()
   })
 })
 

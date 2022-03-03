@@ -36,26 +36,28 @@ const Message = ({ message, username }) => {
     deleteMessage({ variables: { id: message.id } })
   }
 
+  const sliceText = (text, length) => {
+    if (text.length > length) return text.slice(0, length - 3) + '...'
+
+    return text
+  }
+
   if (message.post) {
-    const postText = message.post.title.length > 23
-      ? message.post.title.slice(0, 20) + '...'
-      : message.post.title
     return (
       <div className="messageContainer">
         <Link className='userMessage' to={`/post/${message.post.id}/#${message.comment.id}`}>
-          Someone commented on your post: '{postText}'
+          <h3>{message.responder.username} responded to your post in {message.post.discussion.name}</h3>
+          <p className="smallText closeToTop">{sliceText(message.comment.text, 100)}</p>
         </Link>
         <button onClick={deleteThisMessage}>Delete</button>
       </div>
     )
   } else {
-    const commentText = message.comment.text.length > 25
-      ? message.comment.text.slice(0, 22) + '...'
-      : message.comment.text
     return (
       <div className="messageContainer">
         <Link className="userMessage" to={`/post/${message.comment.post.id}/#${message.comment.id}`}>
-          Someone commented your comment with: '{commentText}'
+          <h3>{message.responder.username} responded to your comment in {message.comment.post.discussion.name}</h3>
+          <p className="smallText closeToTop">{sliceText(message.comment.text, 100)}</p>
         </Link>
         <button onClick={deleteThisMessage}>Delete</button>
       </div>

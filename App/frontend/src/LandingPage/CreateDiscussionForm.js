@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { CREATE_DISCUSSION } from '../GraphQL/mutations'
 import { ALL_DISCUSSIONS } from '../GraphQL/queries'
 
-const CreateDiscussionForm = () => {
+const CreateDiscussionForm = ({ setMessage }) => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
 
@@ -13,7 +13,7 @@ const CreateDiscussionForm = () => {
 
   const [createDiscussion] = useMutation(CREATE_DISCUSSION, {
     onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
+      setMessage(error.graphQLErrors[0].message)
     },
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: ALL_DISCUSSIONS })
@@ -34,7 +34,9 @@ const CreateDiscussionForm = () => {
     setName('')
     setDescription('')
 
-    navigate(`/discussion/${data.createDiscussion.name}`)
+    if (data) {
+      navigate(`/discussion/${data.createDiscussion.name}`)
+    }
   }
 
   return (

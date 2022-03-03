@@ -16,8 +16,10 @@ import {
 import CreateCommentForm from './CreateCommentForm'
 import Comment from './Comment'
 import VoteButtons from '../Components/VoteButtons'
+import Modal from '../Components/Modal'
 
 const PostPage = ({ token }) => {
+  //TOO MUCH STATES!!!!
   const [comments, setComments] = useState(null)
   const [discussion, setDiscussion] = useState(null)
   const [postLikes, setPostLikes] = useState(0)
@@ -34,6 +36,7 @@ const PostPage = ({ token }) => {
   const [userHasDislikedPost, setUserHasDislikedPost] = useState(false)
   const [commentsFetched, setCommentsFetched] = useState(0)
   const [commentOrder, setCommentOrder] = useState('NEW')
+  const [message, setMessage] = useState(null)
 
   let params = useParams()
   const location = useLocation()
@@ -44,7 +47,7 @@ const PostPage = ({ token }) => {
     { fetchPolicy: 'cache-and-network' }
   )
 
-  const { data: getCommentsData, fetchMore } = useQuery(
+  const { data: getCommentsData, fetchMore, loading } = useQuery(
     FIND_COMMENTS_BY_POST,
     {
       fetchPolicy: "cache-and-network",
@@ -133,10 +136,10 @@ const PostPage = ({ token }) => {
 
   //this will focus to a specific comment when user directs here from a message
   useEffect(() => {
-    if (location.hash) {
+    if (location.hash && !loading) {
       scrollToComment()
     }
-  }, [location]) //eslint-disable-line
+  }, [location, loading]) //eslint-disable-line
 
   const scrollToComment = () => {
     setTimeout(() => {
@@ -188,6 +191,8 @@ const PostPage = ({ token }) => {
 
   return (
     <div id="page">
+      {message && <Modal text={message} setMessage={setMessage} />}
+
       <div id="postInfo">
         <p className='largeText'>
           <Link to={`/discussion/${discussion?.name}`}>
@@ -229,6 +234,7 @@ const PostPage = ({ token }) => {
           setFetched={setCommentsFetched}
           postCreatorId={postUser.id}
           responseToComment={false}
+          setMessage={setMessage}
         />
       }
       <p className='dividerHorizontal' />
@@ -249,6 +255,7 @@ const PostPage = ({ token }) => {
             postCreatorId={postUser.id}
             comment={comment} token={token}
             fetched={commentsFetched} setFetched={setCommentsFetched}
+            setMessage={setMessage}
           />
         )}
 

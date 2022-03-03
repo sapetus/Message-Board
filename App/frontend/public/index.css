@@ -289,6 +289,11 @@ footer {
 .nothingFound {
   padding-top: 30px
 }
+
+.closeToTop {
+  padding-top: -10px;
+  margin-top: -10px;
+}
 /*------------------------------------------------------------------*/
  
 /*App.js------------------------------------------------------------*/
@@ -463,6 +468,36 @@ footer {
 }
 /*------------------------------------------------------------------*/
 
+/*Modal-------------------------------------------------------------*/
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+.modalContent {
+  animation: modalSlide 0.5s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #2f3436;
+  width: 400px;
+  height: auto;
+  padding: 20px 20px 20px 20px;
+  margin: 50px;
+  border-radius: 20px;
+}
+/*------------------------------------------------------------------*/
+
 /*discussionPage----------------------------------------------------*/
 #discussionInfo {
   display: flex;
@@ -546,10 +581,10 @@ footer {
 
 .userMessage {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 50px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  height: auto;
   width: 100%;
 
   background-color: #2f3436;
@@ -604,6 +639,14 @@ footer {
 .material-icons.inactiveButton:hover {
   color:#8C54F3
 }
+
+.material-icons.close {
+  align-self: flex-end;
+}
+.material-icons.close:hover {
+  color: #8C54F3;
+  cursor: pointer;
+}
 /*------------------------------------------------------------------*/
 
 /*Animations--------------------------------------------------------*/
@@ -621,5 +664,10 @@ footer {
   50% { transform: rotate(2deg); }
   60% { transform: rotate(-2deg); }
   70% { transform: rotate(0deg); }
+}
+
+@keyframes modalSlide {
+  from { top: -30%; }
+  to { top: 0%; }
 }
 /*------------------------------------------------------------------*/

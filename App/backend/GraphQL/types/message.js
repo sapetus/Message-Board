@@ -4,6 +4,7 @@ const message = gql`
   type Message {
     id: ID!
     user: User!
+    responder: User!
     comment: Comment
     post: Post
     seen: Boolean!
@@ -18,6 +19,7 @@ const message = gql`
   type Mutation {
     createMessage (
       userId: ID!
+      responderId: ID!
       commentId: ID
       postId: ID
       responseTo: String

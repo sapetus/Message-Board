@@ -5,7 +5,8 @@ import { CREATE_COMMENT, CREATE_MESSAGE } from '../GraphQL/mutations'
 import { FIND_COMMENTS_BY_POST } from '../GraphQL/queries'
 
 const CreateCommentForm = ({
-  postId, commentId, postCreatorId, commentCreatorId, fetched, setFetched, responseToComment
+  postId, commentId, postCreatorId, commentCreatorId,
+  fetched, setFetched, responseToComment, setMessage
 }) => {
   const [text, setText] = useState('')
   const [showForm, setShowForm] = useState(false)
@@ -15,6 +16,7 @@ const CreateCommentForm = ({
     {
       onError: (error) => {
         console.log(error.graphQLErrors[0].message)
+        setMessage(error.graphQLErrors[0].message)
       },
       update: (store, response) => {
         const dataInStore = store.readQuery({ query: FIND_COMMENTS_BY_POST, variables: { id: postId } })
@@ -34,8 +36,7 @@ const CreateCommentForm = ({
     CREATE_MESSAGE,
     {
       onError: (error) => {
-        console.log(error)
-        //console.log(error.graphQLErrors[0].message)
+        console.log(error.graphQLErrors[0].message)
       }
     }
   )
@@ -48,11 +49,33 @@ const CreateCommentForm = ({
     if (data) {
       if (responseToComment) {
         //message to the creator of a comment that someone commented on their comment
-        await createMessage({ variables: { userId: commentCreatorId, commentId: data.createComment.id, responseTo: "COMMENT" } })
+        await createMessage({
+          variables: {
+            userId: commentCreatorId,
+            responderId: data.createComment.user.id,
+            commentId: data.createComment.id,
+            responseTo: "COMMENT"
+          }
+        })
         //message to the creator of the post that someone commented on their post
-        await createMessage({ variables: { userId: postCreatorId, postId, commentId: data.createComment.id, responseTo: "POST" } })
+        await createMessage({
+          variables: {
+            userId: postCreatorId,
+            responderId: data.createComment.user.id,
+            postId, commentId: data.createComment.id,
+            responseTo: "POST"
+          }
+        })
       } else {
-        await createMessage({ variables: { userId: postCreatorId, postId, commentId: data.createComment.id, responseTo: "POST" } })
+        await createMessage({
+          variables: {
+            userId: postCreatorId,
+            responderId: data.createComment.user.id,
+            postId,
+            commentId: data.createComment.id,
+            responseTo: "POST"
+          }
+        })
       }
 
       setText('')

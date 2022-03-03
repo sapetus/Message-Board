@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { CREATE_POST } from '../GraphQL/mutations'
 import { GET_POSTS_BY_DISCUSSION } from '../GraphQL/queries'
 
-const CreatePostForm = ({ discussionName }) => {
+const CreatePostForm = ({ discussionName, setMessage }) => {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [imageInput, setImageInput] = useState("")
@@ -15,7 +15,7 @@ const CreatePostForm = ({ discussionName }) => {
 
   const [createPost] = useMutation(CREATE_POST, {
     onError: (error) => {
-      console.log(error.graphQLErrors[0].message)
+      setMessage(error.graphQLErrors[0].message)
     },
     update: (store, response) => {
       const dataInStore = store.readQuery({ query: GET_POSTS_BY_DISCUSSION, variables: { name: discussionName } })
@@ -41,7 +41,9 @@ const CreatePostForm = ({ discussionName }) => {
     setText('')
     setImage(null)
 
-    navigate(`/post/${data.createPost.id}`)
+    if (data) {
+      navigate(`/post/${data.createPost.id}`)
+    }
   }
 
   const checkImage = (url) => {
@@ -77,7 +79,7 @@ const CreatePostForm = ({ discussionName }) => {
           onChange={({ target }) => checkImage(target.value)}
         />
         {image &&
-          <img src={image} alt="Nothing found with url"/>
+          <img src={image} alt="Nothing found with url" />
         }
         <button type='submit'>Create Post</button>
       </form>

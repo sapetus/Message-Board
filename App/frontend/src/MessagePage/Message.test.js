@@ -18,39 +18,24 @@ describe('renders correctly', () => {
         id: "2",
         username: "username"
       },
-      post: {
+      responder: {
         id: "3",
-        title: "title"
+        username: "username2"
+      },
+      post: {
+        id: "4",
+        title: "title",
+        discussion: {
+          name: "discussion"
+        }
       },
       comment: {
-        id: "4",
-        text: "text"
-      }
-    }
-
-    render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <MemoryRouter>
-          <Message message={message} username="username" />
-        </MemoryRouter>
-      </MockedProvider>
-    )
-
-    expect(screen.getByText(/Someone commented on your post:/)).toBeDefined()
-  })
-
-  test('when comment is provided', () => {
-    const message = {
-      id: "1",
-      user: {
-        id: "2",
-        username: "username"
-      },
-      comment: {
-        id: "4",
-        text: "an example comment text",
+        id: "5",
+        text: "text", 
         post: {
-          id: "5"
+          discussion: {
+            name: "discussion"
+          }
         }
       }
     }
@@ -63,7 +48,41 @@ describe('renders correctly', () => {
       </MockedProvider>
     )
 
-    expect(screen.getByText(/Someone commented your comment with:/)).toBeDefined()
+    expect(screen.getByText('username2 responded to your post in discussion')).toBeDefined()
+  })
+
+  test('when comment is provided', () => {
+    const message = {
+      id: "1",
+      user: {
+        id: "2",
+        username: "username"
+      },
+      responder: {
+        id: "3",
+        username: "username2"
+      },
+      comment: {
+        id: "4",
+        text: "an example comment text",
+        post: {
+          id: "5",
+          discussion: {
+            name: "discussion"
+          }
+        }
+      }
+    }
+
+    render(
+      <MockedProvider mocks={[]} addTypename={false}>
+        <MemoryRouter>
+          <Message message={message} username="username" />
+        </MemoryRouter>
+      </MockedProvider>
+    )
+
+    expect(screen.getByText('username2 responded to your comment in discussion')).toBeDefined()
   })
 })
 
@@ -74,16 +93,26 @@ test('deleting a message works', async () => {
       id: "2",
       username: "username"
     },
-    post: {
+    responder: {
       id: "3",
-      title: "title"
+      username: "username2"
+    },
+    post: {
+      id: "4",
+      title: "title",
+      discussion: {
+        name: "discussion"
+      }
     },
     comment: {
-      id: "4",
+      id: "5",
       text: "text",
       post: {
-        id: "5",
-        title: "another title"
+        id: "6",
+        title: "another title",
+        discussion: {
+          name: "discussion"
+        }
       }
     }
   }

@@ -31,13 +31,22 @@ const message = {
 
       const messages = await Message.find({ user: user.id })
         .populate({ path: 'user', model: 'User' })
+        .populate({ path: "responder", model: 'User' })
         .populate({
           path: 'comment', model: 'Comment',
           populate: {
-            path: "post", model: "Post"
+            path: "post", model: "Post",
+            populate: {
+              path: "discussion", model: "Discussion"
+            }
           }
         })
-        .populate({ path: 'post', model: 'Post' })
+        .populate({
+          path: 'post', model: 'Post',
+          populate: {
+            path: 'discussion', model: "Discussion"
+          }
+        })
 
       const paginatedMessages = paginate(messages, args.first, args.after)
 
@@ -65,6 +74,7 @@ const message = {
 
       const newMessage = new Message({
         user: args.userId,
+        responder: args.responderId,
         comment: args.commentId,
         post: args.postId,
         seen: false,

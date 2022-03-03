@@ -71,6 +71,16 @@ const discussion = {
         })
       }
 
+      if (!args.name) {
+        return new UserInputError('Name is required.')
+      } else if (args.name.length < 2) {
+        return new UserInputError('Name has a minimum length of 2 characters.')
+      } else if (!args.description) {
+        return new UserInputError('Description is required.')
+      } else if (args.description.length < 10) {
+        return new UserInputError('Description has a minimum length of 10 characters.')
+      }
+
       const newDiscussion = new Discussion({ ...args, members: 0, posts: [] })
 
       try {

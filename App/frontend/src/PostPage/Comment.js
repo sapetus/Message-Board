@@ -12,7 +12,7 @@ import {
   UNDISLIKE_COMMENT
 } from '../GraphQL/mutations'
 
-const Comment = ({ comment, token, postId, postCreatorId, fetched, setFetched }) => {
+const Comment = ({ comment, token, postId, postCreatorId, fetched, setFetched, setMessage }) => {
   const [userHasLikedComment, setUserHasLikedComment] = useState(false)
   const [userHasDislikedComment, setUserHasDislikedComment] = useState(false)
 
@@ -74,6 +74,7 @@ const Comment = ({ comment, token, postId, postCreatorId, fetched, setFetched })
           fetched={fetched} setFetched={setFetched}
           commentCreatorId={comment.user.id} postCreatorId={postCreatorId}
           responseToComment={true}
+          setMessage={setMessage}
         />
       }
     </div >

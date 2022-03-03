@@ -182,7 +182,7 @@ describe('Discussion', () => {
         .expect(200)
 
       expect(response.body.errors[0].message)
-        .toContain('is shorter than the minimum allowed length')
+        .toContain('Name has a minimum length of 2 characters.')
     })
 
     test('trying to create a discussion with already existing name doesnt work', async () => {

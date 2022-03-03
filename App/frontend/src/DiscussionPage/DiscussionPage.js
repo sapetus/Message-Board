@@ -10,6 +10,7 @@ import {
 
 import Posts from './Posts'
 import CreatePostForm from './CreatePostForm'
+import Modal from '../Components/Modal'
 
 const DiscussionPage = ({ token }) => {
   const [discussionName, setDiscussionName] = useState(null)
@@ -18,6 +19,7 @@ const DiscussionPage = ({ token }) => {
   const [listOfMembers, setListOfMembers] = useState(null)
   const [userIsSubscribed, setUserIsSubscribed] = useState(false)
   const [showPostForm, setShowPostForm] = useState(false)
+  const [message, setMessage] = useState(null)
 
   let params = useParams()
 
@@ -102,6 +104,8 @@ const DiscussionPage = ({ token }) => {
 
   return (
     <div id="page">
+      {message && <Modal text={message} setMessage={setMessage} />}
+
       <div id="discussionInfo">
         <div className="columnContainer" style={style.left}>
           <h1>{discussionName}</h1>
@@ -140,8 +144,9 @@ const DiscussionPage = ({ token }) => {
       {showPostForm &&
         <CreatePostForm
           discussionName={params.name}
+          setMessage={setMessage}
         />}
-      <p className="dividerHorizontal" />
+      {showPostForm && <p className="dividerHorizontal" />}
 
       <Posts name={params.name} />
     </div>

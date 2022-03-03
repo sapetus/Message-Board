@@ -89,6 +89,16 @@ const comment = {
         })
       }
 
+      if (!args.text) {
+        throw new UserInputError('Text is required.', {
+          invalidArgs: args.text
+        })
+      } else if (args.text.length < 5) {
+        throw new UserInputError('Text has a minimum length of 5.', {
+          invalidArgs: args.text
+        })
+      }
+
       const newComment = new Comment({
         text: args.text,
         likes: 0,

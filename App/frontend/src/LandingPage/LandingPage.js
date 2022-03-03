@@ -5,6 +5,7 @@ import { ALL_DISCUSSIONS } from '../GraphQL/queries'
 
 import CreateDiscussionForm from './CreateDiscussionForm';
 import Discussion from './Discussion'
+import Modal from '../Components/Modal';
 
 const LandingPage = ({ token }) => {
   const [discussions, setDiscussions] = useState(null)
@@ -13,6 +14,7 @@ const LandingPage = ({ token }) => {
   const [searchString, setSearchString] = useState("")
   const [timeoutId, setTimeoutId] = useState(null)
   const [showDiscussionForm, setShowDiscussionForm] = useState(false)
+  const [message, setMessage] = useState(null)
 
   const amountToFetch = 5
 
@@ -97,13 +99,15 @@ const LandingPage = ({ token }) => {
       <h1 className="pageTitle">Discussions</h1>
       <p className='dividerHorizontal' />
 
+      {message && <Modal text={message} setMessage={setMessage} />}
+
       {token &&
-        <button id="showDiscussionForm" onClick={() => setShowDiscussionForm(!showDiscussionForm)} style={{ marginTop: "20px"}}>
+        <button id="showDiscussionForm" onClick={() => setShowDiscussionForm(!showDiscussionForm)} style={{ marginTop: "20px" }}>
           Create Discussion
         </button>}
 
-      {showDiscussionForm && <CreateDiscussionForm />}
-      <p className="dividerHorizontal" />
+      {showDiscussionForm && <CreateDiscussionForm setMessage={setMessage}/>}
+      {token && <p className="dividerHorizontal" />}
 
       <div className="filterOptions">
         <div className="inputContainer">

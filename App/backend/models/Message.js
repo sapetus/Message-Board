@@ -5,6 +5,10 @@ const schema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
+  responder: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   comment: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Comment'

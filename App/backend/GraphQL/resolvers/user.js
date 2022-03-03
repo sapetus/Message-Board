@@ -47,6 +47,13 @@ const user = {
   Mutation: {
     createUser: async (root, args) => {
       const username = args.username
+
+      if (args.username.length < 3) {
+        throw new UserInputError('Username has a minimum length of 3.', {
+          invalidArgs: args.username
+        })
+      }
+
       const passwordHash = bcrypt.hashSync(args.password, saltRounds)
 
       const newUser = new User({
