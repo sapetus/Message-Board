@@ -12,6 +12,7 @@ const message = gql`
   }
 
   type Query {
+    userNewMessagesAmount(username: String!): Int
     userMessagesAmount(username: String!): Int
     userMessages(username: String!, first: Int, after: Int): [Message!]!
   }

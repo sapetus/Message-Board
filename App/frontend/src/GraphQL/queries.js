@@ -190,6 +190,12 @@ export const GET_POSTS_BY_DISCUSSION = gql`
   }
 `
 
+export const USER_NEW_MESSAGES_AMOUNT = gql`
+  query UserNewMessagesAmount($username: String!) {
+    userNewMessagesAmount(username: $username)
+  }
+`
+
 export const USER_MESSAGES_AMOUNT = gql`
   query UserMessagesAmount($username: String!) {
     userMessagesAmount(username: $username)
@@ -225,6 +231,7 @@ export const USER_MESSAGES = gql`
           name
         }
       }
+      seen
     }
   }
 `

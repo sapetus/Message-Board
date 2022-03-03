@@ -2,8 +2,8 @@ import React from 'react'
 import { useMutation } from '@apollo/client'
 import { Link } from 'react-router-dom'
 
-import { USER_MESSAGES, USER_MESSAGES_AMOUNT } from '../GraphQL/queries'
-import { DELETE_MESSAGE } from '../GraphQL/mutations'
+import { USER_MESSAGES, USER_NEW_MESSAGES_AMOUNT } from '../GraphQL/queries'
+import { DELETE_MESSAGE, MESSAGE_ACKNOWLEDGED } from '../GraphQL/mutations'
 
 const Message = ({ message, username }) => {
   const [deleteMessage] = useMutation(DELETE_MESSAGE, {
@@ -23,17 +23,29 @@ const Message = ({ message, username }) => {
         }
       })
       store.writeQuery({
-        query: USER_MESSAGES_AMOUNT,
+        query: USER_NEW_MESSAGES_AMOUNT,
         variables: { username },
         data: {
-          userMessagesAmount: dataInStore.userMessagesAmount - 1
+          userNewMessagesAmount: dataInStore.userNewMessagesAmount - 1
         }
       })
     }
   })
 
+  const [acknowledgeMessage] = useMutation(MESSAGE_ACKNOWLEDGED, {
+    onError: (error) => {
+      console.log(error.graphQLErrors[0].message)
+    }
+  })
+
   const deleteThisMessage = () => {
     deleteMessage({ variables: { id: message.id } })
+  }
+
+  const markSeen = () => {
+    if (!message.seen) {
+      acknowledgeMessage({ variables: { id: message.id } })
+    }
   }
 
   const sliceText = (text, length) => {
@@ -45,7 +57,8 @@ const Message = ({ message, username }) => {
   if (message.post) {
     return (
       <div className="messageContainer">
-        <Link className='userMessage' to={`/post/${message.post.id}/#${message.comment.id}`}>
+        {!message.seen && <i className="material-icons newMessage">priority_high</i>}
+        <Link className='userMessage' to={`/post/${message.post.id}/#${message.comment.id}`} onClick={markSeen}>
           <h3>{message.responder.username} responded to your post in {message.post.discussion.name}</h3>
           <p className="smallText closeToTop">{sliceText(message.comment.text, 100)}</p>
         </Link>
@@ -55,7 +68,8 @@ const Message = ({ message, username }) => {
   } else {
     return (
       <div className="messageContainer">
-        <Link className="userMessage" to={`/post/${message.comment.post.id}/#${message.comment.id}`}>
+        {!message.seen && <i className="material-icons newMessage">priority_high</i>}
+        <Link className="userMessage" to={`/post/${message.comment.post.id}/#${message.comment.id}`} onClick={markSeen}>
           <h3>{message.responder.username} responded to your comment in {message.comment.post.discussion.name}</h3>
           <p className="smallText closeToTop">{sliceText(message.comment.text, 100)}</p>
         </Link>

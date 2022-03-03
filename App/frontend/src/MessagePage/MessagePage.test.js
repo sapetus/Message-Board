@@ -62,7 +62,8 @@ const userMessagesMock = {
             discussion: {
               name: "discussion"
             }
-          }
+          },
+          seen: true
         },
         {
           id: "2",
@@ -90,7 +91,8 @@ const userMessagesMock = {
             discussion: {
               name: "discussion"
             }
-          }
+          },
+          seen: true
         }
       ]
     }

@@ -8,6 +8,18 @@ const { paginate } = require('../utils')
 
 const message = {
   Query: {
+    userNewMessagesAmount: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+
+      if (!user) {
+        throw new UserInputError('No user found with given name', {
+          invalidArgs: args.username
+        })
+      }
+
+      const messages = await Message.find({ user: user.id, seen: false })
+      return messages.length
+    },
     userMessagesAmount: async (root, args) => {
       const user = await User.findOne({ username: args.username })
 

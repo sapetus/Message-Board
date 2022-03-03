@@ -37,7 +37,8 @@ describe('renders correctly', () => {
             name: "discussion"
           }
         }
-      }
+      },
+      seen: true
     }
 
     render(
@@ -114,7 +115,8 @@ test('deleting a message works', async () => {
           name: "discussion"
         }
       }
-    }
+    },
+    seen: true
   }
 
   const deleteMessageMock = {

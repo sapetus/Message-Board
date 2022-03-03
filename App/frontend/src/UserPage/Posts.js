@@ -49,7 +49,7 @@ const Posts = ({ username, amountToFetch, showLess }) => {
       padding: "10px 0px"
     }
   }
-
+  
   if (posts?.length > 0) {
     return (
       <div id="userPosts">

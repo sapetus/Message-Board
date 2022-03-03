@@ -7,7 +7,7 @@ import {
 import { useApolloClient, useLazyQuery } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 
-import { USER_MESSAGES_AMOUNT } from './GraphQL/queries'
+import { USER_NEW_MESSAGES_AMOUNT } from './GraphQL/queries'
 
 import LandingPage from './LandingPage/LandingPage';
 import DiscussionPage from './DiscussionPage/DiscussionPage';
@@ -24,8 +24,8 @@ const App = () => {
   const navigate = useNavigate()
   const client = useApolloClient()
 
-  const [userMessagesAmount, { data }] = useLazyQuery(
-    USER_MESSAGES_AMOUNT,
+  const [userNewMessagesAmount, { data }] = useLazyQuery(
+    USER_NEW_MESSAGES_AMOUNT,
     {
       fetchPolicy: "cache-and-network"
     }
@@ -35,7 +35,7 @@ const App = () => {
   useEffect(() => {
     const nameInStore = localStorage.getItem('username')
     if (nameInStore) {
-      userMessagesAmount({ variables: { username: nameInStore } })
+      userNewMessagesAmount({ variables: { username: nameInStore } })
     }
   }, [navigate]) //eslint-disable-line
 
@@ -65,10 +65,10 @@ const App = () => {
             {/* {data?.userMessagesAmount > 0 &&
               <i id="userAlertBell" className="material-icons">notifications</i>
             } */}
-            {(data?.userMessagesAmount > 0 && data?.userMessagesAmount < 10) &&
-              <p id="userAlertBubble">{data.userMessagesAmount}</p>
+            {(data?.userNewMessagesAmount > 0 && data?.userNewMessagesAmount < 10) &&
+              <p id="userAlertBubble">{data.userNewMessagesAmount}</p>
             }
-            {data?.userMessagesAmount >= 10 &&
+            {data?.userNewMessagesAmount >= 10 &&
               <p id="userAlertBubble">+9</p>
             }
             Messages

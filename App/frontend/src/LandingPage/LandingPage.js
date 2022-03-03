@@ -18,7 +18,7 @@ const LandingPage = ({ token }) => {
 
   const amountToFetch = 5
 
-  const { data: discussionData, fetchMore } = useQuery(
+  const { data: discussionData, loading, fetchMore } = useQuery(
     ALL_DISCUSSIONS,
     {
       fetchPolicy: "cache-and-network",
@@ -106,7 +106,7 @@ const LandingPage = ({ token }) => {
           Create Discussion
         </button>}
 
-      {showDiscussionForm && <CreateDiscussionForm setMessage={setMessage}/>}
+      {showDiscussionForm && <CreateDiscussionForm setMessage={setMessage} />}
       {token && <p className="dividerHorizontal" />}
 
       <div className="filterOptions">
@@ -125,7 +125,7 @@ const LandingPage = ({ token }) => {
           <option value="ALPHABETICAL">Alphabetical</option>
         </select>
       </div>
-
+      
       <div id="discussions">
         {discussions?.length > 0
           ? discussions?.map(discussion =>

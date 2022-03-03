@@ -647,6 +647,16 @@ footer {
   color: #8C54F3;
   cursor: pointer;
 }
+
+.material-icons.newMessage {
+  position: relative;
+  left: 10px;
+  color: #f38c54;
+  font-size: 35px;
+}
+.material-icons.newMessage:hover {
+  cursor: default;
+}
 /*------------------------------------------------------------------*/
 
 /*Animations--------------------------------------------------------*/
