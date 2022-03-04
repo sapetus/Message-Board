@@ -81,7 +81,7 @@ const CreatePostForm = ({ discussionName, setMessage }) => {
         {image &&
           <img src={image} alt="Nothing found with url" />
         }
-        <button type='submit'>Create Post</button>
+        <button type='submit' className='formButton'>Create Post</button>
       </form>
     </div>
   )

@@ -100,4 +100,5 @@
 |            | 1    | Messages now redirect correctly, some changes to message schema, fixed tests |
 | 3.3.2022   | 4    | Look of the messages is now done (required some changes to ), created a modal for errors, some visual fixes, fixed broken tests |
 |            | 1    | Messages now have a functional 'seen' property, fixed tests that broke with this change |
-| total      | 162  | |
+| 4.3.2022   | 1    | visual changes, trying to come up with a better color palette |
+| total      | 163  | |

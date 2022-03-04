@@ -76,7 +76,7 @@ const RegisterForm = ({ setMessage }) => {
           onChange={({ target }) => setConfirmPassword(target.value)}
           type="password"
         />
-        <button type="submit">Register</button>
+        <button type="submit" className="formButton">Register</button>
       </form>
     </div>
   )

@@ -146,7 +146,7 @@ const DiscussionPage = ({ token }) => {
           discussionName={params.name}
           setMessage={setMessage}
         />}
-      {showPostForm && <p className="dividerHorizontal" />}
+      <p className="dividerHorizontal" />
 
       <Posts name={params.name} />
     </div>

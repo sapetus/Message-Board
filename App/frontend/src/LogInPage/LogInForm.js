@@ -52,7 +52,7 @@ const LogInForm = ({ setToken, setMessage }) => {
           value={password}
           onChange={({ target }) => setPassword(target.value)}
         />
-        <button type="submit">Log In</button>
+        <button type="submit" className="formButton">Log In</button>
       </form>
     </div>
   )

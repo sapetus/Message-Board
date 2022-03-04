@@ -136,10 +136,10 @@ const PostPage = ({ token }) => {
 
   //this will focus to a specific comment when user directs here from a message
   useEffect(() => {
-    if (location.hash && !loading) {
+    if (location.hash) {
       scrollToComment()
     }
-  }, [location, loading]) //eslint-disable-line
+  }, [location]) //eslint-disable-line
 
   const scrollToComment = () => {
     setTimeout(() => {
@@ -162,11 +162,11 @@ const PostPage = ({ token }) => {
       variables: {
         id: params.id,
         first: amountToFetch,
-        after: getCommentsData.findCommentsByPost.length
+        after: getCommentsData?.findCommentsByPost.length
       }
     })
 
-    if (data.findCommentsByPost.length + getCommentsData.findCommentsByPost.length > commentsFetched) {
+    if (data.findCommentsByPost.length + getCommentsData?.findCommentsByPost.length > commentsFetched) {
       setCommentsFetched(commentsFetched + amountToFetch)
     }
   }
