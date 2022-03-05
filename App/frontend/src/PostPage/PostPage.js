@@ -47,7 +47,7 @@ const PostPage = ({ token }) => {
     { fetchPolicy: 'cache-and-network' }
   )
 
-  const { data: getCommentsData, fetchMore, loading } = useQuery(
+  const { data: getCommentsData, fetchMore } = useQuery(
     FIND_COMMENTS_BY_POST,
     {
       fetchPolicy: "cache-and-network",
