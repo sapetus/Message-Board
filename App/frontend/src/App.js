@@ -20,6 +20,8 @@ import MessagePage from './MessagePage/MessagePage'
 
 const App = () => {
   const [token, setToken] = useState(null)
+  const [showBackToTop, setShowBackToTop] = useState(false)
+  const [y, setY] = useState(0)
 
   const navigate = useNavigate()
   const client = useApolloClient()
@@ -46,12 +48,32 @@ const App = () => {
     }
   }, [])
 
+  useEffect(() => {
+    window.addEventListener("scroll", () => setY(window.scrollY))
+
+    return () => {
+      window.removeEventListener("scroll", () => setY(window.scrollY))
+    }
+  })
+
+  useEffect(() => {
+    if (y > 100 && !showBackToTop) {
+      setShowBackToTop(true)
+    } else if (y < 100 && showBackToTop) {
+      setShowBackToTop(false)
+    }
+  }, [y]) //eslint-disable-line
+
   const logout = () => {
     setToken(null)
     localStorage.clear()
     client.resetStore()
     client.cache.reset()
     navigate('/')
+  }
+
+  const backToTop = () => {
+    window.scrollTo(0, 0)
   }
 
   return (
@@ -61,7 +83,7 @@ const App = () => {
           Home
         </Link>
         {token &&
-          <Link to={`/messages`}>
+          <Link to={`/messages`} className="navItem">
             {/* {data?.userMessagesAmount > 0 &&
               <i id="userAlertBell" className="material-icons">notifications</i>
             } */}
@@ -89,6 +111,8 @@ const App = () => {
         }
         {token && <button onClick={logout}>Log Out</button>}
       </nav>
+
+      {showBackToTop && <p id='backToTop' onClick={backToTop}>Back To Top</p>}
 
       <Routes>
         <Route path="/" element={<LandingPage token={token} />} />

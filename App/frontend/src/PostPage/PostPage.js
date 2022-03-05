@@ -150,7 +150,7 @@ const PostPage = ({ token }) => {
       } else {
         const element = document.getElementById(location.hash.slice(1))
         window.scrollTo({
-          top: element.getBoundingClientRect().top + window.scrollY - 100,
+          top: element.getBoundingClientRect().top + window.scrollY - 80,
           behavior: "smooth"
         })
       }

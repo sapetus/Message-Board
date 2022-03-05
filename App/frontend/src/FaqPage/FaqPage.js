@@ -28,7 +28,7 @@ const FaqPage = () => {
         <p className='dividerHorizontal' style={{ width: "100%" }} />
         <li>
           <h1>With what was this page made with?</h1>
-          <p>This page was made with React, and it uses a GraphQL backend made with Apollo that connects to a MongoDB database.</p>
+          <p>This page was made with React, and it uses an Express backend that connects to a MongoDB database.</p>
         </li>
       </ul>
     </div >

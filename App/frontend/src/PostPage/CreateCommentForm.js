@@ -84,6 +84,30 @@ const CreateCommentForm = ({
     }
   }
 
+  if (commentId) {
+    return (
+      <div className='commentForm'>
+        <button className="toggleButton" onClick={() => setShowForm(!showForm)}>
+          {showForm ? 'Hide' : 'Reply'}
+        </button>
+
+        {showForm &&
+          <form onSubmit={submit} className="commentFormArea">
+            <textarea
+              className='light'
+              style={{ width: "80%" }}
+              placeholder='Comment here...'
+              columns="6"
+              value={text}
+              onChange={({ target }) => setText(target.value)}
+            />
+            <button className="toggleButton" type="submit">Create Comment</button>
+          </form>
+        }
+      </div>
+    )
+  }
+
   return (
     <div className='commentForm'>
       <button className="toggleButton" onClick={() => setShowForm(!showForm)}>

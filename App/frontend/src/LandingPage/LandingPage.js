@@ -30,10 +30,16 @@ const LandingPage = ({ token }) => {
     const element = document.getElementById('showDiscussionForm')
     switch (showDiscussionForm) {
       case false:
-        if (element) element.style.backgroundColor = "transparent"
+        if (element) {
+          element.style.backgroundColor = "#1F1F1F"
+          element.textContent = "Create Discussion"
+        }
         break
       case true:
-        if (element) element.style.backgroundColor = "#8C54F3"
+        if (element) {
+          element.style.backgroundColor = "#8C54F3"
+          element.textContent = "Hide"
+        }
         break
       default:
         break
@@ -125,7 +131,7 @@ const LandingPage = ({ token }) => {
           <option value="ALPHABETICAL">Alphabetical</option>
         </select>
       </div>
-      
+
       <div id="discussions">
         {discussions?.length > 0
           ? discussions?.map(discussion =>

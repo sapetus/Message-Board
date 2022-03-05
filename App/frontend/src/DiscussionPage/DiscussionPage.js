@@ -52,10 +52,16 @@ const DiscussionPage = ({ token }) => {
     const element = document.getElementById('showPostForm')
     switch (showPostForm) {
       case false:
-        if (element) element.style.backgroundColor = "transparent"
+        if (element) {
+          element.style.backgroundColor = "#1F1F1F"
+          element.textContent = "Create Post"
+        }
         break
       case true:
-        if (element) element.style.backgroundColor = "#8C54F3"
+        if (element) {
+          element.style.backgroundColor = "#8C54F3"
+          element.textContent = "Hide"
+        }
         break
       default:
         break
