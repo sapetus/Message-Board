@@ -170,8 +170,8 @@ test('renders properly', async () => {
     await new Promise(resolve => setTimeout(resolve, 0))
   })
 
-  expect(screen.getByText('In Test Discussion')).toBeDefined()
-  expect(screen.getByText('By TestUser')).toBeDefined()
+  expect(screen.getByText('Test Discussion')).toBeDefined()
+  expect(screen.getByText('Post by TestUser')).toBeDefined()
   expect(screen.getByText('Test Title')).toBeDefined()
   expect(screen.getByText('Test Text')).toBeDefined()
 })
@@ -249,7 +249,7 @@ describe('Functionality', () => {
     })
 
     //this will only be true when all of the mock queries are successful
-    expect(screen.getByText('TestUser6')).toBeDefined()
+    expect(screen.getByText(/TestUser6/)).toBeDefined()
   })
 
   test('Show less button works', async () => {
@@ -286,8 +286,8 @@ describe('Functionality', () => {
       await new Promise(resolve => setTimeout(resolve, 0))
     })
 
-    expect(screen.queryByText('TestUser6')).toBeNull()
-    expect(screen.getByText('TestUser5')).toBeDefined()
+    expect(screen.queryByText(/TestUser6/)).toBeNull()
+    expect(screen.getByText(/TestUser5/)).toBeDefined()
   })
 
   test('Changing order works', async () => {

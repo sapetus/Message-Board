@@ -50,7 +50,7 @@ test('Creation of a discussion is successful', async () => {
 
   userEvent.type(screen.getByPlaceholderText('Name'), "TestDiscussion")
   userEvent.type(screen.getByPlaceholderText('Describe the discussion'), "Test Discussion Description")
-  userEvent.click(screen.getByText('Create Discussion'))
+  userEvent.click(screen.getByText('Create'))
 
   await act(async () => {
     await new Promise(resolve => setTimeout(resolve, 0))

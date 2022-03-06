@@ -41,7 +41,6 @@ const CreateDiscussionForm = ({ setMessage }) => {
 
   return (
     <div className="formContainer">
-      <h3>Start a new discussion</h3>
       <form id="discussionForm" onSubmit={submit}>
         <input
           type='text'
@@ -55,7 +54,7 @@ const CreateDiscussionForm = ({ setMessage }) => {
           rows="6"
           onChange={({ target }) => setDescription(target.value)}
         />
-        <button type='submit' className="formButton">Create Discussion</button>
+        <button type='submit' className="formButton">Create</button>
       </form>
     </div>
   )

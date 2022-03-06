@@ -65,7 +65,7 @@ test('new post can be created', async () => {
 
   userEvent.type(screen.getByPlaceholderText('Title'), "Test Post")
   userEvent.type(screen.getByPlaceholderText('Write your post here'), "Test Text")
-  userEvent.click(screen.getByText('Create Post'))
+  userEvent.click(screen.getByText('Create'))
 
   await wait()
 

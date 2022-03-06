@@ -101,5 +101,6 @@
 | 3.3.2022   | 4    | Look of the messages is now done (required some changes to ), created a modal for errors, some visual fixes, fixed broken tests |
 |            | 1    | Messages now have a functional 'seen' property, fixed tests that broke with this change |
 | 4.3.2022   | 1    | visual changes, trying to come up with a better color palette |
-|            | 4    | Lots of visual changes, changed the color scheme, added 'back to top' -button, fixed some broken css to make the site more responsive |
-| total      | 167  | |
+| 5.3.2022   | 4    | Lots of visual changes, changed the color scheme, added 'back to top' -button, fixed some broken css to make the site more responsive |
+| 6.3.2022   | 4    | Rewrote large chunk of css. App is now more user friendlier on different device sizes. Fixed tests that broke due to changes. |
+| total      | 171  | |

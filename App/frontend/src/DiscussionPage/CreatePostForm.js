@@ -58,7 +58,6 @@ const CreatePostForm = ({ discussionName, setMessage }) => {
 
   return (
     <div className="formContainer">
-      <h3>Create your own post</h3>
       <form id="postForm" onSubmit={submit}>
         <input
           type="text"
@@ -81,7 +80,7 @@ const CreatePostForm = ({ discussionName, setMessage }) => {
         {image &&
           <img src={image} alt="Nothing found with url" />
         }
-        <button type='submit' className='formButton'>Create Post</button>
+        <button type='submit' className='formButton'>Create</button>
       </form>
     </div>
   )

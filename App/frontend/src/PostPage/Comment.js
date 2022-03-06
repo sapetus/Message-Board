@@ -66,7 +66,9 @@ const Comment = ({ comment, token, postId, postCreatorId, fetched, setFetched, s
         dislikeFunction={dislikeComment} undislikeFunction={undislikeComment}
       />
 
-      <p>Comment by <Link to={`/user/${comment.user.username}`}>{comment.user.username}</Link></p>
+      <p className='wrap'>
+        <Link to={`/user/${comment.user.username}`}>Comment by {comment.user.username}</Link>
+      </p>
 
       {token &&
         <CreateCommentForm

@@ -86,7 +86,7 @@ const Posts = ({ name }) => {
             onChange={({ target }) => onSearchChange(target.value)}
           />
         </div>
-        <select name="order" onChange={({ target }) => changeOrder(target.value)}>
+        <select className="dropdown" name="order" onChange={({ target }) => changeOrder(target.value)}>
           <option value="NEW">New Posts</option>
           <option value="OLD">Old Posts</option>
           <option value="LIKES">Most Likes</option>

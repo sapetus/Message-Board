@@ -118,13 +118,14 @@ const LandingPage = ({ token }) => {
       <div className="filterOptions">
         <div className="inputContainer">
           <i className="material-icons search">search</i>
-          <input className="search"
+          <input
+            className="search"
             type="text"
             placeholder='Search...'
             onChange={({ target }) => onSearchChange(target.value)}
           />
         </div>
-        <select name="order" onChange={({ target }) => changeOrder(target.value)}>
+        <select className="dropdown" name="order" onChange={({ target }) => changeOrder(target.value)}>
           <option value="NEW">New Discussions</option>
           <option value="OLD">Old Discussions</option>
           <option value="MEMBERS">Most Members</option>

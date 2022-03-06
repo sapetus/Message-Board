@@ -109,7 +109,7 @@ const App = () => {
             Register
           </Link>
         }
-        {token && <button onClick={logout}>Log Out</button>}
+        {token && <button className="logOut" onClick={logout}>Log Out</button>}
       </nav>
 
       {showBackToTop && <p id='backToTop' onClick={backToTop}>Back To Top</p>}

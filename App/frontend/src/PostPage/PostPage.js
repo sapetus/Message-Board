@@ -150,7 +150,7 @@ const PostPage = ({ token }) => {
       } else {
         const element = document.getElementById(location.hash.slice(1))
         window.scrollTo({
-          top: element.getBoundingClientRect().top + window.scrollY - 80,
+          top: element.getBoundingClientRect().top + window.scrollY + 25,
           behavior: "smooth"
         })
       }
@@ -194,15 +194,14 @@ const PostPage = ({ token }) => {
       {message && <Modal text={message} setMessage={setMessage} />}
 
       <div id="postInfo">
-        <p className='largeText'>
+        <p className='largeText postInfoItem'>
           <Link to={`/discussion/${discussion?.name}`}>
-            In {discussion?.name}
+            {discussion?.name}
           </Link>
         </p>
-        <p className='dividerVertical' />
-        <p className="largeText">
+        <p className="largeText postInfoItem">
           <Link to={`/user/${postUser?.username}`}>
-            By {postUser?.username}
+            Post by {postUser?.username}
           </Link>
         </p>
       </div>
@@ -211,7 +210,7 @@ const PostPage = ({ token }) => {
         <h3>{postTitle}</h3>
         <p>{postText}</p>
         {postImage &&
-          <img className='start' alt="could not load content" src={postImage} />
+          <img id='postImage' alt="could not load content" src={postImage} />
         }
         <div className="postIcons">
           <VoteButtons

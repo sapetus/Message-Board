@@ -26,7 +26,7 @@ body {
 }
 
 #root {
-  width: 100%
+  width: 100%;
 }
 /*------------------------------------------------------------------*/
 
@@ -52,6 +52,13 @@ body {
 .grayText {
   padding-left: 20px;
   color: var(--gray)
+}
+
+.wrap {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: normal;
+  width: 81%;
 }
 /*------------------------------------------------------------------*/
 
@@ -79,6 +86,10 @@ button:hover {
   background-color: var(--purple);
   cursor: pointer;
 }
+button.logOut {
+  min-width: 55px;
+  width: 10%;
+}
 
 select {
   background-color: var(--black);
@@ -94,6 +105,9 @@ select:focus {
   animation-name: inputFocus;
   animation-duration: 0.8s;
   border-color: var(--white);
+}
+select.dropdown {
+  max-width: 30%;
 }
 
 option {
@@ -145,6 +159,7 @@ input:focus {
 }
 input[type=text].search {
   padding-left: 30px;
+  width: 75%;
 }
 
 nav {
@@ -205,6 +220,7 @@ footer {
 /*Forms-------------------------------------------------------------*/
 .formContainer {
   width: 22%;
+  min-width: 140px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -230,6 +246,7 @@ footer {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 
   padding-top: 20px;
 }
@@ -238,7 +255,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 500px
+  width: 100%;
 }
 
 .formButton {
@@ -252,30 +269,37 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 1000px;
+  width: 98%;
+  max-width: 1000px;
   min-height: 1000px;
   border-right: solid 3px var(--darkGray);
   border-left: solid 3px var(--darkGray);
+  padding: 0 auto;
+  margin: 0 auto 0 auto;
 }
 
 .controlAmountButtons {
   display: flex;
   padding-top: 25px;
   flex-direction: row;
-  gap: 100px;
   justify-content: center;
+  gap: 20px;
   width: 100%;
 }
 
 .inputContainer {
-  margin-left: -20px;
+  position: relative;
+  width: auto;
 }
 
 .filterOptions {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  gap: 20px;
+  width: 80%;
+  padding-bottom: 15px;
 }
 
 .post {
@@ -285,10 +309,9 @@ footer {
   background-color: var(--black);
   border: solid 2px var(--darkGray);
   border-radius: 5px;
-  margin-top: 10px;
-  margin-bottom: -5px;
+  margin-bottom: 5px;
   padding: 0px 20px 20px 20px;
-  width: 700px;
+  width: 70%;
 }
 .post:not(.content):hover {
   border-color: var(--purple);
@@ -361,7 +384,7 @@ footer {
   font-weight: bold;
   position: absolute;
   top: -25px;
-  right: -20px;
+  right: -15px;
   width: 24px;
   height: 24px;
   border-radius: 50px 50px 50px 5px;
@@ -389,6 +412,11 @@ footer {
 /*------------------------------------------------------------------*/
 
 /*LandingPage ------------------------------------------------------*/
+#discussions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .discussion {
   background-color: var(--black);
   display: flex;
@@ -396,9 +424,8 @@ footer {
   border: solid 2px var(--darkGray);
   border-radius: 5px;
   padding: 0px 30px 10px 30px;
-  margin-top: 10px;
-  margin-bottom: -5px;
-  width: 700px;
+  margin: 0px 0px 5px 0px;
+  width: 70%;
   max-height: 150px;
 }
 .discussion:hover {
@@ -406,6 +433,7 @@ footer {
 }
 
 .discussionSubContainer {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -468,6 +496,7 @@ footer {
 }
 
 .comment {
+  text-align: start;
   display: flex;
   flex-direction: column;
 
@@ -477,7 +506,7 @@ footer {
   margin-top: 10px;
   margin-bottom: -5px;
   padding: 10px 20px 20px 20px;
-  width: 700px;
+  width: 70%;
 }
 .comment:hover {
   border-color: var(--purple);
@@ -558,58 +587,75 @@ footer {
 #discussionInfo {
   display: flex;
   flex-direction: row;
-  width: 800px;
+  text-align: center;
+  width: 90%;
   height: auto;
   padding: 20px 0px 40px 0px;
   margin-bottom: 40px;
-  justify-content: space-around;
+  justify-content: flex-start;
   border-bottom: solid 4px var(--darkGray);
+  flex-wrap: wrap;
 }
 
 .columnContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  text-align: center;
+  width: 30%;
   min-width: 200px;
-  max-width: 400px;
-  padding-right: 40px;
-  margin-right: 40px;
-  border-right: solid 4px var(--darkGray);
-}
-
-.rowContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  width: 100%
 }
 
 #discussionPosts {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+
+#description {
+  width: 50%;
+  flex-grow: 1;
 }
 /*------------------------------------------------------------------*/
 
 /*Post Page---------------------------------------------------------*/
 #postInfo {
+  text-align: center;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 
   width: 90%;
+  min-height: 100px;
+  gap: 10px;
   padding: 10px 0px;
   margin-bottom: 20px;
   border-bottom: solid 4px var(--darkGray)
+}
+
+#postImage {
+  width: 100%;
 }
 
 #comments {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+
+.postInfoItem {
+  width: 40%;
+  min-width: 200px;
+  flex-grow: 1;
+  border-left: solid 2px var(--darkGray);
+  border-right: solid 2px var(--darkGray);
 }
 
 .commentText {
@@ -663,8 +709,9 @@ footer {
 }
 
 .material-icons.search {
-  left: 35px;
-  top: 7px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
 .material-icons.vote {
@@ -673,8 +720,8 @@ footer {
 }
 
 .material-icons.member {
-  top: 5px;
-  right: 5px;
+  position: absolute;
+  left: -30px;
 }
 
 .material-icons.message {

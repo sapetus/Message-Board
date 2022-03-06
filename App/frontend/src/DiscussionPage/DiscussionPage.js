@@ -99,45 +99,34 @@ const DiscussionPage = ({ token }) => {
     unsubscribeFromDiscussion({ variables: { discussionName } })
   }
 
-  const style = {
-    left: {
-      paddingLeft: "50px"
-    },
-    right: {
-      paddingRight: "50px"
-    }
-  }
-
   return (
     <div id="page">
       {message && <Modal text={message} setMessage={setMessage} />}
 
       <div id="discussionInfo">
-        <div className="columnContainer" style={style.left}>
-          <h1>{discussionName}</h1>
-          <div className="rowContainer">
-            <div>
-              <i className="material-icons member">group</i>
-              {discussionMembers}
+        <div className="columnContainer" >
+          <h1 className='wrap'>{discussionName}</h1>
+          {token && // only show when user is logged in
+            <div id="subscriptionSelection">
+              {userIsSubscribed
+                ? //if is subscribed, show unsubscribe
+                <button className='activeButton' onClick={() => unsubscribe(discussionName)}>
+                  Unsubscribe
+                </button>
+                : //if isn't subscribed, show subscribe
+                <button className="inactiveButton" onClick={() => subscribe(discussionName)}>
+                  Subscribe
+                </button>
+              }
             </div>
-            {token && // only show when user is logged in
-              <div id="subscriptionSelection">
-                {userIsSubscribed
-                  ? //if is subscribed, show unsubscribe
-                  <button className='activeButton' onClick={() => unsubscribe(discussionName)}>
-                    Unsubscribe
-                  </button>
-                  : //if isn't subscribed, show subscribe
-                  <button className="inactiveButton" onClick={() => subscribe(discussionName)}>
-                    Subscribe
-                  </button>
-                }
-              </div>
-            }
-          </div>
+          }
+          <h4 style={{ position: "relative", left: "20px" }}>
+            <i className="material-icons member">group</i>
+            {discussionMembers}
+          </h4>
         </div>
         {discussionDescription
-          ? <p style={style.right}>{discussionDescription}</p>
+          ? <p id="description">{discussionDescription}</p>
           : <p>This discussion has no description</p>
         }
       </div>

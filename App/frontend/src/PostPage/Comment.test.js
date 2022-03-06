@@ -38,6 +38,6 @@ test('renders content', () => {
   const responseElement = screen.getByText(`— ${comment.responseTo.text}`)
   expect(responseElement).toBeDefined()
 
-  const authorElement = screen.getByText('Comment by')
+  const authorElement = screen.getByText(/Comment by/)
   expect(authorElement).toBeDefined()
 })
