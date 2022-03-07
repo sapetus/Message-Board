@@ -141,7 +141,7 @@ const DiscussionPage = ({ token }) => {
           discussionName={params.name}
           setMessage={setMessage}
         />}
-      <p className="dividerHorizontal" />
+      {token && <p className="dividerHorizontal" />}
 
       <Posts name={params.name} />
     </div>

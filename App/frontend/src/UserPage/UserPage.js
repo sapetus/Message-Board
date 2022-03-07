@@ -77,7 +77,8 @@ const UserPage = ({ token }) => {
 
   const styles = {
     votes: {
-      marginTop: "10px"
+      position: "inherit",
+      top: "-8px"
     },
     text: {
       marginTop: "2px",
@@ -91,16 +92,14 @@ const UserPage = ({ token }) => {
         <div className="userInfoSubcontainer">
           <h3>{username}</h3>
         </div>
-        <p className='dividerVertical' />
         <div className="userInfoSubcontainer">
           <div className='votes' style={styles.votes}>
             <i className="material-icons vote">thumb_up</i>{totalLikes} &nbsp;
             <i className='material-icons vote'>thumb_down</i>{totalDislikes}
           </div>
         </div>
-        <p className="dividerVertical" />
         <div className="userInfoSubcontainer">
-          <p style={styles.text}>Creation Date</p>
+          <p style={styles.text}>Created</p>
           <h4 style={styles.text}>{creationDate}</h4>
         </div>
       </div>

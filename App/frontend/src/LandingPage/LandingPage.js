@@ -138,7 +138,7 @@ const LandingPage = ({ token }) => {
           ? discussions?.map(discussion =>
             <Discussion key={discussion.id} discussion={discussion} />
           )
-          : <p className="nothingFound">Found nothing matching search</p>
+          : <p className="nothingFound">No result matches search criteria</p>
         }
       </div>
 

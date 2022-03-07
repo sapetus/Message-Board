@@ -98,7 +98,7 @@ const Posts = ({ name }) => {
         ? posts?.map(post =>
           <Post key={post.id} post={post} />
         )
-        : <p className="nothingFound">Found nothing matching search</p>
+        : <p className="nothingFound">No result matches search criteria</p>
       }
 
       {posts?.length > 0 &&

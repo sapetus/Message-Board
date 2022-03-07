@@ -5,7 +5,7 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
     minlength: 5,
-    maxLength: 500
+    maxLength: 1000
   },
   likes: {
     type: Number

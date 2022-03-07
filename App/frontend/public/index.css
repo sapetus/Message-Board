@@ -80,14 +80,15 @@ button {
   border: solid;
   height: 40px;
   border-color: var(--purple);
-  min-width: 130px;
+  width: 130px;
+  min-width: 105px;
 }
 button:hover {
   background-color: var(--purple);
   cursor: pointer;
 }
 button.logOut {
-  min-width: 55px;
+  min-width: 80px;
   width: 10%;
 }
 
@@ -247,6 +248,7 @@ footer {
   align-items: center;
   justify-content: center;
   width: 100%;
+  max-width: 700px;
 
   padding-top: 20px;
 }
@@ -325,7 +327,7 @@ footer {
 }
 
 .dividerHorizontal {
-  width: 80%;
+  width: 85%;
   height: 20px;
   border-bottom: solid 3px var(--darkGray);
 }
@@ -384,7 +386,7 @@ footer {
   font-weight: bold;
   position: absolute;
   top: -25px;
-  right: -15px;
+  right: -17px;
   width: 24px;
   height: 24px;
   border-radius: 50px 50px 50px 5px;
@@ -416,6 +418,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 .discussion {
   background-color: var(--black);
@@ -454,6 +457,7 @@ footer {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  gap: 20px;
 
   padding: 10px 0px;
   width: 90%;
@@ -462,6 +466,7 @@ footer {
 }
 
 .userInfoSubcontainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -472,9 +477,9 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-
-  width: 80%;
-  padding: 25px 0px
+  width: 70%;
+  padding: 25px 0px;
+  gap: 10px;
 }
 
 #userPosts {
@@ -493,6 +498,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .comment {
@@ -512,6 +518,13 @@ footer {
   border-color: var(--purple);
 }
 
+#userSubscriptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .subscription {
   display: flex;
   flex-direction: row;
@@ -524,7 +537,7 @@ footer {
   margin-top: 10px;
   margin-bottom: -5px;
   padding: 0px 20px 0px 20px;
-  width: 700px;
+  width: 70%;
 }
 .subscription:hover {
   border-color: var(--purple)
@@ -568,6 +581,7 @@ footer {
 }
 
 .modalContent {
+  text-align: center;
   animation: modalSlide 0.5s;
   position: relative;
   display: flex;
@@ -575,7 +589,7 @@ footer {
   justify-content: space-around;
   align-items: center;
   background-color: var(--darkGray);
-  width: 400px;
+  width: 60%;
   height: auto;
   padding: 20px 20px 20px 20px;
   margin: 50px;
@@ -673,13 +687,23 @@ footer {
 /*------------------------------------------------------------------*/
 
 /*Message Page------------------------------------------------------*/
+#messages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
 .messageContainer {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 700px;
+  flex-wrap: wrap;
+  width: 80%;
 }
 
 .userMessage {
@@ -687,6 +711,7 @@ footer {
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
+  flex-shrink: 1;
   height: auto;
   width: 100%;
 
@@ -754,8 +779,8 @@ footer {
 
 .material-icons.newMessage {
   position: absolute;
-  top: 50px;
-  left: -20px;
+  top: 25%;
+  left: -5%;
   color: var(--orange);
   font-size: 35px;
 }

@@ -107,9 +107,11 @@ const MessagePage = ({ token }) => {
           <h1 className='pageTitle'>Messages</h1>
           <p className="dividerHorizontal" />
           <button onClick={deleteAll}>Delete All</button>
-          {messages.map(message =>
-            <Message key={message.id} message={message} username={currentUserData.getCurrentUser.username} />
-          )}
+          <div id="messages">
+            {messages.map(message =>
+              <Message key={message.id} message={message} username={currentUserData.getCurrentUser.username} />
+            )}
+          </div>
           <div className='controlAmountButtons'>
             <button onClick={fetchMoreMessages}>Show More</button>
             <button onClick={showLess}>Show Less</button>

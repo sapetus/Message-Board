@@ -57,23 +57,25 @@ const Message = ({ message, username }) => {
   if (message.post) {
     return (
       <div className="messageContainer">
-        {!message.seen && <i className="material-icons newMessage">priority_high</i>}
         <Link className='userMessage' to={`/post/${message.post.id}/#${message.comment.id}`} onClick={markSeen}>
+          {!message.seen && <i className="material-icons newMessage">priority_high</i>}
           <h3>{message.responder.username} responded to your post in {message.post.discussion.name}</h3>
           <p className="smallText closeToTop">{sliceText(message.comment.text, 100)}</p>
         </Link>
         <button onClick={deleteThisMessage}>Delete</button>
+        {/* <p className="dividerHorizontal"/> */}
       </div>
     )
   } else {
     return (
       <div className="messageContainer">
-        {!message.seen && <i className="material-icons newMessage">priority_high</i>}
         <Link className="userMessage" to={`/post/${message.comment.post.id}/#${message.comment.id}`} onClick={markSeen}>
+          {!message.seen && <i className="material-icons newMessage">priority_high</i>}
           <h3>{message.responder.username} responded to your comment in {message.comment.post.discussion.name}</h3>
           <p className="smallText closeToTop">{sliceText(message.comment.text, 100)}</p>
         </Link>
         <button onClick={deleteThisMessage}>Delete</button>
+        {/* <p className="dividerHorizontal"/> */}
       </div>
     )
   }

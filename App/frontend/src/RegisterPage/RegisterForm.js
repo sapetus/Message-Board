@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 
 import { CREATE_USER } from '../GraphQL/mutations'
@@ -7,44 +7,23 @@ const RegisterForm = ({ setMessage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [timeoutId, setTimeoutId] = useState(null)
 
   const [createUser] = useMutation(CREATE_USER, {
     onError: (error) => {
-      setTimeoutId(timeOutMessage(error.graphQLErrors[0].message, 5000))
+      setMessage(error.graphQLErrors[0].message)
     },
     onCompleted: () => {
-      setTimeoutId(timeOutMessage('Registration successful', 5000))
+      setMessage('Registration successful')
     }
   })
-
-  useEffect(() => {
-    const currentTimeoutId = timeoutId
-
-    return () => {
-      clearTimeout(currentTimeoutId)
-    }
-  }, [timeoutId])
-
-  const timeOutMessage = (message, messageTime) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId)
-    }
-
-    setMessage(message)
-
-    const newTimeoutId = setTimeout(() => {
-      setMessage(null)
-    }, messageTime)
-
-    return newTimeoutId
-  }
 
   const submit = (event) => {
     event.preventDefault()
 
-    if (password !== confirmPassword) {
-      setTimeoutId(timeOutMessage('Passwords need to match', 5000))
+    if (password === '') {
+      setMessage('Please provide a password')
+    } else if (password !== confirmPassword) {
+      setMessage('Passwords need to match')
       setPassword('')
       setConfirmPassword('')
     } else {

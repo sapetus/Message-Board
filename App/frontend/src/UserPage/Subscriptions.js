@@ -54,7 +54,7 @@ const Subscriptions = ({ username, amountToFetch, showLess }) => {
 
   if (subscriptions?.length > 0) {
     return (
-      <div id="user_subscriptions">
+      <div id="userSubscriptions">
         {subscriptions?.map(subscription =>
           <Link key={subscription.id} className="subscription" to={`/discussion/${subscription.name}`}>
             <h4 style={style.text}>{subscription.name}</h4>
@@ -76,7 +76,7 @@ const Subscriptions = ({ username, amountToFetch, showLess }) => {
   }
 
   return (
-    <div id="user_subscriptions">
+    <div id="userSubscriptions">
       <p>This user has not subscribed anywhere, yet!</p>
     </div>
   )

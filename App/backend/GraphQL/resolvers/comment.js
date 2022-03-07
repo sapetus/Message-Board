@@ -97,6 +97,8 @@ const comment = {
         throw new UserInputError('Text has a minimum length of 5.', {
           invalidArgs: args.text
         })
+      } else if (args.text.length > 1000) {
+        throw new UserInputError('Text has a maximum length of 1000.')
       }
 
       const newComment = new Comment({
