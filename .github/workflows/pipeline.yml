@@ -38,8 +38,8 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           command: npm run test:e2e
-          start: npm run start:frontend
-          start: npm run start:test:backend
+          run: npm run start:frontend
+          run: npm run start:test:backend
           wait-on: http://localhost:3000
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
