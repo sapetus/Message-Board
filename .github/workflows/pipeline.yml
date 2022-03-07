@@ -31,6 +31,15 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
       - name: test frontend
         run: npm run test:frontend
+      - name: e2e tests
+        env: 
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test:e2e
+          start: npm run start:test:backend
+          wait-on: http://localhost:3000
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}

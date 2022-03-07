@@ -43,12 +43,14 @@ const CreateDiscussionForm = ({ setMessage }) => {
     <div className="formContainer">
       <form id="discussionForm" onSubmit={submit}>
         <input
+          id="discussionName"
           type='text'
           placeholder='Name'
           value={name}
           onChange={({ target }) => setName(target.value)}
         />
         <textarea
+          id="discussionDescription"
           placeholder='Describe the discussion'
           value={description}
           rows="6"

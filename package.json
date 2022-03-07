@@ -9,7 +9,9 @@
     "start:prod": "cd App/backend && npm run start",
     "install:frontend": "cd App/frontend && npm install",
     "install:backend": "cd App/backend && npm install",
-    "heroku-postbuild": "cd App/frontend && npm install && npm run build"
+    "heroku-postbuild": "cd App/frontend && npm install && npm run build",
+    "start:test:backend": "cd App/backend && npm run start:test",
+    "test:e2e": "cd App/frontend && npm run cypress:open"
   },
   "dependencies": {
     "apollo-server": "^3.5.0",

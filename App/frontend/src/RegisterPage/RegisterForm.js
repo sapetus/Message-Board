@@ -39,23 +39,26 @@ const RegisterForm = ({ setMessage }) => {
     <div className='formContainer'>
       <form id="credentialForm" onSubmit={submit}>
         <input
+          id="username"
           placeholder='Username'
           value={username}
           onChange={({ target }) => setUsername(target.value)}
         />
         <input
+          id="password"
           placeholder='Password'
           value={password}
           onChange={({ target }) => setPassword(target.value)}
           type="password"
         />
         <input
+          id="confirmPassword"
           placeholder='Confirm Password'
           value={confirmPassword}
           onChange={({ target }) => setConfirmPassword(target.value)}
           type="password"
         />
-        <button type="submit" className="formButton">Register</button>
+        <button id="submitUser" type="submit" className="formButton">Register</button>
       </form>
     </div>
   )

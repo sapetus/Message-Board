@@ -60,12 +60,14 @@ const CreatePostForm = ({ discussionName, setMessage }) => {
     <div className="formContainer">
       <form id="postForm" onSubmit={submit}>
         <input
+          id="postTitle"
           type="text"
           placeholder='Title'
           value={title}
           onChange={({ target }) => setTitle(target.value)}
         />
         <textarea
+          id="postText"
           placeholder='Write your post here'
           value={text}
           rows="6"

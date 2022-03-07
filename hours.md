@@ -104,4 +104,5 @@
 | 5.3.2022   | 4    | Lots of visual changes, changed the color scheme, added 'back to top' -button, fixed some broken css to make the site more responsive |
 | 6.3.2022   | 4    | Rewrote large chunk of css. App is now more user friendlier on different device sizes. Fixed tests that broke due to changes. |
 | 7.3.2022   | 2    | Finished fixing css. App now works with different screen sizes. |
-| total      | 173  | |
+|            | 2    | Wrote some e2e tests, pipeline changes to run these tests |
+| total      | 175  | |

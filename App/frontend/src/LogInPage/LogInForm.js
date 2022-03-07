@@ -42,17 +42,19 @@ const LogInForm = ({ setToken, setMessage }) => {
     <div className='formContainer'>
       <form id="credentialForm" onSubmit={submit}>
         <input
+          id="username"
           placeholder='Username'
           value={username}
           onChange={({ target }) => setUsername(target.value)}
         />
         <input
+          id="password"
           placeholder='Password'
           type='password'
           value={password}
           onChange={({ target }) => setPassword(target.value)}
         />
-        <button type="submit" className="formButton">Log In</button>
+        <button id="submitUser" type="submit" className="formButton">Log In</button>
       </form>
     </div>
   )
