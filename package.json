@@ -11,7 +11,7 @@
     "install:backend": "cd App/backend && npm install",
     "heroku-postbuild": "cd App/frontend && npm install && npm run build",
     "start:test:backend": "cd App/backend && npm run start:test",
-    "test:e2e": "cd App/frontend && npm run cypress:open"
+    "test:e2e": "cd App/frontend && npm run cypress:run"
   },
   "dependencies": {
     "apollo-server": "^3.5.0",

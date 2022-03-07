@@ -105,4 +105,5 @@
 | 6.3.2022   | 4    | Rewrote large chunk of css. App is now more user friendlier on different device sizes. Fixed tests that broke due to changes. |
 | 7.3.2022   | 2    | Finished fixing css. App now works with different screen sizes. |
 |            | 2    | Wrote some e2e tests, pipeline changes to run these tests |
-| total      | 175  | |
+|            | 1    | Trying to get the CI/CD pipeline working |
+| total      | 176  | |
